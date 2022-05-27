@@ -1,0 +1,19 @@
+.semla-map-modal.semla-map-modal /* workaround for specificity issues */ {
+    width: 90%;
+    height: 90%;
+}
+.semla-map-modal > .components-modal__content {
+    display: flex;
+    flex-direction: column;    
+}
+#semla-map-iframe {
+    width: 100%;
+    height: calc(100% - 70px);
+    flex: 1;
+}
+.semla-map-buttons {
+    text-align: right;
+}
+.acrd-btn {
+    cursor: default !important;
+}

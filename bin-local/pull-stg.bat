@@ -1,0 +1,1 @@
+@ssh sl "cd public_html/sub/stg/; git pull; wp litespeed-purge all"
