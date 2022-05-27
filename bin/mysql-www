@@ -1,0 +1,2 @@
+#!/bin/bash
+~/public_html/bin/run-sql.sh "$@"
