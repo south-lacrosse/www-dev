@@ -12,6 +12,8 @@ Other useful documents are:
 * [Recovering From a Backup](docs/recovery.md)
 * [Webmaster Tasks](docs/webmaster-tasks.md)
 * [Setting Up a New Production Server](docs/setting-up-server.md)
+* [Fixtures Sheet Format](docs/fixtures-sheet-format.md)
+* [Fixtures Sheet Instructions](docs/fixtures-sheet.md)
 
 England Lacrosse are developing a fixtures application, so it is assumed we will move over to that before the end of the season. If that is not the case then check out [Information on Maintaining the Fixtures, Tables and History](docs/fixtures-tables-history.md). If the change does occur then additional code will have to be written to update the history tables from the EL app.
 

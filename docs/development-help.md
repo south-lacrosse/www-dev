@@ -26,6 +26,12 @@ This file file contains useful info for development - probably mainly stuff I wo
 
     Omitting the -m parameter on the commit lets you modify a draft commit message containing every message from your squashed commits before finalizing your commit.
 
+## Commits
+
+* `git add .` - add all files to index
+* `git commit -am "message"` - Commit with a message. The `-a` flag (all) automatically stages files that have been modified and deleted, but new files you have not told Git about are not affected.
+* `git reset --hard HEAD^` - delete the last commit. Be careful with this one!
+
 ### Stashing
 
 * `git stash` stash the changes in a dirty working directory away, so you can do things like switch to another branch
