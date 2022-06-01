@@ -31,6 +31,7 @@ See also [Fixtures Sheet Format](fixtures-sheet-format.md).
 
     If a team defaults a flags match then it should be marked as 1-0 on the Flags sheet, and the winners moved to the next round. There is generally no reason to mark it void.
 * If a match is abandoned (i.e. it started but was unable to be completed) then mark it as "A v A". Abandoned matches may or may not be rearranged.
+* If a team is deducted points enter that on the Deductions sheet. You must enter the full competition name (i.e. the league and division, so "SEMLA Division 1") in column 1, and the Points must be a positive value.
 
 ## Examples
 

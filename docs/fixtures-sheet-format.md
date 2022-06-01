@@ -25,7 +25,7 @@ Lists all teams and their info. Must have the following columns in this order:
 * `Team` - use consistent naming. For university teams use the name of the university + Uni, so `Bath Uni` not `University of Bath`. You can use the full name for the club name, but keep team names short, and in better alphabetical order
 * `Club` - should match the title of their club page
 * `Club Page` - the club page slug, so for Bath their page is at `/clubs/bath`, and the slug will be `bath`
-* `Pitch Type` - anything here will appear on the Fixtures [age if the game hasn't been played yet. It is suggested you keep this consistent, so use `3G`, `Astro`, or `Sand Astro`
+* `Pitch Type` - anything here will appear on the Fixtures page if the game hasn't been played yet. It is suggested you keep this consistent, so use `3G`, `Astro`, or `Sand Astro`
 * `Minimal` - used for column headings in the Fixtures Grid, so keep it to 5 or 6 characters
 * `Short Name` -  used for the mini tables and flags draws where long names would overflow the space
 
@@ -66,9 +66,9 @@ Team names must match the name in the Teams sheet. If team names are changed mak
 
 The `v` column is used to mark where a match is, and to mark if a match is conceded. If you enter rows without matches on them you should make sure this column is blank. You should set Data validation to List of items `v,C,C24`, and untick "Show drop-down list in cell", and add a comment to the heading cell `v - normal game, C - conceded (score should be 10-0), C24 - conceded within 24 hours (score should be 10-0), conceding team gets -1 points`.
 
-You will also probably find it useful to have validation on the goals columns, e.g. if you have goals in column E then use `=OR(ISBLANK(E2),ISNUMBER(E2),AND(LEN(E2)=1,IFERROR(FIND(E2, "ACPRV"),0)>0))`.
+You will also probably find it useful to have validation on the goals columns, e.g. if you have goals in column E then use `=OR(ISNUMBER(E2),AND(LEN(E2)=1,IFERROR(FIND(E2, "ACPRV"),0)>0))`.
 
-Column `X` is the points multiplier, defaults to 1. To make life easier you should set this row to `=IF(AND(OR(ISNUMBER(E2),ISBLANK(E2)),REGEXMATCH(J2,"(?i)double")),2,"")` and copy down (assumes goals in E and notes in J), that way it will automatically make a match count for double points if the Notes column has "double" anywhere in it. Make sure you add a note to the column heading `Points multiplier - default 1, 2 for double points games`.
+Column `X` is the points multiplier, defaults to 1. To make life easier you should set this column to `=IF(AND(OR(ISNUMBER(E2),ISBLANK(E2)),REGEXMATCH(J2,"(?i)double")),2,"")` and copy down (assumes goals in E and notes in J), that way it will automatically make a match count for double points if the Notes column has "double" anywhere in it. Make sure you add a note to the column heading `Points multiplier - default 1, 2 for double points games`.
 
 The `Notes` column isn't used by our programs, but is a useful place to add things like the date a match is rearranged from/to, if it's double points etc.
 
