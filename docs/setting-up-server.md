@@ -22,8 +22,8 @@ If the old server isn't available then instead follow the instructions in the [r
 You should configure `git` so that any commits will use the south-lacrosse-wp email.
 
 ```bash
-git config --global user.name "South Lacrosse WordPress"
-git config --global user.email 104894149+south-lacrosse-wp@users.noreply.github.com
+git config --global user.name "SEMLA Webmaster"
+git config --global user.email 106732683+semla-webmaster@users.noreply.github.com
 git config --list
 ```
 
