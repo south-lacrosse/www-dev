@@ -19,7 +19,7 @@ It might be worth using the host's tools to install WordPress in the root so tha
 
 If the old server isn't available then instead follow the instructions in the [recovery document](recovery.md).
 
-You should configure `git` so that any commits will use the south-lacrosse-wp email.
+You should configure `git` so that any commits will use the semla-webmaster email.
 
 ```bash
 git config --global user.name "SEMLA Webmaster"
