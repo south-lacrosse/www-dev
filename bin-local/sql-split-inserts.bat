@@ -6,7 +6,6 @@ rem much easier to compare 2 sql files.
 
 rem Requires sed to be installed, either from Cygwin or WSL, or run in a Git Bash shell
 
-for /R %%f in (*.sql) do (
-    sed -i "s$VALUES ($VALUES\n($g" "%%f"
-    sed -i "s$),($),\n($g" "%%f"
+for %%f in (*.sql) do (
+    sed -i -e "s$VALUES ($VALUES\n($g" -e "s$),($),\n($g" "%%f"
 )
