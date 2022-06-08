@@ -5,6 +5,5 @@
 # much easier to compare 2 sql files.
 
 for file in ./*.sql; do
-    sed -i 's$VALUES ($VALUES\n($g' $file
-    sed -i 's$),($),\n($g' $file
+    sed -i -e 's$VALUES ($VALUES\n($g' -e 's$),($),\n($g' $file
 done
