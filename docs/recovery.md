@@ -12,7 +12,7 @@ Media files are backed up to GitHub repository `south-lacrosse/media`.
 
 Config files are backed up to GitHub repository `south-lacrosse/wordpress`.
 
-These repositories are both private, but accessible from the south-lacrosse and south-lacrosse-wp GitHub accounts, and from the web server via the command line.
+These repositories are both private, but accessible from the south-lacrosse and semla-webmaster GitHub accounts, and from the web server via the command line.
 
 The SEMLA plugin, theme, and other site specific files are stored in our GitHub repository at git <https://github.com/south-lacrosse/www>.
 
@@ -47,7 +47,6 @@ There are several different types of backup you can load, and they should all ha
 There may also be other backups, see the [Backups Document](backups.md#database-backups) for details.
 
 To list backups on Google Drive for the last 2 weeks `rclone ls g:backups --max-age 14d`. Select the backup you want (the backup date is part of the file name). To copy a backup from Google Drive `rclone copy g:backups/backup.sql.gz .`.
-
 
 We currently don't backup other plugin's tables, so if they need restoring then deactivate/activate it to get the plugin to recreate the tables it needs.
 
