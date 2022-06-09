@@ -22,6 +22,7 @@ import {
 	ToolbarButton,
 } from '@wordpress/components';
 import { RawHTML, useState } from '@wordpress/element';
+const { omit } = lodash;
 import './location.scss';
 
 registerBlockType( 'semla/location', {
@@ -35,10 +36,6 @@ registerBlockType( 'semla/location', {
 			type: 'string',
 			source: 'text',
 			selector: '.wp-block-semla-location > p:first-child',
-		},
-		londonPostcode: {
-			type: 'string',
-			default: null,
 		},
 		notes: {
 			type: 'string',
@@ -67,7 +64,6 @@ registerBlockType( 'semla/location', {
 	edit: function LocationEdit( { attributes, setAttributes, isSelected } ) {
 		const {
 			address,
-			londonPostcode,
 			notes,
 			lat,
 			long,
@@ -202,29 +198,7 @@ registerBlockType( 'semla/location', {
 					value={ address }
 					placeholder="Address"
 					onChange={ ( val ) => {
-						const attrs = { address: val };
-						// basic postcode extract - it just meets the format
-						const postcode = val.match(
-							/[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}/
-						);
-						if ( postcode ) {
-							// London postcode areas
-							if (
-								/^(BR|DA|CR|E\d|EN|HA|IG|KT|N\d|NW|RM|SE|SM|SW|TW|UB|W\d|WD)/.test(
-									postcode[ 0 ]
-								)
-							) {
-								attrs.londonPostcode = postcode[ 0 ].replace(
-									' ',
-									'+'
-								);
-							} else {
-								attrs.londonPostcode = null;
-							}
-						} else {
-							attrs.londonPostcode = null;
-						}
-						setAttributes( attrs );
+						setAttributes( { address: val } );
 					} }
 				/>
 				{ ( ! isMultilineRichTextEmpty( notes ) || isSelected ) && (
@@ -252,19 +226,6 @@ registerBlockType( 'semla/location', {
 							title="Google Map"
 							allowFullScreen
 						></iframe>
-					) }
-					{ londonPostcode && (
-						<p>
-							<a
-								href={
-									'https://tfl.gov.uk/plan-a-journey/?to=' +
-									londonPostcode
-								}
-								rel="nofollow"
-							>
-								Plan a journey using Transport For London
-							</a>
-						</p>
 					) }
 					<InnerBlocks
 						allowedBlocks={ [ 'core/image', 'core/paragraph' ] }
@@ -297,24 +258,89 @@ registerBlockType( 'semla/location', {
 				<div className="acrd-content">
 					{ latLong && <RawHTML>!MAP!</RawHTML> }
 					{ ! latLong && <p>Map coordinates not set!</p> }
-					{ londonPostcode && (
-						<p className="no-print">
-							<a
-								href={
-									'https://tfl.gov.uk/plan-a-journey/?to=' +
-									londonPostcode
-								}
-								rel="nofollow"
-							>
-								Plan a journey using Transport For London
-							</a>
-						</p>
-					) }
 					<InnerBlocks.Content />
 				</div>
 			</div>
 		);
 	},
+
+	deprecated: [
+		{
+			attributes: {
+				address: {
+					type: 'string',
+					source: 'text',
+					selector: '.wp-block-semla-location > p:first-child',
+				},
+				londonPostcode: {
+					type: 'string',
+					default: null,
+				},
+				notes: {
+					type: 'string',
+					source: 'html',
+					multiline: 'p',
+					selector: '.location__notes',
+					default: '',
+				},
+				lat: {
+					type: 'number',
+				},
+				long: {
+					type: 'number',
+				},
+				latLong: {
+					type: 'string',
+				},
+			},
+			
+			migrate( attributes ) {
+                return omit( attributes, 'londonPostcode' );
+            },
+ 
+   			save( { attributes } ) {
+				const { notes, latLong, londonPostcode } = attributes;
+				return (
+					<div className="wp-block-semla-location">
+						<p>{ attributes.address }</p>
+						{ ! isMultilineRichTextEmpty( notes ) && (
+							<RichText.Content
+								tagName="div"
+								className="location__notes"
+								value={ notes }
+								multiline
+							/>
+						) }
+						<button
+							className="acrd-btn"
+							data-toggle="collapse"
+							aria-expanded="false"
+						>
+							Map and Directions
+						</button>
+						<div className="acrd-content">
+							{ latLong && <RawHTML>!MAP!</RawHTML> }
+							{ ! latLong && <p>Map coordinates not set!</p> }
+							{ londonPostcode && (
+								<p className="no-print">
+									<a
+										href={
+											'https://tfl.gov.uk/plan-a-journey/?to=' +
+											londonPostcode
+										}
+										rel="nofollow"
+									>
+										Plan a journey using Transport For London
+									</a>
+								</p>
+							) }
+							<InnerBlocks.Content />
+						</div>
+					</div>
+				);
+			},
+		}
+	]
 } );
 
 let scriptUrl = null; // url of this script to load map dialog from
