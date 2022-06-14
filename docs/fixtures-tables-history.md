@@ -55,18 +55,6 @@ Winners go in `slh_winner`, fields:
 
 Make sure team names match those used before, so check `slc_teams` for all current teams.
 
-## Remarks
-
-League and Flags competitions can have remarks under them. Table is `slh_remarks`:
-
-```sql
-`comp_id` SMALLINT(6) unsigned NOT NULL -- find from `sl_competition`
-`year` SMALLINT unsigned NOT NULL
-`remarks` TEXT NOT NULL -- text to place under the competition
-```
-
-See the table for examples.
-
 ## History Pages
 
 Since these pages only update once a year, they are all generated from the slh_* tables as part of the end of season process. To re-run manually, e.g. if you manually added any competition winners, connect to the server via SSH, navigate to the WordPress root directory if needed, and run `wp semla history update-pages`.
