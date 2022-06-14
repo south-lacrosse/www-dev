@@ -14,7 +14,7 @@ The number of points for wins/draws/loses can be set on the SEMLA Settings page 
 
 It is suggested you add data validation where you can to restrict values users can put in. To do that select the cells, choose Data->Data validation, and enter the restriction. There are examples below.
 
-There must be 5 sheets named Fixtures, Flags, Deductions, Teams, and Divisions.
+There must be 5 sheets named Fixtures, Flags, Deductions, Teams, and Divisions. There are 2 optional sheets, Remarks and Division Order.
 
 The Teams and Divisions sheets are only needed to set up the season. These sheets can be hidden during the season, and only unhidden when you need to do any changes.
 
@@ -52,7 +52,7 @@ Only the first letter is used to determine the sort order, but you should put in
 
 ## Deductions Sheet
 
-Columns are `League & Division` (must be Full name from Divisions Sheet), `Team`, `Penalty` (must be positive value), `Date`, `Reason`
+Columns are `League & Division` (must be Full name from Divisions Sheet), `Team`, `Penalty` (must be positive value), `Date`, `Reason`.
 
 ## Fixtures Sheet
 
@@ -98,3 +98,11 @@ the draw. You can also put it in the team name, but that is not recommended.
 You should also put borders around matches to make reading the sheet easier, e.g.
 
 ![Flags example](flags.png)
+
+## Remarks Sheet
+
+Optional sheet used to add remarks for competitions, which will be displayed under the league table or flags draw. Columns are `Competition` and `Remarks`.
+
+## Division Order Sheet
+
+Optional sheet used to order divisions in a specific order, e.g. if the final positions were set using a Final Four competition. The top row should be the full competition name, and the teams must  be listed in the correct order in that column.
