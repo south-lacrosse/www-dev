@@ -1,6 +1,53 @@
 -- -----------------------------------------------------
--- Useful queries - kept in case they are useful
+-- Useful queries
 -- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Historical results in format for Fixtures Sheet
+-- -----------------------------------------------------
+SELECT CONCAT(c.name,',',r.match_date,',,',r.home,',',
+	CASE WHEN r.result = 'R - R' THEN 'R'
+        WHEN r.result = 'Void' THEN 'V'
+        ELSE COALESCE(r.home_goals,'') END,',',
+	CASE WHEN r.home_points IS NULL THEN  'v'
+     when r.result = '10 - 0' or r.result = '0 - 10' THEN 'C'
+     ELSE 'v' END,',',
+	CASE WHEN r.result = 'R - R' THEN 'R'
+        WHEN r.result = 'Void' THEN 'V'
+        ELSE COALESCE(r.away_goals,'') END,',',
+	r.away,',',
+    CASE WHEN r.points_multi > 1 THEN r.points_multi ELSE '' END
+    ) AS txt
+from slh_result r, sl_competition c
+where r.year = 2003 AND	 c.id = r.comp_id;
+
+-- -----------------------------------------------------
+-- Historical results division info Fixtures sheet
+-- -----------------------------------------------------
+select competition, group_concat(team) from (
+	select competition, home as team
+	from slh_result where year = 2003 and comp_id < 13
+	union
+	select competition, away as team
+	from slh_result where year = 2003 and comp_id < 13
+) AS a group by competition;
+
+
+-- -----------------------------------------------------
+-- Historical results Teams for Fixtures sheet
+-- -----------------------------------------------------
+select a.team, a.team as club, lower(replace(a.team,' ','-')) AS club_page,
+	'' AS pitch,
+	COALESCE(tm.minimal,"") AS minimal, COALESCE(ta.abbrev,"") AS abbrev
+from (
+	select distinct home as team
+	from slh_result where year = 2003
+	order by team) AS a
+LEFT JOIN sl_team_minimal AS tm
+	ON tm.team = a.team
+LEFT JOIN sl_team_abbrev AS ta
+	ON ta.team = a.team
+;
 
 -- -----------------------------------------------------
 -- Create tables from fixtures using SQL only
