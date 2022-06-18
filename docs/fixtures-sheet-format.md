@@ -6,7 +6,7 @@ There are [Instructions on how to modify this sheet](fixtures-sheet.md) during t
 
 You should add a link to the instructions from whatever the first sheet is, usually Fixtures.
 
-The simplest way to understand the format is to visit the [Sample Spreadsheet](https://docs.google.com/spreadsheets/d/1TPAO3-IxTcb5oxOFTRkStNoX4GCGTshJewVriQ69oV0/edit?usp=sharing).
+The simplest way to understand the format is to visit the [previous Fixtures Sheets](https://drive.google.com/drive/folders/1SoT-hiBgRW_PLNRSLEkzcjbGobhXRanf?usp=sharing), and have a look at the latest version.
 
 The number of points for wins/draws/loses can be set on the SEMLA Settings page in WordPress Admin.
 
@@ -66,7 +66,7 @@ Team names must match the name in the Teams sheet. If team names are changed mak
 
 The `v` column is used to mark where a match is, and to mark if a match is conceded. If you enter rows without matches on them you should make sure this column is blank. You should set Data validation to List of items `v,C,C24`, and untick "Show drop-down list in cell", and add a comment to the heading cell `v - normal game, C - conceded (score should be 10-0), C24 - conceded within 24 hours (score should be 10-0), conceding team gets -1 points`.
 
-You will also probably find it useful to have validation on the goals columns, e.g. if you have goals in column E then use `=OR(ISNUMBER(E2),AND(LEN(E2)=1,IFERROR(FIND(E2, "ACPRV"),0)>0))`.
+You will also probably find it useful to have validation on the goals columns, e.g. if you have goals in column E then use `=OR(ISNUMBER(E2),AND(LEN(E2)=1,IFERROR(FIND(E2, "ACRV"),0)>0))`.
 
 Column `X` is the points multiplier, defaults to 1. To make life easier you should set this column to `=IF(AND(OR(ISNUMBER(E2),ISBLANK(E2)),REGEXMATCH(J2,"(?i)double")),2,"")` and copy down (assumes goals in E and notes in J), that way it will automatically make a match count for double points if the Notes column has "double" anywhere in it. Make sure you add a note to the column heading `Points multiplier - default 1, 2 for double points games`.
 
