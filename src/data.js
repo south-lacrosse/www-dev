@@ -105,7 +105,7 @@ registerBlockType( 'semla/data', {
 						<option value="curr_fixtures">Fixtures</option>
 						{ options }
 						<option value="curr_results">
-							Recent Results/Upcomming Fixtures
+							Recent Results/Upcoming Fixtures
 						</option>
 					</select>
 				</Placeholder>
