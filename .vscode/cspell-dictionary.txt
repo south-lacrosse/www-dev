@@ -12,13 +12,16 @@ envira
 fgci
 gdrive
 Hostinger
+Imagick
 intval
 Litespeed
 localwp
 lscache
+Mailhog
 mkdir
 nosniff
 oembed
+opcache
 plugin
 plugins
 postdata
@@ -36,3 +39,4 @@ worktree
 wpdb
 wpnonce
 wpscan
+xdebug

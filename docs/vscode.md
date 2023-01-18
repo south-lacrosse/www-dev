@@ -2,41 +2,29 @@
 
 See also [VSCode Editor Basics](https://code.visualstudio.com/Docs/editor/codebasics).
 
-You can edit both repositories in the same workspace using a [multi-root workspace](https://code.visualstudio.com/docs/editor/multi-root-workspaces). Make sure you save the workspace with File->Save Workspace As... to something like `C:\local\southlacrosse-repos\south-lacrosse.code-workspace`, and the you can run VSCode with that workspace with `code C:\local\southlacrosse-repos\south-lacrosse.code-workspace`.
+You should edit both repositories in the same workspace using a [multi-root workspace](https://code.visualstudio.com/docs/editor/multi-root-workspaces). We provide a workspace file in `\south-lacrosse.code-workspace` in this repository, which you can use with `code www-dev\south-lacrosse.code-workspace`, or from inside VSCode with File->Open Workspace from File...
 
-If you have installed the node modules you will want to exclude those from the workspace, otherwise you will see a lot of JavaScript files, and they will be included in searches. Go to File->Preferences->Settings, search for `files.exclude` and add `**/node_modules`. You will probably want to do this in your User settings, but if not then pick Workspace.
+It assumes you are using [Local](localwp.md), and that this repo is installed in the Local Sites path, so the setup would be:
 
-You may find the following extensions useful:
-
-* Apache Conf mrmlnc.vscode-apache - syntax highlighting for Apache .htaccess and .conf files
-* Code Spell Checker streetsidesoftware.code-spell-checker - [see below](#code-spell-checker-configuration)
-* CSS Formatter aeschli.vscode-css-formatter
-* Debugger for Chrome msjsdiag.debugger-for-chrome - debug JavaScript in Chrome browser
-* ESLint dbaeumer.vscode-eslint - lints (checks style & formatting) your JavaScript code
-* Git History donjayamanne.githistory - git log, file history, compare
-* GitLens eamodio.gitlens - alternative to Git History, more heavyweight, adds lots of git functionality like file history views etc.
-* iCalendar af4jm.vscode-icalendar -  syntax highlighting for iCal files if you are testing calendar output
-* MySQL formulahendry.vscode-mysql - run any SQL file from VSCode
-* PHP Debug felixfbecker.php-debug
-* PHP Intelephense bmewburn.vscode-intelephense-client - code completion for PHP, and much more
-* WordPress Snippet tungvn.wordpress-snippet - WordPress snippets and auto-completions
-
-And also the follow settings may be useful. To get to settings go to File->Preferences->Settings
-
-* Editor: Linked Editing - set to rename paired HTML/XML tags, surprisingly useful
-
-## Code Spell Checker Configuration
-
-If you use the Code Spell Checker extension then you should switch the language to en-GB, and use our custom dictionary to add words used in this project which aren't in the standard dictionaries. Add the following in your workspace configuration under "settings" (which should be the file you created to handle the multi-root workspace, e.g. south-lacrosse.code-workspace).
-
-```json
-"cSpell.language": "en-GB",
-"cSpell.customDictionaries": {
-    "semla-words": {
-        "name": "semla-words",
-        "path": "${workspaceFolder:www-dev}/.vscode/cspell-dictionary.txt",
-        "description": "SEMLA words",
-        "addWords": true
-    }
-}
+```txt
+localwp   (sites path)
+├── south-lacrosse
+│   ├── app
+│   │   ├── public   (www repo)
+│   │   └── ...
+│   └── ...
+└── www-dev   (this repo)
 ```
+
+If you have a different configuration then the `.code-workspace` file is a simple JSON file, so you can make a copy outside of this repo, and edit the directories.
+
+When you first open the workspace you should see a message "This workspace has extension recommendations". You could trust us and "Install All" (you can always disable or uninstall them later), or pick "Show Recommendations" to see what extensions we recommend and select which ones to install. They include things like PHP intellisense, PHP debugging, a spell checker which works in code, MYSQL client etc.
+
+You can also see this list by going to Extensions and putting `@recommended` in the search.
+
+For Git history we recommend the "Git History" extension, but you may prefer GitLens, which is more heavyweight, and adds lots of Git functionality like file history views etc., or simply use another tool like [GitHub Desktop](https://desktop.github.com/).
+
+The workspace file also includes useful settings, including:
+
+* It will exclude `**/node_modules`, as otherwise they will clutter up the workspace, and make the search take ages
+* Configure the Code Spell Checker extension

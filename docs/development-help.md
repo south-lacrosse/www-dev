@@ -97,7 +97,7 @@ Host sl
   HostName southlacrosse.org.uk
   Port <port>
   User <user>
-  IdentityFile ~/.ssh/your_ed25519_private_key (~/ also works on Windows)
+  IdentityFile ~/.ssh/your_ed25519_private_key   (~/ also works on Windows)
   IdentitiesOnly yes
 ```
 
@@ -111,11 +111,11 @@ Alternatively you can just set the email for the current repo with `git config u
 
 ## Debugging PHP Using Xdebug
 
-Xdebug is enabled by default in [Local](localwp.md). To debug in [VSCode](vscode.md) click the Run and Debug icon, and pick Listen for Xdebug from the dropdown list (configured in `www-dev\.vscode\launch.json`). See the VSCode site for [more information about debugging](https://code.visualstudio.com/docs/editor/debugging).
+To debug in [VSCode](vscode.md) click the Run and Debug icon, and pick Listen for Xdebug from the dropdown list (configured in `www-dev\.vscode\launch.json`). See the VSCode site for [more information about debugging](https://code.visualstudio.com/docs/editor/debugging).
 
-To control your debugging session you can use a browser extension like [Xdebug helper for Chrome](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc), [Xdebug Helper for Firefox](https://addons.mozilla.org/en-GB/firefox/addon/xdebug-helper-for-firefox/), or [XDebugToggle for Safari](https://github.com/kampfq/SafariXDebugToggle).
+If you are using Local make sure Xdebug is switched on for the site.
 
-Alternatively to start a debugging session you can go to <https://dev.southlacrosse.org.uk/?XDEBUG_SESSION_START=wordpress>, and stop debugging with <https://dev.southlacrosse.org.uk/?XDEBUG_SESSION_STOP>.
+If you have set `xdebug.start_with_request=trigger` (the default, but overridden in Local) then you should install an [Xdebug browser extension](https://xdebug.org/docs/step_debug#browser-extensions) to control when the debugger is called.
 
 And don't forget to set a breakpoint!
 
@@ -171,7 +171,7 @@ Useful options:
 * `--execute robots=off` - force wget to ignore the robots.txt and the nofollow directives
 * `--no-directories` or `-nd`, prevents wget from creating a hierarchy of directories
 
-## NPM Commands
+## Npm Commands
 
 * `npm i` - install local node modules as defined in config files package.json/package-lock.json
 * `npm i <package_name> --save-dev` - install a package for development, and save to package.json
@@ -183,11 +183,11 @@ Useful options:
 * `npm i <package_name>@latest --save-dev` - install latest version of a specific package
 * `npm install npm@latest -g` - Update the node package manager to latest
 
-`package-lock.json` contains a list of all installed packages, their versions, and the versions of their dependencies. That way when someone else install the NPM packages they will get the exact same version. To update packages you normally do `npm update` as above.
+`package-lock.json` contains a list of all installed packages, their versions, and the versions of their dependencies. That way when someone else install the npm packages they will get the exact same version. To update packages you normally do `npm update` as above.
 
 To reinstall with the most recent update (will not install newer versions, so 1.9.9 won't be updated to 2.0.0) then delete `package-lock.json` and run `npm i`.
 
-To reinstall to the absolutely latest version, delete `package-lock.json` and delete the `devDependencies` section from `package.json`, then run `npm i <packages> --save dev` for all the packages used, which as time of writing would be `npm i @wordpress/icons @wordpress/scripts autoprefixer cross-env inline-source-cli npm-run-all postcss  postcss-cli postcss-csso svgo uglify-js --save-dev`.
+To reinstall to the absolutely latest version, delete `package-lock.json` and delete the `devDependencies` section from `package.json`, then run `npm i <packages> --save dev` for all the packages used, which as time of writing would be `npm i @wordpress/icons @wordpress/scripts autoprefixer cross-env inline-source-cli npm-run-all postcss postcss-cli postcss-csso svgo uglify-js --save-dev`.
 
 You can update node itself from the command line in Linux, but for Windows & Mac you need to download a new installer.
 
@@ -195,7 +195,7 @@ You can update node itself from the command line in Linux, but for Windows & Mac
 
 The WordPress command line interface is a very useful tool. See [full list of commands](https://developer.wordpress.org/cli/commands/).
 
-WP-CLI will also work remotely by specifying an SSH host with the `--ssh` option, e.g. if you have our server set up as a Host sl in your `~/.ssh/config` file then `wp plugin list --ssh=sl:~/public_html` will list plugins on the production website, or if not then `--ssh=user@southlacrosse.org.uk:65002~/public_html`. [See also the WPL-CLI guide](https://make.wordpress.org/cli/handbook/guides/running-commands-remotely/).
+WP-CLI will also work remotely by specifying an SSH host with the `--ssh` option, e.g. if you have our server set up as a Host sl in your `~/.ssh/config` file then `wp plugin list --ssh=sl:~/public_html` will list plugins on the production website, or if not then `--ssh=user@southlacrosse.org.uk:<port>~/public_html`. [See also the WPL-CLI guide](https://make.wordpress.org/cli/handbook/guides/running-commands-remotely/).
 
 ### Plugins
 

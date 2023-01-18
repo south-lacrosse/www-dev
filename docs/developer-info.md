@@ -47,7 +47,7 @@ If you don't have write access to the central GitHub repositories then you have 
 
 ### Cloning the Repositories
 
-When cloning the repositories to your local machine you should put `www-dev` somewhere sensible, but `www` can be cloned to a temporary directory as it will be moved in a later step. If you have write access to the repository then you should clone using SSH from `git@github.com:south-lacrosse/repo` rather than `https://github.com/south-lacrosse/repo`, and if you have created a fork then do the same except replace south-lacrosse with your username.
+When cloning the repositories to your local machine you should put `www-dev` somewhere sensible, but `www` can be cloned to a temporary directory as it should be merged with your WordPress directory (see [Configuring Local Development](#configuring-local-development)). If you have write access to the repository then you should clone using SSH from `git@github.com:south-lacrosse/repo` rather than `https://github.com/south-lacrosse/repo`, and if you have created a fork then do the same except replace south-lacrosse with your username.
 
 ```console
 git clone https://github.com/south-lacrosse/www
@@ -96,17 +96,65 @@ The SEMLA Admin should then:
 
 ## Software For Developing Locally
 
-By far the easiest way to develop locally is using Local. See [how to install and configure Local](localwp.md).
+See also [optional software](#optional-software).
 
-To run a local server without Local you will need to install WordPress and all its dependencies: PHP, Apache HTTP Server & MySQL. You can install all the software individually, or use [WampServer](http://www.wampserver.com/en/) or [XAMPP](https://www.apachefriends.org/index.html).
+By far the easiest way to develop locally is using Local, see [how to install and configure Local](localwp.md).
 
-You'll need to clone the repositories as above, and download [WordPress](https://wordpress.org/) - the US version if fine. Then extract the WordPress zip into the `www` directory.
+There are also alternative local development environments, including [DevKinsta](https://kinsta.com/devkinsta/) (Docker based), and [wp-env from WordPress](https://www.npmjs.com/package/@wordpress/env) (requires Docker). If you use one of these then you will need to adapt the Local instructions to configure your particular setup.
 
-You might want to install [WP-CLI](https://wp-cli.org/), which is a command line tool to manage WordPress. It can install plugins and themes, among many other things.
+Another option is to install WordPress and all its dependencies: PHP, Apache HTTP Server & MySQL/MariaDB. You can install all the software individually, or use [WampServer](http://www.wampserver.com/en/) or [XAMPP](https://www.apachefriends.org/index.html). You'll need to figure out how to configure that yourself, though useful notes are:
 
-You will find useful configuration files, scripts to create SSH keys etc., in [the config directory](../config).
+* Download WordPress from <https://wordpress.org/download/> - the US version if fine, otherwise it will do a lot of translations.
+* You should install [WP-CLI](https://wp-cli.org/), which is a command line tool to manage WordPress. It can install plugins and themes, among many other things.
+* You will find useful configuration files, scripts to create SSH keys etc., in [the config directory](../config/README.md)
+* Set the domain to `dev.southlacrosse.org.uk`, and add that to your `hosts` file.
+* You should configure HTTPS, otherwise if you receive a copy of the production database you will need to do a search/replace to switch `https://dev.southlacrosse.org.uk` to `http:` (you should use the WP-CLI `search-replace` command as that will take into account serialized versions).
 
-Once you have done that you will need to configure a server, setting the domain to `dev.southlacrosse.org.uk`. You should also configure HTTPS.
+## Configuring Local Development
+
+You should already have [cloned the repositories](#cloning-the-repositories), and have a WordPress site installed and configured, either using one of the local development environments, or by installing everything yourself. At a minimum it should have the web server set up and receiving requests to `https://dev.southlacrosse.org.uk`, the database created, and `wp-config.php` configured with authentication keys and database credentials.
+
+When these instructions mention a "shell" they mean to open up a shell (e.g. command prompt on Windows, or a `bash` shell) and go to your `www` directory (unless specified). If you are using Local you can go to your site and click "Open site shell", which will configure all environment variables and paths, and take you to the root WordPress directory.
+
+1. First you need to move your `www` repo into the directory where WordPress is installed and served by your web server (the WordPress root) e.g. in Local it will be `{site folder}\app\public`. Move the entire contents (including the `.git` directory) from your clone of `www` , overwriting `\.htaccess`. You can then delete the empty `www` directory.
+
+    The WordPress root will now house WordPress along with your version of the `www` repo, and these documents will still refer to it as `www`. None of the WordPress files or other plugins & themes will be added to the `www` repository as they marked as untracked in `www\.gitignore`. You can `git checkout/branch/pull/push` from this directory as it's a normal repository.
+1. Update the WordPress config file `www\wp-config.php` using `www\wp-config-semla.php` as a template
+    * Copy and replace the `DB_CHARSET` and `DB_COLLATE` lines
+    * Copy and replace everything from `$table_prefix = 'wp_';` down, and remove anything between "Live Server" and "End Live Server" (that's the live server config, we don't need that here)
+1. If the site is running you will have to restart it for the changes take effect.
+1. Add any required plugins. At a minimum you should install Envira Gallery Lite. Note that you don't need to activate them if you are going to replace the WordPress database from the production version, as it has these plugins activated. You can install them by either:
+    * In your shell
+
+        ```console
+        wp plugin install envira-gallery-lite limit-login-attempts-reloaded
+        ```
+
+    * Go to your site's Add Plugins admin screen `https://dev.southlacrosse.org.uk/wp-admin/plugin-install.php` and install them manually
+
+    See also [other useful plugins for development](development-plugins.md).
+1. Get a copy of the Production database. The Webmaster should create this using `bin/create-dev-db.sh`, which will take a backup of the current database with user emails replaced with user{number}@southlacrosse.org.uk, and all the passwords set to 'pass'.
+1. Import the production database
+
+    Run `bin/restore-db.sh path/to/backup.sql.gz` (assumes the site/MySQL is running). If running in Windows you can run this using a Git Bash shell, or if you have cygwin or WSL then just run `bash` to get a Bash shell.
+
+    Alternatively:
+    * In Local
+        * Go to your site's Database tab, and Open Adminer
+        * Click Import on the left side of the screen.
+        * Click Choose Files within the File Upload box.
+        * Select the .sql.gz file(s) you were given and click Execute.
+    * Otherwise your setup should have something like phyMyAdmin, so you can drop the backup there
+1. You should now be able to log in as any user. The administrator will be email 'user1@southlacrosse.org.uk' password 'pass'.
+1. Media files (images etc.) are stored in their own private repository. To get local copies you have a few choices:
+    * If you have access to the `media` repository you can clone that by running `git clone git@github.com:south-lacrosse/media.git` from the `www` directory
+    * Install the [BE Media from Production plugin](https://wordpress.org/plugins/be-media-from-production/) with `wp plugin install be-media-from-production` which will use media from the production site if it doesn't exist on the local machine. Make sure you add `define('BE_MEDIA_FROM_PRODUCTION_URL', 'https://www.southlacrosse.org.uk');` to your `wp-config.php` file.
+    * You can download the directory with ftp/rsync/scp if you have access
+1. New installations of WordPress may contain extra themes and plugins. You may safely delete those, or just leave them.
+
+You should now be all set up and `https://dev.southlacrosse.org.uk/` will take you to the site.
+
+**And remember** before you start developing make sure you create a Git branch to work in!
 
 ## Optional Software
 
@@ -117,58 +165,22 @@ Depending on what you are developing, you may also need to install some, or all,
 If you are going to be building the Gutenberg blocks, or minifying JavaScript or CSS, then you need to install [Node.js](https://nodejs.org/) and it's package manager `npm` which are used to automate the build. See also [npm commands in Development Help](development-help.md#npm-commands).
 
 * Local copies of the node modules are stored in `www-dev\node_modules`, which is omitted from the Git repository as it is huge, so to install them you need to run `npm install` from the `www-dev` directory.
-* Create a new file `www-dev\.npmrc` and add a line to point to the location of your public `www` directory, e.g. `www=C:/Users/{user}/localwp/southlacrosse/app/public`
+* Create a new file `www-dev\.npmrc` and add a line to point to the location of your public `www` directory, e.g. `www=C:/Users/{user}/localwp/south-lacrosse/app/public`
 
-The config file `package.json` lists all locally installed packages, scripts etc. It has a sister file `package-lock.json` which list the exact version of all NPM packages along with all their dependences, that way when you install you will get a setup which is known to work.
+The config file `package.json` lists all locally installed packages, scripts etc. It has a sister file `package-lock.json` which list the exact version of all npm packages along with all their dependences, that way when you install you will get a setup which is known to work.
 
 ### Unix Like Tools
 
-Some batch files and utilities use Unix command line tools like gzip. If you don't have these on your Windows system then to run these you can use the Git Bash shell. If you're using Local you can run the shell with the path and environment variables correctly set to run PHP and MySQL, in Preferences under Default Apps change the Terminal to Git Bash. Then right-click on your site and "Open Site Shell"
+Some batch files and utilities use Unix command line tools like gzip. If you don't have these on your Windows system then to run these you can use the Git Bash shell. If you're using Local you can run the shell with the path and environment variables correctly set to run PHP and MySQL, in Preferences under Default Apps change the Terminal to Git Bash. Then go to your site and select "Open site shell".
 
 Alternatively, to have Unix commands available everywhere you can either:
 
-* Install [Cygwin](https://www.cygwin.com/) - this can additionally install a whole load of Unix command line utilities. Note: running WP-CLI `wp` on Local under a bash shell won't work. You can fix this by updating the `wp` file (which you can find using `which wp`), comment out the existing line and add `"$(cygpath -u "$(dirname "$0")\wp.bat")" "$@"`.
+* Install [Cygwin](https://www.cygwin.com/) - this can additionally install a whole load of Unix command line utilities.
 * Use the Windows Subsystem for Linux (WSL).
 
 ### Perl
 
 There are a couple of utilities which use Perl, so if you need to run one of them you will also need a version of Perl e.g. [Strawberry Perl](http://strawberryperl.com/)
-
-## Configuring Local Development
-
-In Local you can open a console with all environment variables configured by right-clicking on your site and click "Open Site Shell". For other configurations open up a shell and go to your `www` directory.
-
-1. Add any required plugins. At a minimal you should add Envira Gallery Lite. Note that you don't need to activate them if you are going to replace the WordPress database from the production version, as it has these plugins activated. You can install them by either:
-    * In your shell
-
-        ```console
-        wp plugin install envira-gallery-lite
-        ```
-
-        Keep the shell open as you will need it in later steps.
-    * Go to your site's Add Plugins admin screen `https://dev.southlacrosse.org.uk/wp-admin/plugin-install.php` and install them manually
-    See also [other useful plugins for development](development-plugins.md).
-1. Get a copy of the Production database. The Webmaster should create this using `bin/create-dev-db.sh`, which will take a backup of the current database with user emails replaced with userx@southlacrosse.org.uk, and all the passwords set to 'pass'.
-1. Import the production database
-    Run `bin/restore-db.sh path/to/backup.sql.gz` (assumes the site/MySQL is running)
-    Alternatively:
-    * In Local
-        * Go to your site's Database tab, and Open Adminer
-        * Click Import on the left side of the screen.
-        * Click Choose Files within the File Upload box.
-        * Select the .sql.gz file(s) you were given and click Execute.
-    * Otherwise your setup should have something like phyMyAdmin, so you can drop the backup there
-1. If you have named your domain anything except `dev.southlacrosse.org.uk` you will need to replace that in your database by `wp search-replace 'https://dev.southlacrosse.org.uk' 'https://example.com'`
-1. You should now be able to log in as any user. The administrator will be email 'user1@southlacrosse.org.uk' password 'pass'.
-1. Media files (images etc.) are stored in their own private repository. To get local copies you have a few choices:
-    * Install the [BE-Media-from-Production plugin](https://github.com/billerickson/BE-Media-from-Production) with `wp plugin install be-media-from-production` which will use media from the production site if it doesn't exist on the local machine. Make sure you add `define('BE_MEDIA_FROM_PRODUCTION_URL', 'https://www.southlacrosse.org.uk');` to your `wp-config.php` file.
-    * You can download with ftp if you have access
-    * If you have SSH access you can [download with rsync](../src2/media-rsync-download.bat) or use `scp`.
-    * If you have access to the `media` repository you can clone that by running `git clone git@github.com:south-lacrosse/media.git` from the `www` directory
-
-You should now be all set up and `https://dev.southlacrosse.org.uk/` will take you to the site.
-
-**And remember** before you start developing make sure you create a Git branch to work in!
 
 ## JavaScript and CSS Testing and Minification
 
