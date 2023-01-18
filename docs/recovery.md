@@ -78,8 +78,7 @@ This following is the process to create a complete restore in a new directory, w
     rm -rf akismet
     cd ../themes
     ls -l
-    rm -rf twentynineteen
-    rm -rf twentytwenty
+    rm -rf twentytwentyone
     ```
 
     Note that you should leave at least 1 non lax theme, just as a backup.

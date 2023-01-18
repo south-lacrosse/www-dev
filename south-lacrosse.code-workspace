@@ -1,0 +1,41 @@
+{
+	"folders": [
+		{
+			"name": "www-dev",
+			"path": "..\\www-dev"
+		},
+		{
+			"name": "www",
+			"path": "..\\south-lacrosse\\app\\public"
+		}
+	],
+	"settings": {
+		"cSpell.language": "en-GB",
+		"cSpell.customDictionaries": {
+			"semla-words": {
+				"name": "semla-words",
+				"path": "${workspaceFolder:www-dev}/.vscode/cspell-dictionary.txt",
+				"description": "SEMLA words",
+				"addWords": true
+			}
+		},
+		"editor.insertSpaces": false,
+		"files.exclude": {
+			"**/node_modules": true
+		}
+	},
+	"extensions": {
+		"recommendations": [
+			"bmewburn.vscode-intelephense-client",
+			"xdebug.php-debug",
+			"streetsidesoftware.code-spell-checker",
+			"donjayamanne.githistory",
+			"dbaeumer.vscode-eslint",
+			"davidanson.vscode-markdownlint",
+			"formulahendry.vscode-mysql",
+			"mrmlnc.vscode-apache",
+			"af4jm.vscode-icalendar",
+			"tungvn.wordpress-snippet"
+		]
+	}
+}
