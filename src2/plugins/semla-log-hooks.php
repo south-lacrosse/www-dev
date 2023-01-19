@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       log-hooks
+ * Plugin Name:       SEMLA Log Hooks
  * Description:       Log all hooks used in each request
  * Version:           1.0.0
  * Author:            SEMLA
@@ -10,14 +10,13 @@
  */
 
 /**
- * This must-use plugin (i.e. should be copied to wp-content/plugins/must-use)
- * will log all the WordPress calls to do_action (i.e. hooks) for each request.
+ * Will log all the WordPress calls to do_action (i.e. hooks) for each request.
  * Useful for seeing which hook to add code to.
- * 
+ *
  * Note: The Query Monitor plugin will display hooks/actions used for regular pages,
- * this is useful for REST interactions
- * 
- * IMPORTANT: make sure you remove this from mu-plugins after you're done
+ * this should only be used for REST interactions
+ *
+ * IMPORTANT: make sure you disable/remove this after you're done
  */
 add_action ( 'shutdown', function(){
     error_log(print_r ( $GLOBALS['wp_actions'], true ));
