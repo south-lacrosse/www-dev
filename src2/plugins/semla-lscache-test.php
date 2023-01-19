@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       lscache-test
+ * Plugin Name:       SEMLA LSCache Test
  * Description:       Log all Litespeed cache interactions (at least the ones we use)
  * Version:           1.0.0
  * Author:            SEMLA
@@ -12,7 +12,7 @@
  /* Useful little plugin to test Litespeed cache. When activated it will log
     any interactions with litespeed so we can debug before moving to a staging
     server to test */
-    
+
 // If this file is called directly, abort.
 if (!defined('WPINC')) {
 	die;
