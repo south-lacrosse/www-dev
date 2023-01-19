@@ -12,8 +12,8 @@ This file file contains useful info for development - probably mainly stuff I wo
 
 ### Branches
 
-* `git checkout -b [name_of_your_new_branch]`
-* `git push -u origin [name_of_your_new_branch]` - pushes and sets default upstream branch
+* `git checkout -b <new-branch> [<start-point>]` - create a new branch and check it out, start point is optional
+* `git push -u origin <branch>` - pushes and sets default upstream branch
 * `git merge main` - merge current branch with another
 * `git pull --prune` to tell git to discard all local pointers to remote branches which do not exist anymore
 * To merge a branch into another, while squashing it to 1 commit
@@ -25,6 +25,14 @@ This file file contains useful info for development - probably mainly stuff I wo
     ```
 
     Omitting the -m parameter on the commit lets you modify a draft commit message containing every message from your squashed commits before finalizing your commit.
+* Deleting a branch on both local and remote repos
+
+  ```console
+  git branch -d <branch-name>
+  git push --delete <remote-name> <branch-name>
+  ```
+
+  Use -D if branch has unmerged changes.
 
 ## Commits
 
