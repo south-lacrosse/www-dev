@@ -34,6 +34,7 @@ staticize
 stickied
 TINYINT
 twentytwentytwo
+unmerged
 unminified
 worktree
 wpdb
