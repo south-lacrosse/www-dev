@@ -83,9 +83,23 @@ You should also find the Site shell script so you can call it from any shell or 
 
  The scripts will be `{site slug}.bat` and `{site slug}.sh` in the Local `ssh-entry` directory, which you can find by selecting `Reveal Local's log` from the menu in Local (in Windows it will be `C:\Users\{user}\AppData\Roaming\Local\ssh-entry\`). Note: these scripts are only created the first time you run the Site shell.
 
-Local will intercept any emails sent by WordPress. To see them go to your site, and under Utilities you will find Mailhog.
+Local will intercept any emails sent by WordPress. To see them go to your site, and under Utilities
+you will find Mailhog.
 
-Note: Occasionally Local may leave nginx running on port 80 even after you exit Local. If you need to run another server using port 80 and it's blocked, then you will need to stop nginx in the task manager.
+## Possible Issues
+
+If you have `WP_DEBUG` set to true you may notice `Warning:  mysqli_real_connect(): (HY000/2002)...` errors popping up in the error log, which is because Local sometimes runs WP-CLI before the database is running. To stop this you can disable `WP_DEBUG` for CLI in your `www/wp-config.php` file:
+
+```php
+if (defined( 'WP_CLI' ) && WP_CLI) {
+    define('WP_DEBUG', false);
+} else {
+    define('WP_DEBUG', true);
+    define('WP_DEBUG_LOG', true);
+}
+```
+
+Occasionally Local may leave nginx running on port 80 even after you exit Local. If you need to run another server using port 80 and it's blocked, then you will need to stop nginx in the task manager.
 
 ## Local and VSCode
 
