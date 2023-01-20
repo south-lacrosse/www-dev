@@ -68,9 +68,8 @@ Work for this phase should be done on the staging website, so `cd ~/public_html/
     ```
 
     (restore either with `./restore-db.sh backups/backup.sql.gz`)
-1. Get stats for the history database tables before the update with `wp semla history stats`. You should make a note of these figures somewhere, e.g. `wp semla history stats > backups/before-stats.txt`
 1. Run the end of season process with `./end-season.sh`. This will update all the history tables, and create WordPress pages. If you get errors from this step then you will need to fix the them, restore the backups, and try again.
-1. Run the stats again and compare to the before ones, and make sure they make sense. Note that some tables may add more rows than you expect, so `slh_tables` will add 1 row per team in each division. You should also make a note of these `wp semla history stats > backups/after-stats.txt` to compare to production later.
+1. `end-season.sh` will output stats about the history tables for before and after the updates, so make sure they make sense. Note that some tables may add more rows than you expect, so `slh_tables` will add 1 row per team in each division. You should also make a note of the after stats to compare to production later (you can re-run with `wp semla history stats`).
 1. Check the results on the website. You should go to the history pages, and make sure competition winners have been updated, results for the year have been copied over, etc. And make 100% sure you aren't seeing cached pages because of Litespeed Cache.
 1. Create a new backup of the history tables with `./db-backup.sh slh`, and make sure it is good by seeing if it's just a bit larger than last season's backup.
 1. Copy it to Google Drive `rclone copy backups/slh-....sql.gz g:backups`
