@@ -21,9 +21,9 @@ function test_dates($dates, $prefix='') {
     $begin->sub($one_day);
     $end = new \DateTime($dates[count($dates) -1], $tz);
     $end->add($one_day);
-    
+
     $period = new \DatePeriod($begin, $interval, $end);
-    
+
     echo "\ntesting dates " . implode(', ', $dates);
     foreach ($period as $dt) {
         echo "\n" .  $dt->format("Y-m-d") . ' ' .get_where_dates($dates, $dt, $prefix);
@@ -39,7 +39,7 @@ function test_dates($dates, $prefix='') {
 function get_where_dates($dates,$today_datetime,$prefix='') {
 //    $today_datetime = new \DateTime('now', new \DateTimeZone('Europe/London'));
     $today = $today_datetime->format('Y-m-d');
-    
+
     $count = count($dates);
     if ($count <= 1) return '';
     if ($count === 2 || $today < $dates[1]) {
@@ -52,7 +52,7 @@ function get_where_dates($dates,$today_datetime,$prefix='') {
                             $dates[$before_last - 1] : $dates[$before_last];
             $compare_date2 = $dates[$before_last+1];
         } else {
-            // start at 1 becuase it may be equal to today
+            // start at 1 because it may be equal to today
             $compare_date2 = $dates[0];
             for ($i = 1; $i < $count; $i++ ) {
                 $compare_date = $compare_date2;
