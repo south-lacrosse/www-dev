@@ -111,6 +111,16 @@ When you change the DNS records to point to the new host's nameservers you can u
 
 There are probably some useful shell scripts in the old server's `~/bin` directory, so you should copy over whichever ones are useful.
 
+You should also check the `~/.profile` as there may be useful settings you should copy, e.g.
+aliases such as:
+
+```bash
+alias stg="cd ~/public_html/sub/stg"
+alias stg-bin="cd ~/public_html/sub/stg/bin"
+alias prod="cd ~/public_html"
+alias prod-bin="cd ~/public_html/bin"
+```
+
 ## Finally
 
 Once everything is set up and working then you should add [Automating Backups](backups.md#automating-backups).
