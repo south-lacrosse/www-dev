@@ -24,6 +24,10 @@ You can also see this list by going to Extensions and putting `@recommended` in 
 
 For Git history we recommend the "Git History" extension, but you may prefer GitLens, which is more heavyweight, and adds lots of Git functionality like file history views etc., or simply use another tool like [GitHub Desktop](https://desktop.github.com/).
 
+Other extensions you may find useful are:
+
+* Remote SSH (from Microsoft) - ms-vscode-remote.remote-ssh - lets you use any remote machine with a SSH server as your development environment.
+
 The workspace file also includes useful settings, including:
 
 * It will exclude `**/node_modules`, as otherwise they will clutter up the workspace, and make the search take ages
