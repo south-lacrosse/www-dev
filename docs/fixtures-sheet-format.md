@@ -16,7 +16,7 @@ It is suggested you add data validation where you can to restrict values users c
 
 There must be 5 sheets named Fixtures, Flags, Deductions, Teams, and Divisions. There are 2 optional sheets, Remarks and Division Order.
 
-The Teams and Divisions sheets are only needed to set up the season. These sheets can be hidden during the season, and only unhidden when you need to do any changes.
+The Teams and Divisions sheets are only needed to set up the season. These sheets can be hidden during the season, and only unhidden when you need to do any changes. Therefore, if you copy over the sheet from the previous year as your starting point make sure to unhide these sheets so you can work on them (use the All Sheets menu, which is the 3 lines icon in the bottom left by the sheet names - hidden sheets will be greyed out, select to unhide).
 
 ## Teams Sheet
 
@@ -64,11 +64,13 @@ It is recommended to leave the `Venue` column blank unless the game is not at th
 
 Team names must match the name in the Teams sheet. If team names are changed make sure to "Update everything" on the SEMLA Admin page to reload the teams & league setup.
 
-The `v` column is used to mark where a match is, and to mark if a match is conceded. If you enter rows without matches on them you should make sure this column is blank. You should set Data validation to List of items `v,C,C24`, and untick "Show drop-down list in cell", and add a comment to the heading cell `v - normal game, C - conceded (score should be 10-0), C24 - conceded within 24 hours (score should be 10-0), conceding team gets -1 points`.
+You can set up data validation as below, though if you copy over the previous year's sheet as a staring point the validation should already be there. Go to Data->Data validation, and you can see existing rules, and also add new ones. When you create a new rule you should also open up the "Advanced options" and select to "Reject the input" if data is invalid.
 
-You will also probably find it useful to have validation on the goals columns, e.g. if you have goals in column E then use `=OR(ISNUMBER(E2),AND(LEN(E2)=1,IFERROR(FIND(E2, "ACRV"),0)>0))`.
+The `v` column is used to mark where a match is, and to mark if a match is conceded. If you enter rows without matches on them you should make sure this column is blank. You should set data validation to Drop-down and add 3 items of v, C, and C24. In Advanced options set the `Display style` to `Plain text`, and add a comment to the heading cell `v - normal game, C - conceded (score should be 10-0), C24 - conceded within 24 hours (score should be 10-0), conceding team gets -1 points, blank - no game`.
 
-Column `X` is the points multiplier, defaults to 1. To make life easier you should set this column to `=IF(AND(OR(ISNUMBER(E2),ISBLANK(E2)),REGEXMATCH(J2,"(?i)double")),2,"")` and copy down (assumes goals in E and notes in J), that way it will automatically make a match count for double points if the Notes column has "double" anywhere in it. Make sure you add a note to the column heading `Points multiplier - default 1, 2 for double points games`.
+You will also probably find it useful to have data validation on the goals columns, so if you have goals in column E then add validation for "Custom formula", and enter `=OR(ISNUMBER(E2),AND(LEN(E2)=1,IFERROR(FIND(E2, "ACRV"),0)>0))`. You can have this rule apply to 2 columns by setting the range to include both columns, e.g. `Fixtures!E2:E269,Fixtures!G2:G269`
+
+Column `X` is the points multiplier, which defaults to 1. To make life easier you should set this column to `=IF(AND(OR(ISNUMBER(E2),ISBLANK(E2)),REGEXMATCH(J2,"(?i)double")),2,"")` and copy down (assumes goals in E and notes in J), that way it will automatically make a match count for double points if the Notes column has "double" anywhere in it. Make sure you add a note to the column heading `Points multiplier - default 1, 2 for double points games`.
 
 The `Notes` column isn't used by our programs, but is a useful place to add things like the date a match is rearranged from/to, if it's double points etc.
 
@@ -105,4 +107,4 @@ Optional sheet used to add remarks for competitions, which will be displayed und
 
 ## Division Order Sheet
 
-Optional sheet used to order divisions in a specific order, e.g. if the final positions were set using a Final Four competition. The top row should be the full competition name, and the teams must  be listed in the correct order in that column.
+Optional sheet used to order divisions in a specific order, e.g. if the final positions were set using a Final Four competition. The top row should be the full competition name, and the teams must  be listed in the correct order in that column. If there are no Division Orders then make sure to delete this sheet.
