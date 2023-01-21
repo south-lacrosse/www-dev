@@ -10,6 +10,12 @@ This file file contains useful info for development - probably mainly stuff I wo
 * `git remote add origin git@github.com:username/new_repo` - add remote repo (assumes connecting via SSH)
 * `git remote set-url origin new.git.url` - change remote repository
 
+If you want to pull from multiple remotes of the same repo first do a `git remote add` as above, then:
+
+* `git fetch remote-repo` - download objects and refs from remote. You probably need to do this before first checkout.
+* `git checkout -b repo2-branch repo2/branch` - if you already have `origin/main`, you can get the same branch from repo2 with name `repo2-branch`. You can switch back to `origin/main` with `checkout main`.
+* then `git pull` should work on whichever branch you ave checked out, but if you hit problems then try a `git fetch`
+
 ### Branches
 
 * `git checkout -b <new-branch> [<start-point>]` - create a new branch and check it out, start point is optional
