@@ -189,9 +189,9 @@ Useful options:
 
 ## Npm Commands
 
-* `npm i` - install local node modules as defined in config files package.json/package-lock.json
-* `npm i <package_name> --save-dev` - install a package for development, and save to package.json
-* `npm i <package_name> --save` - install a package, and save to package.json
+* `npm i` - install local node modules as defined in config files `package.json`/`package-lock.json`
+* `npm i <package_name> --save-dev` - install a package for development, and save to `package.json`
+* `npm i <package_name> --save` - install a package, and save to `package.json`
 * `npm i <package_name> -g` - install a package globally, i.e. it can be accessed from the command line, and is installed in a globally available node directory, and not `/node_modules`
 * `npm i -g npm` - update the node package manager itself
 * `npm outdated` - see what packages are out of date, can add `-g` option to see global packages
@@ -206,6 +206,20 @@ To reinstall with the most recent update (will not install newer versions, so 1.
 To reinstall to the absolutely latest version, delete `package-lock.json` and delete the `devDependencies` section from `package.json`, then run `npm i <packages> --save dev` for all the packages used, which as time of writing would be `npm i @wordpress/icons @wordpress/scripts autoprefixer cross-env inline-source-cli npm-run-all postcss postcss-cli postcss-csso svgo uglify-js --save-dev`.
 
 You can update node itself from the command line in Linux, but for Windows & Mac you need to download a new installer.
+
+### Npm Scripts
+
+You will note a few scripts use `cross-env-shell`. This is because there is no built-in cross-platform way of accessing environment variables from npm scripts. We could have created Unix & Windows scripts, but it's simpler to use `cross-env-shell` e.g.
+
+```json
+"scripts": {
+  "hi:unix": "echo $npm_config_www",
+  "hi:windows": "echo %npm_config_www%",
+  "hi:cross-platform": "cross-env-shell echo $npm_config_www"
+}
+```
+
+Note: `npm_config_*` gets values from the `.npmrc` config file.
 
 ## WP-CLI Commands
 
