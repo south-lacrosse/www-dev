@@ -12,13 +12,15 @@ This file file contains useful info for development - probably mainly stuff I wo
 
 If you want to pull from multiple remotes of the same repo first do a `git remote add` as above, then:
 
-* `git fetch remote-repo` - download objects and refs from remote. You probably need to do this before first checkout.
+* `git fetch remote-repo` - download objects and refs from remote. You probably need to do this before first checkout from the new remote.
 * `git checkout -b repo2-branch repo2/branch` - if you already have `origin/main`, you can get the same branch from repo2 with name `repo2-branch`. You can switch back to `origin/main` with `checkout main`.
-* then `git pull` should work on whichever branch you ave checked out, but if you hit problems then try a `git fetch`
+
+    Then `git pull` should work on whichever branch you have checked out, but if you hit problems then try a `git fetch`
 
 ### Branches
 
 * `git checkout -b <new-branch> [<start-point>]` - create a new branch and check it out, start point is optional
+* `git branch [-a] [-r]` - list branches, default to local, `-r` for remotes, `-a` for all
 * `git push -u origin <branch>` - pushes and sets default upstream branch
 * `git merge main` - merge current branch with another
 * `git pull --prune` to tell git to discard all local pointers to remote branches which do not exist anymore
@@ -33,12 +35,12 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
     Omitting the -m parameter on the commit lets you modify a draft commit message containing every message from your squashed commits before finalizing your commit.
 * Deleting a branch on both local and remote repos
 
-  ```console
-  git branch -d <branch-name>
-  git push --delete <remote-name> <branch-name>
-  ```
+    ```console
+    git branch -d <branch-name>
+    git push --delete <remote-name> <branch-name>
+    ```
 
-  Use -D if branch has unmerged changes.
+    Use -D if branch has unmerged changes.
 
 ## Commits
 
@@ -108,11 +110,11 @@ A suggested entry would be:
 
 ```text
 Host sl
-  HostName southlacrosse.org.uk
-  Port <port>
-  User <user>
-  IdentityFile ~/.ssh/your_ed25519_private_key   (~/ also works on Windows)
-  IdentitiesOnly yes
+    HostName southlacrosse.org.uk
+    Port <port>
+    User <user>
+    IdentityFile ~/.ssh/your_ed25519_private_key   (~/ also works on Windows)
+    IdentitiesOnly yes
 ```
 
 ## Multiple GitHub Accounts
