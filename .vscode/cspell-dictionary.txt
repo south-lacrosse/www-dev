@@ -3,6 +3,7 @@ abbrevs
 absint
 Adminer
 anymore
+color
 CURDATE
 dashicon
 dashicons
@@ -13,6 +14,7 @@ fgci
 gdrive
 Hostinger
 Imagick
+InnoDB
 intval
 Litespeed
 localwp
@@ -25,6 +27,7 @@ opcache
 plugin
 plugins
 postdata
+preg
 Rclone
 SAMEORIGIN
 semla
@@ -32,6 +35,7 @@ semlacur
 southlacrosse
 staticize
 stickied
+textdomain
 TINYINT
 twentytwentytwo
 unmerged
