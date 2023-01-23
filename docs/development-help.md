@@ -47,7 +47,9 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 * `git add .` - add all files to index
 * `git commit -am "message"` - Commit with a message. The `-a` flag (all) automatically stages files that have been modified and deleted, but new files you have not told Git about are not affected.
 * `git reset --hard HEAD^` - delete the last commit. Be careful with this one!
-* `git rebase -i HEAD~10` - interactive rebase. Opens up an editor with a list of commits, and you can pick which commits to keep. Git then applies the remaining commits one-by-one from the starting point you specified, effectively deleting the removed commits. `HEAD~10` could also be a commit e.g. `ad14bf3`.
+* `git rebase --committer-date-is-author-date -i HEAD~10` - interactive rebase. Opens up an editor with a list of commits, and you can pick which commits to keep. Git then applies the remaining commits one-by-one from the starting point you specified, effectively deleting the removed commits. `HEAD~10` could also be a commit e.g. `ad14bf3`.
+
+    On a rebase author date is preserved, but committer date is modified. There is no way to preserve the committer date, but you can do the next best thing and `--committer-date-is-author-date`.
 
     Again, be careful. Should never be done on a `main` branch that has been pushed.
 
