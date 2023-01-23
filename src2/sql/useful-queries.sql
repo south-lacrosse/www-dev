@@ -3,9 +3,12 @@
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Historical results in format for Fixtures Sheet
+-- Historical results in format for Fixtures Sheet, CSV format
 -- -----------------------------------------------------
-SELECT CONCAT(c.name,',',r.match_date,',,',r.home,',',
+SELECT CONCAT(
+	CASE WHEN c.type = 'cup' THEN CONCAT(c.name, ' ', SUBSTRING_INDEX(r.competition, ' ', -1))
+		ELSE c.name END,',',
+	r.match_date,',,',r.home,',',
 	CASE WHEN r.result = 'R - R' THEN 'R'
         WHEN r.result = 'Void' THEN 'V'
         ELSE COALESCE(r.home_goals,'') END,',',
@@ -18,13 +21,36 @@ SELECT CONCAT(c.name,',',r.match_date,',,',r.home,',',
 	r.away,',',
     CASE WHEN r.points_multi > 1 THEN r.points_multi ELSE '' END
     ) AS txt
-from slh_result r, sl_competition c
-where r.year = 2003 AND	 c.id = r.comp_id;
+FROM slh_result r, sl_competition c
+WHERE r.year = 2003 AND	 c.id = r.comp_id
+ORDER BY r.match_date, r.id;
+
+-- -----------------------------------------------------
+-- Alternative to the above query, but will display columns
+-- -----------------------------------------------------
+
+SELECT CASE WHEN c.type = 'cup' THEN CONCAT(c.name, ' ', SUBSTRING_INDEX(r.competition, ' ', -1))
+	ELSE c.name END AS name,
+	r.match_date,'' AS time,r.home,
+	CASE WHEN r.result = 'R - R' THEN 'R'
+        WHEN r.result = 'Void' THEN 'V'
+        ELSE COALESCE(r.home_goals,'') END AS home_goals,
+	CASE WHEN r.home_points IS NULL THEN  'v'
+     when r.result = '10 - 0' or r.result = '0 - 10' THEN 'C'
+     ELSE 'v' END AS v,
+	CASE WHEN r.result = 'R - R' THEN 'R'
+        WHEN r.result = 'Void' THEN 'V'
+        ELSE COALESCE(r.away_goals,'') END  AS away_goals,
+	r.away,
+    CASE WHEN r.points_multi > 1 THEN r.points_multi ELSE '' END AS multi
+FROM slh_result r, sl_competition c
+WHERE r.year = 2003 AND	 c.id = r.comp_id
+ORDER BY r.match_date, r.id;
 
 -- -----------------------------------------------------
 -- Historical results division info Fixtures sheet
 -- -----------------------------------------------------
-select competition, group_concat(team) from (
+SELECT competition, group_concat(team) from (
 	select competition, home as team
 	from slh_result where year = 2003 and comp_id < 13
 	union
@@ -36,10 +62,10 @@ select competition, group_concat(team) from (
 -- -----------------------------------------------------
 -- Historical results Teams for Fixtures sheet
 -- -----------------------------------------------------
-select a.team, a.team as club, lower(replace(a.team,' ','-')) AS club_page,
+SELECT a.team, a.team as club, lower(replace(a.team,' ','-')) AS club_page,
 	'' AS pitch,
 	COALESCE(tm.minimal,"") AS minimal, COALESCE(ta.abbrev,"") AS abbrev
-from (
+FROM (
 	select distinct home as team
 	from slh_result where year = 2003
 	order by team) AS a
@@ -54,7 +80,7 @@ LEFT JOIN sl_team_abbrev AS ta
 -- Note: this doesn't do form, or adjust promotion/relegation
 -- for tied teams
 -- -----------------------------------------------------
-SELECT comp_id, team, won, drawn, lost, goals_for, goals_against, 
+SELECT comp_id, team, won, drawn, lost, goals_for, goals_against,
     points - points_deducted as points,
     goal_average, points_deducted
 FROM (SELECT cid AS comp_id, team
@@ -70,7 +96,7 @@ FROM (SELECT cid AS comp_id, team
     END AS goal_average
  , IFNULL( (SELECT SUM(penalty) FROM slc_deduction d
 		WHERE d.comp_id = t.cid AND d.team = t.team), 0) AS points_deducted
-FROM 
+FROM
 (SELECT comp_id AS cid
 			,home AS team
 			,SUM(home_goals * points_multi) AS g_for
@@ -122,7 +148,7 @@ ORDER BY comp_id, points DESC, goal_average DESC, team;
 -- Same as above, except uses results tables. Note:
 -- won't include deducted points
 -- -----------------------------------------------------
-SELECT comp_id, team, won, drawn, lost, goals_for, goals_against, 
+SELECT comp_id, team, won, drawn, lost, goals_for, goals_against,
     points,
     goal_average
 FROM (SELECT cid AS comp_id, team
@@ -136,7 +162,7 @@ FROM (SELECT cid AS comp_id, team
 	WHEN SUM(g_against) > 0 THEN SUM(g_for) / SUM(g_against)
     ELSE 0
     END AS goal_average
- FROM 
+ FROM
 (SELECT comp_id AS cid
 			,home AS team
 			,SUM(home_goals * points_multi) AS g_for
