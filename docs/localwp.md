@@ -21,6 +21,8 @@ Local stores files in various places, but the most important one to know is how 
 └── ...
 ```
 
+## Creating The South Lacrosse Site In Local
+
 Once Local is installed you should create a site for the South Lacrosse website. At various steps on this process you may be asked "Do you want to allow this app to make changes to your device?", to which you should say Yes.
 
 1. Run Local
@@ -100,6 +102,8 @@ if (defined( 'WP_CLI' ) && WP_CLI) {
 ```
 
 Occasionally Local may leave nginx running on port 80 even after you exit Local. If you need to run another server using port 80 and it's blocked, then you will need to stop nginx in the task manager.
+
+If you are using Xdebug and are finding the session times out quickly then you may need to increase the FastCGI timeout in `{site folder}\conf\apache\site.conf.hbs`. After `<IfModule fcgid_module>` add a line `FcgidIOTimeout 600`, and restart the site.
 
 ## Local and VSCode
 
