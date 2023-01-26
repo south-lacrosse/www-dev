@@ -23,7 +23,8 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 * `git branch [-a] [-r]` - list branches, default to local, `-r` for remotes, `-a` for all
 * `git push -u origin <branch>` - pushes and sets default upstream branch
 * `git merge main` - merge current branch with another
-* `git pull --prune` to tell git to discard all local pointers to remote branches which do not exist anymore
+* `git pull --prune` to tell git to discard all local pointers to remote branches which do not exist anymore (works with `fetch` or `fetch --all` too)
+* `git reset --hard origin/main` - force an overwrite of local files with the specified commit/branch. Be careful as any uncommitted local changes tracked files will be lost!
 * To merge a branch into another, while squashing it to 1 commit
 
     ```console
@@ -46,7 +47,7 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 
 * `git add .` - add all files to index
 * `git commit -am "message"` - Commit with a message. The `-a` flag (all) automatically stages files that have been modified and deleted, but new files you have not told Git about are not affected.
-* `git reset --hard HEAD^` - delete the last commit. Be careful with this one!
+* `git reset --hard HEAD^` - delete the last commit. Be careful with this one! And don't do if you've pushed to a repo that others may have pulled from.
 * `git rebase --committer-date-is-author-date -i HEAD~10` - interactive rebase. Opens up an editor with a list of commits, and you can pick which commits to keep. Git then applies the remaining commits one-by-one from the starting point you specified, effectively deleting the removed commits. `HEAD~10` could also be a commit e.g. `ad14bf3`.
 
     On a rebase author date is preserved, but committer date is modified. There is no way to preserve the committer date, but you can do the next best thing and `--committer-date-is-author-date`.
