@@ -223,6 +223,14 @@ magick convert favicon.png -define icon:auto-resize=48,32,16 favicon.ico
 
 Depending on the favicon you could also try `-colors 256` on the final convert.
 
+### Screenshots (Windows only)
+
+The simplest way to get screenshots for the [Help Sceeens](https://github.com/south-lacrosse/wp-help) on Windows is to use the built-in `Snip & Sketch` tool (`Windows Key+Shift+S`), which can save images as PNGs.
+
+If you want to include the cursor in your image the best way is to use [IrfanView](https://www.irfanview.com/). Go to `Options->Capture/Screenshot...`, and select `Include mouse cursor`. Then `Ctrl+F11` takes a screenshot.
+
+And don't forget to *compress* them (see below).
+
 ### Compression
 
 Images should be compressed before being uploaded. Useful tools are:
