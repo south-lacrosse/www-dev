@@ -60,7 +60,7 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 * `git stash apply` restore the stashed changes
 * `git stash list` see what's stashed
 * `git stash drop <stash_id>` - delete a stash
-* `stash drop clear` - delete all stashes
+* `git stash clear` - delete all stashes
 
 ### WorkTrees
 
