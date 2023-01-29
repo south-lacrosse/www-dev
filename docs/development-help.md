@@ -57,7 +57,8 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 ### Stashing
 
 * `git stash` stash the changes in a dirty working directory away, so you can do things like switch to another branch
-* `git stash apply` restore the stashed changes
+* `git stash pop` restore the stashed changes, and remove from the stash list
+* `git stash apply` restore the stashed changes, but leaves on the stash
 * `git stash list` see what's stashed
 * `git stash drop <stash_id>` - delete a stash
 * `git stash clear` - delete all stashes
@@ -110,7 +111,9 @@ To mark a file as executable on Windows `git update-index --chmod=+x foo.sh`. Yo
 
 If you find yourself regularly having to enter your password when connecting to our web server or Github then you should probably set up SSH keys so you don't have to. You can create a public/private SSH key pair locally, copy the public key to the server, and then you can authenticate using your private key. There are plenty of [guides on the internet](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
-You will probably want to set up the SSH config file too, so that you can reference the server as `sl` rather than `user@southlacrosse.org.uk:123`. The config file is `%HOME%\.ssh\config` on Windows, and `~/.ssh/config` on other systems. And you should make sure it's only readable by the current user.
+You will want to create a passphrase so that your SSH key is protected even if someone has access to the file. To stop you having to enter the passphrase every time you use the key you can store the password in the SSH Agent. On Windows you should open `Services` and start `OpenSSH Authentication Agent`, and set it to start automatically.
+
+You will probably want to set up the SSH config file too, so that you can reference the server as `sl` rather than `user@southlacrosse.org.uk:123`. The config file is `%HOME%\.ssh\config` on Windows, and `~/.ssh/config` on other systems. And you should make sure it and any keys are only readable by the current user.
 
 A suggested entry would be:
 
@@ -133,7 +136,7 @@ Alternatively you can just set the email for the current repo with `git config u
 
 ## Debugging PHP Using Xdebug
 
-To debug in [VSCode](vscode.md) click the Run and Debug icon, and pick Listen for Xdebug from the dropdown list (configured in `www-dev\.vscode\launch.json`). See the VSCode site for [more information about debugging](https://code.visualstudio.com/docs/editor/debugging).
+To debug in [VSCode](vscode.md) click the Run and Debug icon, and pick `Listen for Xdebug` from the dropdown list (configured in `www-dev\.vscode\launch.json`). See the VSCode site for [more information about debugging](https://code.visualstudio.com/docs/editor/debugging).
 
 If you are using Local make sure Xdebug is switched on for the site.
 
@@ -162,7 +165,42 @@ Remove the `--dry-run` option when you are satisfied with the results. You can e
 
 Check `rsync-excludes.txt` for excluded files, but it should include `sub/*/` so as not to copy any subdomains.
 
-You can also copy from production to staging by replacing `. ~/public_copy` with `. ./sub/stg`
+You can also use `rsync` to copy to/from a remote machine using `ssh`.
+
+### Rsync Options
+
+The most useful ones are:
+
+* `--dry-run` or `-n` to test
+* `--delete` delete extraneous files from dest dirs
+* `-d` `--dirs` transfer directories without recursing
+* `-i` output a change-summary for all updates (itemize-changes)
+* `-p` preserve permissions (probably not needed)
+* `-P` same as --partial --progress
+* `--progress` show progress during transfer
+* `--partial keep` partially transferred files, allows restarting
+* `-r` recursive
+* `-t` preserve modification times
+* `-v` verbose
+* `-z` compress - useful for text files, but not needed if files already gzipped
+
+#### Possible Rsync Issues On Windows Cygwin
+
+When running `rsync` you may get `error in rsync protocol data stream (code 12)`. One cause of this is when the version of `ssh` (which it uses to communicate with the server) doesn't match what `rsync` needs. If this is the case the fix is to make sure the cygwin `ssh` is higher up the path than the Windows, so do something like `set PATH=C:\local\cygwin64\bin;%PATH%`. Assuming you are using SSH keys you will need to copy them from `%HOME%\.ssh` to your cygwin `~/.ssh` directory, which will be `cygwindir\home\username\.ssh`.
+
+If that works then you may find an issue with always having to re-enter passphrases. You can run the cygwin `ssh-agent` to handle this (though you'd have to run this every session, and re-enter the passphrase, though only once until you stop the `ssh-agent`), but if you already have passphrases in the Windows `ssh-agent` you can forward the cygwin requests to that instead. To do that:
+
+* Download [npiperelay](https://github.com/jstarks/npiperelay) and put it somewhere on your path
+* Install `socat` in cygwin if needed
+* Create a batch file called something like `ssh-agent-forwarding.bat`:
+
+    ```bat
+    socat UNIX-LISTEN:/tmp/openssh-ssh-agent-pipe,umask=066,fork EXEC:"npiperelay -ei //./pipe/openssh-ssh-agent",pipes &
+    ```
+
+Then, before you run `rsync` run that batch file (it will leave a window open, close it once you're done), and from the command line enter `set SSH_AUTH_SOCK=/tmp/openssh-ssh-agent-pipe` so your current session knows where to look (or add it to your batch file).
+
+Make sure you use `Ctrl-C` to terminate `socat`, otherwise it won't clean up the `/tmp/openssh-ssh-agent-pipe` file. If you try to run `socat` and it fails with `socat... E "/tmp/openssh-ssh-agent-pipe" exists` you will need to delete that file (it'll be under your cygwin directory), thought make sure it isn't already running first!
 
 ### Deleting Files
 
