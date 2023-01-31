@@ -80,12 +80,14 @@ This allows you to checkout more than one branch from the same repo, so you can 
 ```bash
 git config --global alias.lol "log --oneline --graph --decorate"
 git config --global alias.tree "log --oneline --decorate --all --graph"
+git config --global alias.commit-files "show --pretty= --name-status"
 ```
 
 Which will enable you to enter:
 
 * `git lol` - short for "log one line", will display a condensed log format
 * `git tree` - show commit logs, including those on other branches, in a nice tree format
+* `git commit-files [commit]` - list files and their modification status (A/M/D) from a specific commit
 
 ### Tags
 

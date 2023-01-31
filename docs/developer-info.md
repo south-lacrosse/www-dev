@@ -151,6 +151,7 @@ When these instructions mention a "shell" they mean to open up a shell (e.g. com
     * Install the [BE Media from Production plugin](https://wordpress.org/plugins/be-media-from-production/) with `wp plugin install be-media-from-production` which will use media from the production site if it doesn't exist on the local machine. Make sure you add `define('BE_MEDIA_FROM_PRODUCTION_URL', 'https://www.southlacrosse.org.uk');` to your `wp-config.php` file.
     * You can download the directory with ftp/rsync/scp if you have access
 1. New installations of WordPress may contain extra themes and plugins. You may safely delete those, or just leave them.
+1. If you want to run SQL from the command line then you can copy over `mysql-dev.bat` or `mysql-dev` from [bin-local](../bin-local/) into your path, and modify the script to fit your environment. You can then run `mysql-dev [sql-file]` from the command line (omitting the sql-file will open up the MySQL client).
 
 You should now be all set up and `https://dev.southlacrosse.org.uk/` will take you to the site.
 
@@ -229,7 +230,7 @@ The simplest way to get screenshots for the [Help Sceeens](https://github.com/so
 
 If you want to include the cursor in your image the best way is to use [IrfanView](https://www.irfanview.com/). Go to `Options->Capture/Screenshot...`, and select `Include mouse cursor`. Then `Ctrl+F11` takes a screenshot.
 
-And don't forget to *compress* them (see below).
+And don't forget to *compress* them. For that see below, or you can also install the IrfanView plugins as those include one to compress files with OptiPNG, which you can select on `File->Save as...`.
 
 ### Compression
 

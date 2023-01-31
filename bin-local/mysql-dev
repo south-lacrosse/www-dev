@@ -1,0 +1,13 @@
+#/bin/bash
+
+# Run SQL on the development server using its run-sql.sh script
+
+# Copy this file to somewhere on your path, and modify the paths for your environment
+
+# If you are running Local you will need to set paths for MySql. Either use export
+# here, or call the Local Site shell script (see docs\localwp.md for details)
+
+# export MYSQL_HOME="path/to/Local/run/site-slug/conf/mysql"
+# export PATH="/path/to/Local/mysql:$PATH"
+
+/path/to/localwp/south-lacrosse/app/public/bin/run-sql.sh "$@"
