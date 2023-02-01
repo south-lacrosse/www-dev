@@ -11,11 +11,20 @@
  | set internally. See the website for more info.
  |
  | Make sure you set the values under the https option.
- | 
+ |
  | If you are running Local then the key and certificate files will be created for
  | you, and can be found in the Local router config which you can find by going
  | into Local, and in the menu click Reveal Local Router's Logs, and the certificates
  | will be in the certs folder.
+ |
+ | If BrowserSync hangs then a possible cause is the URL resolving to ::1. To fix
+ | that go to your hosts file and make sure it's set to 127.0.1.1, e.g. Local
+ | creates:
+ |
+ | ::1 dev.southlacrosse.org.uk #Local Site
+ | 127.0.0.1 dev.southlacrosse.org.uk #Local Site
+ |
+ | so comment out the first line (i.e. start it with #).
  */
 module.exports = {
   ui: {
