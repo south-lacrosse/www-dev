@@ -198,7 +198,16 @@ When testing any other JavaScript or CSS you can set SEMLA_MIN to '' in `wp-conf
 
 You will also probably find a tool like BrowserSync useful. It will automatically reload your page when any changes to the source (.js, .css, or .php) are made, and in many cases it can hot reload so only the changes are loaded, making development much easier.
 
-To install BrowserSync globally run `npm install -g browser-sync`. Copy the [example config file](../config/bs-config.js) to your `www` directory, and change the settings under `https` to point to the certificates generated for you by Local (instructions are in the file). Then run BrowserSync from your `www` directory using `browser-sync start -c bs-config.js` .
+To install BrowserSync globally run `npm install -g browser-sync`. Copy the [example config file](../config/bs-config.js) to your `www` directory, and change the settings under `https` to point to the certificates generated for you by Local (instructions are in the file). Then run BrowserSync from your `www` directory using `browser-sync start -c bs-config.js`.
+
+If BrowserSync hangs then a possible cause is the URL resolving to ::1 (IPV6 loopback port). To fix that go to your `hosts` file and make sure it's set to 127.0.1.1, e.g. Local creates:
+
+```
+::1 dev.southlacrosse.org.uk #Local Site
+127.0.0.1 dev.southlacrosse.org.uk #Local Site
+```
+
+so comment out the first line (i.e. start it with #).
 
 When you have finished developing make sure you `npm run build` which will create the production build of the blocks, and minify all JavaScript and CSS. You can then commit those changes.
 
