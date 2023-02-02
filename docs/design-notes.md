@@ -72,9 +72,7 @@ There are also several `views` directories, which are used to separate the view 
 
 ## Custom Editor Blocks
 
-Our custom Gutenberg editor blocks are found in the `src` directory, and compiled to the `plugin` directory in the `www` repository. All the blocks are compiled in one package. Each block has it's own source .js file and possibly .scss file, except the location block which has several files in its own directory.
-
-It should be pretty obvious what each block does by its name, but you can also check the `registerBlockType` calls for the `description`, e.g. `data.js` has 'Add SEMLA data such as league tables or fixtures'.
+Our custom Gutenberg editor blocks are found in the [src/blocks](../src/blocks/) directory. See the [readme file](../src/blocks/README.md) for details.
 
 ## Database Table Names
 

@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "semla/location",
+	"version": "1.0.0",
+	"title": "Location",
+	"category": "widgets",
+	"icon": "location",
+	"description": "All information about a location - address, notes, map, directions",
+	"attributes": {
+		"address": {
+			"type": "string",
+			"source": "text",
+			"selector": ".wp-block-semla-location > p:first-child"
+		},
+		"notes": {
+			"type": "string",
+			"source": "html",
+			"multiline": "p",
+			"selector": ".location__notes",
+			"default": ""
+		},
+		"lat": {
+			"type": "number"
+		},
+		"long": {
+			"type": "number"
+		},
+		"latLong": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js"
+}

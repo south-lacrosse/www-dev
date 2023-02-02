@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "semla/data",
+	"version": "1.0.0",
+	"title": "SEMLA Data",
+	"category": "widgets",
+	"icon": "editor-table",
+	"description": "Add SEMLA data such as league tables or fixtures",
+	"attributes": {
+		"src": {
+			"type": "string",
+			"default": "none"
+		}
+	},
+	"supports": {
+		"customClassName": false,
+		"className": false,
+		"html": false,
+		"multiple": false
+	},
+	"editorScript": "file:./index.js"
+}

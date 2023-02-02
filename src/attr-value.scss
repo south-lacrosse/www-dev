@@ -1,5 +1,0 @@
-/* When updating name in name-value don't display colon as it will appear on
- the next line */
- .avf-no-colon::after {
-    content: none !important;
-}

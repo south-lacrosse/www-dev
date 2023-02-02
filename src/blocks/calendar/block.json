@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "semla/calendar",
+	"version": "1.0.0",
+	"title": "Google Calendar",
+	"category": "embed",
+	"icon": "calendar-alt",
+	"description": "Embed a Google Calendar",
+	"attributes": {
+		"cid": {
+			"type": "string"
+		},
+		"enhanced": {
+			"type": "boolean",
+			"default": false
+		},
+		"tagsList": {
+			"type": "array",
+			"default": []
+		}
+	},
+	"supports": {
+		"html": false,
+		"multiple": false
+	},
+	"editorScript": "file:./index.js"
+}
