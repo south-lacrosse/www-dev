@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "semla/toc",
+	"version": "1.0.0",
+	"title": "Table of Contents",
+	"category": "common",
+	"icon": "list-view",
+	"description": "Create a table of contents from any headings.",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"source": "text",
+			"selector": "h4",
+			"default": "Contents"
+		},
+		"toc": {
+			"type": "string",
+			"source": "html",
+			"selector": "nav>ul",
+			"default": ""
+		}
+	},
+	"example": {
+		"attributes": {
+			"title": "Contents"
+		}
+	},
+	"supports": {
+		"multiple": false
+	},
+	"editorScript": "file:./index.js"
+}

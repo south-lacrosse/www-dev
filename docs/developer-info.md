@@ -187,12 +187,7 @@ There are a couple of utilities which use Perl, so if you need to run one of the
 
 Note: before running any `npm` commands make sure you have [installed and configured Node.js](#node).
 
-WordPress blocks have their source in [the src directory](../src), and are built using the WordPress provided `wp-scripts`.
-
-* `npm run build:blocks` will compile the production build of the blocks
-* `npm run start` will build a development version and watch the WordPress blocks to automatically recompile changes
-
-You can then add `define('SEMLA_LIVE_RELOAD', true);` to your `wp-config.php` to enable LiveReload so if you are in the editor page it will be reloaded automatically if the source changes.
+See the [Custom Gutenberg Blocks](../src/blocks/README.md) for details on how to test and generate our WordPress blocks.
 
 When testing any other JavaScript or CSS you can set SEMLA_MIN to '' in `wp-config.php` so that unminified versions of JavaScript and CSS are served so that it's easier to debug.
 

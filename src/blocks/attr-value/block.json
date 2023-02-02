@@ -1,0 +1,38 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "semla/attr-value",
+	"version": "1.0.0",
+	"title": "Attribute/value pair",
+	"category": "formatting",
+	"icon": "feedback",
+	"description":
+		"An attribute/value pair, e.g. for contacts 'Captain: name/email', or 'Colours: purple'",
+	"attributes": {
+		"attr": {
+			"type": "string",
+			"source": "text",
+			"selector": ".avf-name"
+		},
+		"value": {
+			"type": "string",
+			"source": "html",
+			"selector": ".avf-value"
+		},
+		"sameLine": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"example": {
+		"attributes": {
+			"attr": "Captain",
+			"value":
+				"Fred Blogs<br><a href='mailto:fred@gmail.com'>fred@gmail.com</a><br><a href='tel:07555555555'>07555 555555</a>"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js"
+}
