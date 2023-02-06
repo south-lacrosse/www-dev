@@ -8,7 +8,7 @@ import { Icon, ColorPicker, PanelBody, Placeholder, RangeControl,
 
 import metadata from './block.json';
 
-function edit( { attributes, setAttributes } ) {
+function Edit( { attributes, setAttributes } ) {
 	const { enhanced, tagsList } = attributes;
 
 	const updateTagsList = ( offset, val ) => {
@@ -157,4 +157,4 @@ function edit( { attributes, setAttributes } ) {
 	);
 }
 
-registerBlockType( metadata.name, {	edit } );
+registerBlockType( metadata.name, { edit: Edit } );

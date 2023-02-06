@@ -12,7 +12,7 @@ import ServerSideRender from '@wordpress/server-side-render';
 
 import metadata from './block.json';
 
-function edit( { attributes, setAttributes } ) {
+function Edit( { attributes, setAttributes } ) {
 	const [ options, setOptions ] = useState( null );
 	useEffect( () => {
 		apiFetch( { path: '/semla-admin/v1/leagues-cups' } )
@@ -122,4 +122,4 @@ function edit( { attributes, setAttributes } ) {
 	);
 }
 
-registerBlockType( metadata.name, {	edit } );
+registerBlockType( metadata.name, { edit: Edit } );

@@ -8,7 +8,7 @@ import { formatIndent } from '@wordpress/icons';
 
 import metadata from './block.json';
 
-function edit( { attributes, setAttributes } ) {
+function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps( {
 		className: attributes.sameLine ? 'avf-same-line' : ''
 	} );
@@ -66,4 +66,4 @@ function save( { attributes } ) {
 	);
 };
 
-registerBlockType( metadata.name, {	edit, save } );
+registerBlockType( metadata.name, {	edit: Edit, save } );

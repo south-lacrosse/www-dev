@@ -10,7 +10,7 @@ import { RawHTML, useState } from '@wordpress/element';
 
 import metadata from './block.json';
 
-function edit( { attributes, setAttributes, isSelected } ) {
+function Edit( { attributes, setAttributes, isSelected } ) {
 	const { address, notes, lat, long, latLong } = attributes;
 
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
@@ -203,7 +203,7 @@ function save( { attributes } ) {
 	);
 }
 
-registerBlockType( metadata.name, {	edit, save } );
+registerBlockType( metadata.name, {	edit: Edit, save } );
 
 /*  --------------- Utility Function ----------------------- */
 
