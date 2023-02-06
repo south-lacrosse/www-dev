@@ -6,13 +6,13 @@ It is assumed here that database recovery will use the scripts on the server. Of
 
 ## Backup Locations
 
-Database backups are stored locally in `bin/backups`, and weekly & monthly backups are also stored in Google Drive under the SEMLA Webmaster account in folder `backups` (also accessible by the SEMLA President).
+Database backups are stored locally in `bin/backups`, and weekly & monthly backups are also [stored off site](off-site-backups.md#how-to-recover-and-backup).
 
 Media files are backed up to GitHub repository `south-lacrosse/media`.
 
-Config files are backed up to GitHub repository `south-lacrosse/wordpress`.
+Config files are backed up to GitHub repository `south-lacrosse/wordpress-config`.
 
-These repositories are both private, but accessible from the south-lacrosse and semla-webmaster GitHub accounts, and from the web server via the command line.
+These repositories are both private, but accessible in GitHub by people with access to the south-lacrosse organisation, or from the semla-webmaster account (which should be set up so it has access from the web server command line).
 
 The SEMLA plugin, theme, and other site specific files are stored in our GitHub repository at git <https://github.com/south-lacrosse/www>.
 
@@ -28,12 +28,15 @@ Useful Git commands are:
 * `git diff` - see all differences between files and repository
 * `git checkout -- .` - checkout all Git managed files from the repository. It will overwrite any changes
 * `git checkout -- my-file.php` - checkout a specific file
+* `git reset --hard origin/main` - - force an overwrite of local files with the specified commit/branch
 
-`wp-config.php` can be copy/pasted from the `south-lacrosse/wordpress` repository, or there should be a locally cloned version in `bin/backups/wordpress` where you can pull/checkout a known good version and just copy that to the WordPress root.
+See also [Git Commands](development-help.md#git-commands).
+
+`wp-config.php`, `.htaccess` can be copy/pasted from the `south-lacrosse/wordpress-config` repository, or there should be a locally cloned version in `~/wordpress-config` where you can pull/checkout a known good version and just copy that to the WordPress root.
 
 ### Database Recovery
 
-Check `bin/backups` for the backup you wish to use, or if that is corrupted or bad then get a backup from Google Drive.
+Check `bin/backups` for the backup you wish to use, or if that is corrupted or bad then get a backup from the [off site backups](off-site-backups.md#how-to-recover-and-backup). Failing that try the SEMLA Webmaster's Google Drive folder `backups` (shared with SEMLA President & Secretary), you should be able to find it by searching for `owner:webmaster@southlacrosse.org.uk type:folder backups`.
 
 If you need to restore the current fixtures/league tables (database tables `slc_`) then you can just run the fixtures sheet import again to recreate the tables.
 
@@ -41,12 +44,10 @@ Databases can be recovered by running `bin/restore-db.sh path/to/backup.sql.gz`.
 
 There are several different types of backup you can load, and they should all have their creation date as part of the filename. The main ones are:
 
-* `db-{date}-{mode}.sql.gz` - regular backups, which hold all WordPress core tables plus `sl_` tables. Mode will be daily/monthly/weekly, which is basically just a way to differentiate how long the backup is retained, and if it is copied to Google Drive, but the contents will be the same tables.
+* `db-{date}-{mode}.sql.gz` - regular backups, which hold all WordPress core tables plus `sl_` tables. Mode will be daily/monthly/weekly, which is basically just a way to differentiate how long the backup is retained, but the contents will be the same tables.
 * `slh-{date}.sql.gz` - history tables. Since the history is only updated once a year there won't be many of these.
 
 There may also be other backups, see the [Backups Document](backups.md#database-backups) for details.
-
-To list backups on Google Drive for the last 2 weeks `rclone ls g:backups --max-age 14d`. Select the backup you want (the backup date is part of the file name). To copy a backup from Google Drive `rclone copy g:backups/backup.sql.gz .`.
 
 We currently don't backup other plugin's tables, so if they need restoring then deactivate/activate it to get the plugin to recreate the tables it needs.
 
@@ -83,11 +84,11 @@ This following is the process to create a complete restore in a new directory, w
 
     Note that you should leave at least 1 non lax theme, just as a backup.
 
-* Replace `wp-config.php` with the latest version in the `south-lacrosse/wordpress` repository.
+* Replace `wp-config.php` with the latest version in the `south-lacrosse/wordpress-config` repository.
 * From the `www` directory add the media files with `git clone git@github.com:south-lacrosse/media.git`. Note that the repository must be cloned over SSH so that the automated backups can push changes to GitHub.
 * Create a new database, and update `wp-config.php` with the credentials.
 * Populate the database with with a backup by following the [Database Recovery above](#database-recovery)
-* Reinstall all WordPress plugins. There is a script in <https://github.com/south-lacrosse/www-dev-private/blob/main/load-plugins.sh> to run WP-CLI to download all required plugins which you should run from the `www` directory. This is in a Private repository owned by the SEMLA Webmaster, so you will need access. Alternatively if you know all used plugins then you can `wp install <plugin-names> --activate`.
+* Reinstall all WordPress plugins. There is a `load-plugins.sh` script in our private `www-dev-private` repo to run WP-CLI to download all required plugins which you should run from the `www` directory. Alternatively if you know all used plugins then you can `wp install <plugin-names> --activate`.
 * The previous step may have changed the database, so just to be sure you should restore the database again using `bin/restore-db.sh backup.sql.gz`.
 * Make sure all the files have the correct permissions. From the WordPress root run `bin/secure.sh` (you may have to set that to executable first)
 * Switch out your old site by replacing the directory. e.g if your site was in `~/public_html/`
@@ -102,3 +103,14 @@ This following is the process to create a complete restore in a new directory, w
 Once you have tested everything and it is all working then backup your new `wp-config.php` file by running `bin/config-backup.sh`.
 
 You can then tidy up with `rm -Rf ~/work`. Once you are sure you don't need the old site we saves in `old_public_html` then you can delete that too.
+
+Finally [reconfigure off site backups](off-site-backups.md#configuring) if needed.
+
+## Recovery If The Web Server Is Compromised
+
+Follow the steps above, and also:
+
+* Change the server password using your host's tools.
+* Create a new database with a new password, and change `wp-config.php` to match. Then restore a backup to that database.
+* Change all WordPress passwords by running `reset-all-passwords.php` from the `fix` repository. It will list all users' email addresses and new passwords.
+* [Regenerate the semla-webmaster SSH keys](setting-up-server.md#regenerating-ssh-keys-for-semla-webmaster).

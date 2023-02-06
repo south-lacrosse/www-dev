@@ -11,7 +11,7 @@
 * JavaScript and Node.js
 * Apache HTTP Server
 * SQL - MySQL or MariaDB
-* Batch & shell scripts, and possibly some Perl
+* Batch & shell scripts
 
 ### Required Software
 
@@ -172,16 +172,14 @@ The config file `package.json` lists all locally installed packages, scripts etc
 
 ### Unix Like Tools
 
-Some batch files and utilities use Unix command line tools like gzip. If you don't have these on your Windows system then to run these you can use the Git Bash shell. If you're using Local you can run the shell with the path and environment variables correctly set to run PHP and MySQL, in Preferences under Default Apps change the Terminal to Git Bash. Then go to your site and select "Open site shell".
+Some batch files and utilities use Unix command line tools like `gzip`. If you don't have these on your Windows system then to run these you can use the Git Bash shell. If you're using Local you can run the shell with the path and environment variables correctly set to run PHP and MySQL, in Preferences under Default Apps change the Terminal to Git Bash. Then go to your site and select "Open site shell".
 
 Alternatively, to have Unix commands available everywhere you can either:
 
 * Install [Cygwin](https://www.cygwin.com/) - this can additionally install a whole load of Unix command line utilities.
 * Use the Windows Subsystem for Linux (WSL).
 
-### Perl
-
-There are a couple of utilities which use Perl, so if you need to run one of them you will also need a version of Perl e.g. [Strawberry Perl](http://strawberryperl.com/)
+If you are going to run any of the `.pl` programs you will need to install a version of Perl.
 
 ## JavaScript and CSS Testing and Minification
 
@@ -197,7 +195,7 @@ To install BrowserSync globally run `npm install -g browser-sync`. Copy the [exa
 
 If BrowserSync hangs then a possible cause is the URL resolving to ::1 (IPV6 loopback port). To fix that go to your `hosts` file and make sure it's set to 127.0.1.1, e.g. Local creates:
 
-```
+```text
 ::1 dev.southlacrosse.org.uk #Local Site
 127.0.0.1 dev.southlacrosse.org.uk #Local Site
 ```

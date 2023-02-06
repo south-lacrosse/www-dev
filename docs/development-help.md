@@ -20,10 +20,13 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 ### Branches
 
 * `git checkout -b <new-branch> [<start-point>]` - create a new branch and check it out, start point is optional
-* `git branch [-a] [-r]` - list branches, default to local, `-r` for remotes, `-a` for all
+* `git branch` - list branches, default to local. Useful options:
+    * `-v` lists current commit, `-vv` also lists the linked remote branch
+    * `-r` for remotes
+    * `-a` for all
 * `git push -u origin <branch>` - pushes and sets default upstream branch
 * `git merge main` - merge current branch with another
-* `git pull --prune` to tell git to discard all local pointers to remote branches which do not exist anymore (works with `fetch` or `fetch --all` too)
+* `git pull --prune` to tell git to discard all local pointers to remote branches which do not exist any more (works with `fetch` or `fetch --all` too)
 * `git reset --hard origin/main` - force an overwrite of local files with the specified commit/branch. Be careful as any uncommitted local changes tracked files will be lost!
 * To merge a branch into another, while squashing it to 1 commit
 
@@ -41,12 +44,13 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
     git push --delete <remote-name> <branch-name>
     ```
 
-    Use -D if branch has unmerged changes.
+    Use `-D` if branch has unmerged changes.
 
 ## Commits
 
-* `git add .` - add all files to index
-* `git commit -am "message"` - Commit with a message. The `-a` flag (all) automatically stages files that have been modified and deleted, but new files you have not told Git about are not affected.
+* `git add .` - add all files in and below current directory to index. Use `git add -A` to add everything in the repo.
+* `git commit -am "message"` - commit with a message. The `-a` flag (all) automatically stages files that have been modified and deleted, but new files you have not told Git about are not affected.
+* `git log -S search-string` - search for commits that reference search-string, so will show any commit that added or removed a reference to a specific function.
 * `git reset --hard HEAD^` - delete the last commit. Be careful with this one! And don't do if you've pushed to a repo that others may have pulled from.
 * `git rebase --committer-date-is-author-date -i HEAD~10` - interactive rebase. Opens up an editor with a list of commits, and you can pick which commits to keep. Git then applies the remaining commits one-by-one from the starting point you specified, effectively deleting the removed commits. `HEAD~10` could also be a commit e.g. `ad14bf3`.
 
@@ -188,7 +192,7 @@ The most useful ones are:
 
 #### Possible Rsync Issues On Windows Cygwin
 
-When running `rsync` you may get `error in rsync protocol data stream (code 12)`. One cause of this is when the version of `ssh` (which it uses to communicate with the server) doesn't match what `rsync` needs. If this is the case the fix is to make sure the cygwin `ssh` is higher up the path than the Windows, so do something like `set PATH=C:\local\cygwin64\bin;%PATH%`. Assuming you are using SSH keys you will need to copy them from `%HOME%\.ssh` to your cygwin `~/.ssh` directory, which will be `cygwindir\home\username\.ssh`.
+When running `rsync` you may get `error in rsync protocol data stream (code 12)`. One cause of this is when the version of `ssh` (which it uses to communicate with the server) doesn't match what `rsync` needs. If this is the case the fix is to make sure the cygwin `ssh` is higher up the path than the Windows version, so do something like `set PATH=C:\local\cygwin64\bin;%PATH%`. Assuming you are using SSH keys you will need to copy them from `%HOME%\.ssh` to your cygwin `~/.ssh` directory, which will be `cygwin-dir\home\username\.ssh`.
 
 If that works then you may find an issue with always having to re-enter passphrases. You can run the cygwin `ssh-agent` to handle this (though you'd have to run this every session, and re-enter the passphrase, though only once until you stop the `ssh-agent`), but if you already have passphrases in the Windows `ssh-agent` you can forward the cygwin requests to that instead. To do that:
 
@@ -202,7 +206,7 @@ If that works then you may find an issue with always having to re-enter passphra
 
 Then, before you run `rsync` run that batch file (it will leave a window open, close it once you're done), and from the command line enter `set SSH_AUTH_SOCK=/tmp/openssh-ssh-agent-pipe` so your current session knows where to look (or add it to your batch file).
 
-Make sure you use `Ctrl-C` to terminate `socat`, otherwise it won't clean up the `/tmp/openssh-ssh-agent-pipe` file. If you try to run `socat` and it fails with `socat... E "/tmp/openssh-ssh-agent-pipe" exists` you will need to delete that file (it'll be under your cygwin directory), thought make sure it isn't already running first!
+Make sure you use `Ctrl-C` to terminate `socat`, otherwise it won't clean up the `/tmp/openssh-ssh-agent-pipe` file. If you try to run `socat` and it fails with `socat... E "/tmp/openssh-ssh-agent-pipe" exists` you will need to delete that file (it'll be under your cygwin directory), though make sure it isn't already running first!
 
 ### Deleting Files
 
@@ -324,11 +328,7 @@ RewriteCond %{REMOTE_ADDR} !=<your ip address>
 RewriteRule ^.*$ - [R=503,L]
 ```
 
-Don't forget to revert `.htaccess` after you complete you update, `git checkout -- .htaccess`.
-
-## Rclone Commands
-
-See [the Rclone docs](rclone.md#Commands)
+Don't forget to revert `.htaccess` after you complete you update, there should be a copy in `~/wordpress-config/.htaccess` if needed.
 
 ## VSCode
 

@@ -22,7 +22,7 @@ All fixtures must have results, so for any missing fixtures mark them as `V - V`
 
 ### Phase 1 - Copy Production to Staging
 
-1. Make sure there is a backup of the history tables from last year. There should be one on Google Drive which you can check by `rclone ls g:backups --include "/slh-*"`. If not then run `bin/db-backup.sh slh`, and copy the resulting file to Google Drive with `rclone copy backup.sql.gz g:backups`.
+1. Make sure there is a backup of the history tables from last year. If there isn't one then you can recover from the [off site backup](off-site-backups.md#how-to-recover-and-backup). If not then run `bin/db-backup.sh slh`, and copy the resulting file off site.
 1. Copy the complete production site to staging with `www2stg.sh` (make sure you say 'y' to the prompt). This does a full database backup, loads it into staging, and copies over any media files.
 1. If you expect production and staging to have the same version of the SEMLA website specific code then run `website-versions.sh`. It might produce:
 
@@ -72,7 +72,7 @@ Work for this phase should be done on the staging website, so `cd ~/public_html/
 1. `end-season.sh` will output stats about the history tables for before and after the updates, so make sure they make sense. Note that some tables may add more rows than you expect, so `slh_tables` will add 1 row per team in each division. You should also make a note of the after stats to compare to production later (you can re-run with `wp semla history stats`).
 1. Check the results on the website. You should go to the history pages, and make sure competition winners have been updated, results for the year have been copied over, etc. And make 100% sure you aren't seeing cached pages because of Litespeed Cache.
 1. Create a new backup of the history tables with `./db-backup.sh slh`, and make sure it is good by seeing if it's just a bit larger than last season's backup.
-1. Copy it to Google Drive `rclone copy backups/slh-....sql.gz g:backups`
+1. Copy the backup [off site](off-site-backups.md#how-to-recover-and-backup), and to be doubly safe also copy it to the SEMLA Webmaster's Google Drive folder `backups`.
 
 ### Phase 3 - Moving the History to Production
 
