@@ -1,2 +1,4 @@
 *.min.js
 node_modules
+/src/js
+/src/js-external

@@ -21,9 +21,8 @@
 		"start-core": "cross-env-shell wp-scripts start src/blocks/core/core.js --webpack-src-dir=src/blocks/core --output-path=$npm_config_www/wp-content/plugins/semla/blocks-core",
 		"start-hot-core": "cross-env-shell wp-scripts start --hot --allowed-hosts dev.southlacrosse.org.uk src/blocks/core/core.js --webpack-src-dir=src/blocks/core --output-path=$npm_config_www/wp-content/plugins/semla/blocks-core",
 		"build:blocks-map-dialog": "cross-env-shell inline-source --compress --root src/blocks/location/ src/blocks/location/map-dialog.html $npm_config_www/wp-content/plugins/semla/modal/map-dialog.html",
-		"lint:site": "eslint src/**/*.js --ignore-pattern src/blocks/",
 		"in-head-js": "uglifyjs src/js/in-head.js -c -m -o src/js/in-head.min.js",
-		"lint:wp": "cross-env-shell eslint $npm_config_www/wp-content/plugins/semla/js/*.js",
+		"lint:wp": "cross-env-shell eslint $npm_config_www/wp-content/plugins/semla/js/",
 		"js:cal": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/cal.js -c -m -o $npm_config_www/wp-content/plugins/semla/js/cal.min.js",
 		"js:colhover": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/colhover.js -c -m -o $npm_config_www/wp-content/plugins/semla/js/colhover.min.js",
 		"js:embed": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/core/Rest/views/embed.js -c -m reserved=[c,i,s,t] -o $npm_config_www/wp-content/plugins/semla/core/Rest/views/embed.min.js",
@@ -32,7 +31,6 @@
 		"js:main": "cross-env-shell uglifyjs $npm_config_www/wp-content/themes/lax/main.js -c -m -o $npm_config_www/wp-content/themes/lax/main.min.js",
 		"css:plugin": "cross-env-shell postcss \"$npm_config_www/wp-content/plugins/semla/css/!(*.min)*.css\" --no-map -d $npm_config_www/wp-content/plugins/semla/css --ext min.css -u postcss-csso autoprefixer",
 		"css:theme": "cross-env-shell postcss $npm_config_www/wp-content/themes/lax/!(*.min)*.css --no-map -d $npm_config_www/wp-content/themes/lax --ext min.css -u postcss-csso autoprefixer",
-		"clubs-map": "run-s js:map css:map",
 		"build:wp": "run-s js:* css:*",
 		"svg-optimize": "cross-env-shell svgo -f $npm_config_www/wp-content/themes/lax/img",
 		"lint": "run-s lint:*",
@@ -50,5 +48,6 @@
 		"postcss-csso": "^6.0.1",
 		"svgo": "^3.0.2",
 		"uglify-js": "^3.17.4"
-	}
+	},
+	"prettier": "@wordpress/prettier-config"
 }
