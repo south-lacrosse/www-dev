@@ -9,7 +9,7 @@ import TableOfContents from './TableOfContents';
 
 import metadata from './block.json';
 
-function edit( { attributes, setAttributes, isSelected } ) {
+function Edit( { attributes, setAttributes, isSelected } ) {
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls>
@@ -61,4 +61,4 @@ function save( { attributes } ) {
 	);
 };
 
-registerBlockType( metadata.name, { edit, save } );
+registerBlockType( metadata.name, { edit: Edit, save } );
