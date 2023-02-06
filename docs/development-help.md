@@ -220,7 +220,7 @@ By default sed outputs to standard out. Include the `-i` flag after sed to modif
 * `sed '/PATTERN-1/,/PATTERN-2/d' input.txt` - delete lines between patterns, including those lines
 * `sed '/PATTERN-1/,/PATTERN-2/{//!d}' input.txt` - this time excluding those lines
 * `sed '/PATTERN-1/,$d' input.txt`- delete all the lines after a pattern
-* `mysqldump ... | sed 's$VALUES ($VALUES\n($g' | sed 's$),($),\n($g' | gzip ...` - have output of mysql dump have all row inserts on separate lines. You can also see [a script to do this to all .sql files in a directory](../src2/sql/inserts-on-new-lines.sh). This is really useful if you want to compare SQL files.
+* `mysqldump ... | sed 's$VALUES ($VALUES\n($g' | sed 's$),($),\n($g' | gzip ...` - have output of mysql dump have all row inserts on separate lines. You can also see [a script to do this to all .sql files in a directory](../src/sql/inserts-on-new-lines.sh). This is really useful if you want to compare SQL files.
 
 ### Download Files With wget
 

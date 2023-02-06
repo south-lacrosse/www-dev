@@ -15,7 +15,7 @@
 
 ### Required Software
 
-* [Git](https://git-scm.com/) (unless you are only sending in patches, in which case you can download zips of the repositories). See also [sample on configuring Git](../src2/git-setup.bat).
+* [Git](https://git-scm.com/) (unless you are only sending in patches, in which case you can download zips of the repositories). See also [sample on configuring Git](../src/git-setup.bat).
 * [Local](localwp.md), or [some other setup](#software-for-developing-locally) to run a server locally.
 
 You can use any code editor, but [VSCode](https://code.visualstudio.com/) is recommended. See [Setting Up VSCode](vscode.md) for help on configuring VSCode for this project.
@@ -242,7 +242,7 @@ Images should be compressed before being uploaded. Useful tools are:
 * .png - [OptiPNG](http://optipng.sourceforge.net/) usage `optipng -o7 -strip all chevron-down.png` - and it will take wildcards
 * .svg - `npm run svg-optimize` will compress all SVGs in `www\wp-content\themes\lax\img`. You can also manually edit the xml in the `.svg` files.
 
-You can also use `src2\optimize_images.pl` to run MozJPEG and OptiPNG on a directory.
+You can also use `src\optimize_images.pl` to run MozJPEG and OptiPNG on a directory.
 
 ## Other Files
 
@@ -281,4 +281,4 @@ Header always set Strict-Transport-Security "max-age=604800; includeSubDomains"
 
 ## Testing Cacheing
 
-To test locally you can drop our test plugin `src2\plugins\lscache-test.php` into `wp-content\plugins` and activate it (or put it in `wp-content\mu-plugins`). It will log calls to litespeed actions to the debug log, which is usually `wp-content\debug.log`.
+To test locally you can drop our test plugin `src\plugins\lscache-test.php` into `wp-content\plugins` and activate it (or put it in `wp-content\mu-plugins`). It will log calls to litespeed actions to the debug log, which is usually `wp-content\debug.log`.
