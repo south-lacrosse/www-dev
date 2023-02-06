@@ -2,7 +2,6 @@ abbrev
 abbrevs
 absint
 Adminer
-anymore
 color
 CURDATE
 dashicon
@@ -11,6 +10,7 @@ dialog
 DMARC
 envira
 fgci
+FTPS
 gdrive
 Hostinger
 Imagick
@@ -29,6 +29,8 @@ plugins
 postdata
 preg
 Rclone
+ref
+refs
 SAMEORIGIN
 semla
 semlacur

@@ -4,16 +4,9 @@ Useful info in case we have to move to a new server.
 
 Note: when we say to run a command that means you should connect to the server via SSH and run the command from there. The new hosts should provide the initial login details.
 
-Since we don't want to be entering passwords all the time (and assuming you have [SSH keys set up](development-help.md#ssh-keys) for the old server), the first thing to do is copy over the authorised keys. You can just copy and paste or ftp `~/.ssh/authorized_keys` from the old server to the new. You should make sure that your SSH directory is secure by running:
-
-```bash
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
-```
+Since we don't want to be entering passwords all the time (and assuming you have [SSH keys set up](development-help.md#ssh-keys) for the old server), the first thing to do is copy over the authorised keys. You can just copy and paste or ftp `~/.ssh/authorized_keys` from the old server to the new. You should make sure that your SSH directory is secure by running `chmod 700 ~/.ssh;chmod 600 ~/.ssh/*`.
 
 You might want to generate new keys, but copying over the old keys should be fine as they are the public keys, not the private ones.
-
-Then [Install and Configure Rclone](rclone.md) to allow access to Google Drive.
 
 It might be worth using the host's tools to install WordPress in the root so that the database is set up etc., but this guide assumes it's better to start from scratch.
 
@@ -29,18 +22,40 @@ git config --list
 
 You might also want to copy over any useful aliases set up on the old machine. Either copy the relevant section in `~/.gitconfig`, or on the old machine run `git config --global --get-regexp alias` and you can add those on the new machine with `git config --global alias.xxx`.
 
-To enable the server to push to the git repos you need to copy over the SSH keys and configuration, either ftp or copy-paste the following (or you might also generate new keys):
+## Configure SSH Keys For SEMLA Webmaster
+
+To enable the server to push to the git `media` and `wordress` repos for backing up, and to pull the `fix` repo, you need to copy over the SSH keys and configuration. Either FTP or copy-paste the following:
 
 * `~/.ssh/config` - the ssh configuration file
-* `~/.ssh/key_id_ed25519` - or similar, which will be the private key, see the config file for the name
-
-And make sure the files are protected `chmod 600 ~/.ssh/*`.
+* `~/.ssh/key_id_ed25519` - or similar, which will be the private key
+* Make sure the files are protected `chmod 600 ~/.ssh/*`.
 
 You can test it's all working with `ssh -T git@github.com`
 
+### Regenerating SSH Keys For SEMLA Webmaster
+
+If you need to regenerate the keys just follow the [instruction on GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) for creating keys. Don't create a passphrase as otherwise the key can't be used from a batch script on the server.
+
+Assuming you create file `semla-webmaster_id_ed25519` (and .pub), you need to put the private key on the web server, and the public key on GitHub.
+
+* You should already have `~/.ssh` created as above
+* Copy or cut & paste `semla-webmaster_id_ed25519` to `~/.ssh`
+* Create an SSH config file `~/.ssh/config` with
+
+    ```text
+    Host github.com
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/semla-webmaster_id_ed25519
+        IdentitiesOnly yes
+    ```
+
+* And make sure the files are protected `chmod 600 ~/.ssh/*`.
+* Follow the instructions to [add the public key to GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account), you'll use the `semla-webmaster_id_ed25519.pub` file. You should login to GitHub as `semla-webmaster`, the login information is in `SEMLA_Officers.xlsx` in the SEMLA Webmaster's Google Drive. It's shared with President, Secretary, and a few other officers, so just search for it in Google Drive. It is password protected, but the officers should have the password.
+
 ## Copying Files And Database Backup
 
-First create a backup of the current database by running `bin/full-db-plus-semlacur-backup.sh`. This will create a backup in `bin/backups` which is excluded from the file copying process below for obvious reasons. To make sure the backup is copied you should move the file created to the `bin` folder.
+First create a backup of the current database by running `bin/full-backup.sh`. This will create a backup in `bin/backups` which is excluded from the file copying process below for obvious reasons. To make sure the backup is copied you should move the file created to the `bin` folder.
 
 We will copy everything over from the old site, including WordPress, plugins and themes, and the Git repository, using rsync. To do this there is a script in `bin/rsync-to-new-host.sh`.
 
@@ -52,16 +67,20 @@ If everything is OK then run the script again, but with `-go` on the end. It may
 
 Create a MySQL database. Your host will have instructions on how to do this. Then edit `wp-config.php` and update the database credentials to those of the database you just created.
 
-The copying step above will have copied a database backup that you can load by going to `bin` and running `restore-db.sh backup.sql.gz`.
+The copying step above will have copied a database backup that you can load by going to `bin` and running `./restore-db.sh backup.sql.gz`.
 
 ## Other Configuration
 
 You should check `wp-config.php` to make sure it looks OK. You should also check if there are any other changes you need to make by comparing the config file to `wp-config-semla.php`. You might want to [generate new Authentication Unique Keys and Salts](https://api.wordpress.org/secret-key/1.1/salt/).
 
+Also check `.htaccess` to see if you need any changes for the new hosts. You can always see `.htaccess-semla` for a base version which works.
+
 Then test, and once you are sure everything is working:
 
-* Backup your new `wp-config.php` file by running `bin/config-backup.sh`
-* Make sure all the files have the correct permissions. From the WordPress root run `bin/secure.sh` (you may have to set that to executable first)
+* Backup your new `wp-config.php` and `.htaccess` files by running `bin/config-backup.sh`
+* Make sure all the files have the correct permissions. From the WordPress root run `bin/secure.sh` (you may have to set that to executable first).
+
+You should also [configure the off site backup](off-site-backups.md#configuring).
 
 ## HTTP Headers
 
@@ -111,8 +130,7 @@ When you change the DNS records to point to the new host's nameservers you can u
 
 There are probably some useful shell scripts in the old server's `~/bin` directory, so you should copy over whichever ones are useful.
 
-You should also check the `~/.profile` as there may be useful settings you should copy, e.g.
-aliases such as:
+You should also check the `~/.profile` file (or whatever file the hosts use) as there may be useful settings you should copy, e.g. aliases such as:
 
 ```bash
 alias stg="cd ~/public_html/sub/stg"
