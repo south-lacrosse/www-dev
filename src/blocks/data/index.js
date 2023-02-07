@@ -4,8 +4,13 @@
 import apiFetch from '@wordpress/api-fetch';
 import { BlockControls, useBlockProps } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
-import { Disabled, Icon, Placeholder, ToolbarGroup,	ToolbarButton,
-	} from '@wordpress/components';
+import {
+	Disabled,
+	Icon,
+	Placeholder,
+	ToolbarGroup,
+	ToolbarButton,
+} from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 import { edit as editIcon } from '@wordpress/icons';
 import ServerSideRender from '@wordpress/server-side-render';
@@ -58,13 +63,15 @@ function Edit( { attributes, setAttributes } ) {
 				}
 				setOptions( competitionOptions );
 			} )
+			// eslint-disable-next-line no-console
 			.catch( ( err ) => console.log( err ) );
 	}, [] );
 
 	const { src } = attributes;
+	const blockProps = useBlockProps();
 	if ( 'none' === src ) {
 		return (
-			<div {...useBlockProps()}>
+			<div { ...blockProps }>
 				<Placeholder
 					icon={ <Icon icon="editor-table" /> }
 					label="SEMLA Data"
@@ -92,7 +99,7 @@ function Edit( { attributes, setAttributes } ) {
 	}
 	const noPreview = src === 'clubs_map' || src === 'curr_fixtures';
 	return (
-		<div {...useBlockProps()}>
+		<div { ...blockProps }>
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
@@ -106,9 +113,8 @@ function Edit( { attributes, setAttributes } ) {
 			</BlockControls>
 			{ noPreview ? (
 				<p className="semla__border semla__border_dashed">
-					{ src === 'clubs_map' ? 'Clubs map ' : 'Fixtures' } will
-					be inserted here - check the preview to see actual
-					rendering.
+					{ src === 'clubs_map' ? 'Clubs map ' : 'Fixtures' } will be
+					inserted here - check the preview to see actual rendering.
 				</p>
 			) : (
 				<Disabled>

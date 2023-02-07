@@ -3,8 +3,15 @@
  */
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
-import { Icon, ColorPicker, PanelBody, Placeholder, RangeControl,
-	TextControl, ToggleControl } from '@wordpress/components';
+import {
+	Icon,
+	ColorPicker,
+	PanelBody,
+	Placeholder,
+	RangeControl,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
 
 import metadata from './block.json';
 
@@ -19,7 +26,7 @@ function Edit( { attributes, setAttributes } ) {
 	};
 
 	return (
-		<div {...useBlockProps()}>
+		<div { ...useBlockProps() }>
 			<InspectorControls>
 				<PanelBody title="Calendar Type">
 					<ToggleControl
@@ -39,29 +46,28 @@ function Edit( { attributes, setAttributes } ) {
 						} }
 					/>
 					<p>
-						<b>Default</b> simply lists the events, split by
-						month, with day name, day, start time, end date (if
-						different) and time, and summary.
+						<b>Default</b> simply lists the events, split by month,
+						with day name, day, start time, end date (if different)
+						and time, and summary.
 					</p>
 					<p>
 						<b>Enhanced</b> does the same, but additionally adds
-						location, and extracts a URL from the description to
-						use as a link (anything like
-						&quot;http://x.com&quot;). It also adds adds
-						coloured tags if you have &apos; : &apos; in the
-						summary, so &apos;SBL Session 5 : Box&apos; will
-						have Box as the tag, and you can specify colours for
-						the tags (default blue) under Tags below.
+						location, and extracts a URL from the description to use
+						as a link (anything like &quot;http://x.com&quot;). It
+						also adds adds coloured tags if you have &apos; : &apos;
+						in the summary, so &apos;SBL Session 5 : Box&apos; will
+						have Box as the tag, and you can specify colours for the
+						tags (default blue) under Tags below.
 					</p>
 				</PanelBody>
 				{ enhanced && (
 					<>
 						<PanelBody title="Tags">
 							<p>
-								You can specify the colour of the tags
-								(after the &apos;:&apos; in the summary).
-								Note that if no colour is specified then
-								blue (#0277bd) is used.
+								You can specify the colour of the tags (after
+								the &apos;:&apos; in the summary). Note that if
+								no colour is specified then blue (#0277bd) is
+								used.
 							</p>
 							<RangeControl
 								label="Number of Tags"
@@ -75,12 +81,10 @@ function Edit( { attributes, setAttributes } ) {
 												...a,
 											} ) );
 									} else {
-										newTagsList = tagsList.map(
-											( a ) => ( { ...a } )
-										);
-										while (
-											newTagsList.length < columns
-										) {
+										newTagsList = tagsList.map( ( a ) => ( {
+											...a,
+										} ) );
+										while ( newTagsList.length < columns ) {
 											newTagsList.push( {
 												tag: '',
 												color: '#000000',
@@ -135,7 +139,8 @@ function Edit( { attributes, setAttributes } ) {
 			<Placeholder
 				icon={ <Icon icon="calendar-alt" /> }
 				label="Embed a Google Calendar"
-				instructions="Enter the Google Calendar Id">
+				instructions="Enter the Google Calendar Id"
+			>
 				<div className="components-placeholder__fieldset">
 					<input
 						className="semla-cal-placeholder__text-input-field"
@@ -149,8 +154,8 @@ function Edit( { attributes, setAttributes } ) {
 					/>
 				</div>
 				<p className="components-placeholder__learn-more">
-					Open the Settings to set calendar options. Open the page
-					or preview to see the actual calendar.
+					Open the Settings to set calendar options. Open the page or
+					preview to see the actual calendar.
 				</p>
 			</Placeholder>
 		</div>
