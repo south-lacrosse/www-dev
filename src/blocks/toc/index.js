@@ -11,13 +11,13 @@ import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, isSelected } ) {
 	return (
-		<div {...useBlockProps()}>
+		<div { ...useBlockProps() }>
 			<InspectorControls>
 				<PanelBody title="Help" initialOpen={ true }>
 					<p>
-						Set the HTML anchor of the headings to change the
-						name of the internal links (you can find this in the
-						Settings for the header blocks under Advanced).
+						Set the HTML anchor of the headings to change the name
+						of the internal links (you can find this in the Settings
+						for the header blocks under Advanced).
 					</p>
 				</PanelBody>
 			</InspectorControls>
@@ -38,9 +38,7 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 					) }
 					<TableOfContents
 						value={ attributes.toc }
-						onChange={ ( val ) =>
-							setAttributes( { toc: val } )
-						}
+						onChange={ ( val ) => setAttributes( { toc: val } ) }
 					/>
 				</nav>
 			</div>
@@ -50,7 +48,7 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 
 function save( { attributes } ) {
 	return (
-		<div id="semla_toc" {...useBlockProps.save()}>
+		<div id="semla_toc" { ...useBlockProps.save() }>
 			<nav id="semla_toc-nav">
 				{ attributes.title.trim().length > 0 && (
 					<h4>{ attributes.title.trim() }</h4>
@@ -59,6 +57,6 @@ function save( { attributes } ) {
 			</nav>
 		</div>
 	);
-};
+}
 
 registerBlockType( metadata.name, { edit: Edit, save } );

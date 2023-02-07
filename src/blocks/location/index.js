@@ -2,10 +2,24 @@
  * SEMLA Location - includes address, notes, Google map etc.
  */
 import { registerBlockType } from '@wordpress/blocks';
-import { BlockControls, InnerBlocks, InspectorControls, PlainText,
-	RichText, useBlockProps } from '@wordpress/block-editor';
-import { Button, ButtonGroup, Icon, Modal, PanelBody, TextControl,
-	ToolbarGroup, ToolbarButton } from '@wordpress/components';
+import {
+	BlockControls,
+	InnerBlocks,
+	InspectorControls,
+	PlainText,
+	RichText,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import {
+	Button,
+	ButtonGroup,
+	Icon,
+	Modal,
+	PanelBody,
+	TextControl,
+	ToolbarGroup,
+	ToolbarButton,
+} from '@wordpress/components';
 import { RawHTML, useState } from '@wordpress/element';
 
 import metadata from './block.json';
@@ -17,7 +31,7 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 	// Note: modal has shouldCloseOnClickOutside false as otherwise it closes if you
 	// click on the iframe
 	return (
-		<div { ...useBlockProps() } >
+		<div { ...useBlockProps() }>
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
@@ -34,32 +48,32 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 			<InspectorControls>
 				<PanelBody title="Help" initialOpen={ false }>
 					<p>
-						To display the map either enter the coordinates
-						below, or find the exact location on a map using the
-						button in the toolbar (the map will start at the
-						current location, or if none is set then it will
-						start at the address if entered).
+						To display the map either enter the coordinates below,
+						or find the exact location on a map using the button in
+						the toolbar (the map will start at the current location,
+						or if none is set then it will start at the address if
+						entered).
 					</p>
 					<p>
 						Put important instructions that should always be
 						displayed in the entry field above the map (e.g.
 						non-grass pitch types and required footwear,
-						non-standard start times), as anything below that
-						will be hidden when the page is initially displayed.
+						non-standard start times), as anything below that will
+						be hidden when the page is initially displayed.
 					</p>
 					<p>
-						Enter directions below the map. Since 99.9% of
-						people have SatNav on their phones only add anything
-						if the route is complicated, or things like the
-						postcode taking people to the wrong place. And if
-						possible add information about public transport.
+						Enter directions below the map. Since 99.9% of people
+						have SatNav on their phones only add anything if the
+						route is complicated, or things like the postcode taking
+						people to the wrong place. And if possible add
+						information about public transport.
 					</p>
 				</PanelBody>
 				<PanelBody title="Map">
 					<p>
-						If you know the exact coordinates enter them below,
-						and click the &quot;Update Map&quot; button to
-						update the map.
+						If you know the exact coordinates enter them below, and
+						click the &quot;Update Map&quot; button to update the
+						map.
 					</p>
 					<TextControl
 						label="Latitude"
@@ -81,7 +95,8 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 							setAttributes( { long: parseFloat( val ) } )
 						}
 					/>
-					<Button variant="secondary"
+					<Button
+						variant="secondary"
 						onClick={ () => {
 							setAttributes( {
 								latLong: encodeLatLong( lat, long ),
@@ -101,8 +116,8 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 				>
 					<p>
 						Drag the marker or double-click to set the exact
-						position. You can also use the search box to search
-						for a location.
+						position. You can also use the search box to search for
+						a location.
 					</p>
 					<iframe
 						title="Map"
@@ -110,7 +125,8 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 						src={ getScriptUrl() + '../../modal/map-dialog.html' }
 					/>
 					<ButtonGroup className="semla-map-buttons">
-						<Button variant="primary"
+						<Button
+							variant="primary"
 							onClick={ () => {
 								setAttributes( {
 									lat: window.semla.loc.lat,
@@ -125,8 +141,10 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 						>
 							OK
 						</Button>
-						<Button variant="secondary"
-							onClick={ () => setIsModalOpen( false ) } >
+						<Button
+							variant="secondary"
+							onClick={ () => setIsModalOpen( false ) }
+						>
 							Cancel
 						</Button>
 					</ButtonGroup>
@@ -203,7 +221,7 @@ function save( { attributes } ) {
 	);
 }
 
-registerBlockType( metadata.name, {	edit: Edit, save } );
+registerBlockType( metadata.name, { edit: Edit, save } );
 
 /*  --------------- Utility Function ----------------------- */
 

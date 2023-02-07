@@ -25,6 +25,6 @@ The SEMLA WordPress theme and plugin are in the sister [www repository](https://
 
 Media files are in the `south-lacrosse/media` private repository.
 
-Sensitive configuration files are stored in `south-lacrosse/wordpress`, which is again private, and must never be made public.
+Sensitive configuration files are stored in `south-lacrosse/wordpress-config`, which is again private, and must never be made public.
 
 WordPress itself isn't kept in the repository as it can easily restored, and the same for the non-SEMLA plugins. This also means that WordPress core and plugins can be automatically updated on the live server, which will mean any security issues will be patched quickly.

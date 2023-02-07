@@ -187,7 +187,7 @@ Note: before running any `npm` commands make sure you have [installed and config
 
 See the [Custom Gutenberg Blocks](../src/blocks/README.md) for details on how to test and generate our WordPress blocks.
 
-When testing any other JavaScript or CSS you can set SEMLA_MIN to '' in `wp-config.php` so that unminified versions of JavaScript and CSS are served so that it's easier to debug.
+When testing any other JavaScript or CSS you can set SEMLA_MIN to '' in `wp-config.php` so that unminified versions are served so that it's easier to debug.
 
 You will also probably find a tool like BrowserSync useful. It will automatically reload your page when any changes to the source (.js, .css, or .php) are made, and in many cases it can hot reload so only the changes are loaded, making development much easier.
 
@@ -202,7 +202,22 @@ If BrowserSync hangs then a possible cause is the URL resolving to ::1 (IPV6 loo
 
 so comment out the first line (i.e. start it with #).
 
-When you have finished developing make sure you `npm run build` which will create the production build of the blocks, and minify all JavaScript and CSS. You can then commit those changes.
+All the scripts for minification and building JavaScript, CSS, blocks etc. are in `package.json`. You can run them using `npm run script-name`.
+
+ Hopefully most are pretty self-explanatory, but the main scripts are:
+
+* `build` - create the production build of the blocks, and minify all JavaScript and CSS
+* See the [blocks readme](../src/blocks/README.md) for block related tasks
+* `build:wp` - minify the plugin and theme JS and CSS
+* `js:<script>` - minifies a plugin or theme javascript file, e.g. `js:cal`
+* `css:<plugin|theme>` - minify all the plugin or theme CSS
+* `lint` - check all code styles
+
+You must have a `.npmrc` file in the root of this project to point to the location of your `www` directory, e.g. `www=C:/Users/{user}/localwp/south-lacrosse/app/public`.
+
+When you have finished developing make sure you `npm run build` (or just the specific script). You can then commit those changes in the `www` repo.
+
+Note: If you are working on JS in the plugin or theme using VSCode, then in order for the `eslint` plugin to work you need to install `eslint` globally since VSCode looks for it in the current workspace folder (and we don't install any `npm` packages in `www`), then globally. To install globally `npm i -g eslint`.
 
 ## Images
 

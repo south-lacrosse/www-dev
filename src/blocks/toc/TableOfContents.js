@@ -1,4 +1,3 @@
-
 import { select, subscribe } from '@wordpress/data';
 import { Component, RawHTML } from '@wordpress/element';
 

@@ -1,7 +1,8 @@
+/* eslint-disable no-var */
+/* global google, top */
+
 ( function () {
 	'use strict';
-	/* global google */
-	/* eslint no-alert: "off", no-var: "off", vars-on-top: "off" */
 
 	var map, marker;
 	var geocoder = null;
@@ -106,13 +107,10 @@
 			map.setCenter( results[ 0 ].geometry.location );
 			marker.setPosition( results[ 0 ].geometry.location );
 		} else {
-			alert( GEOCODER_STATUS_DESCRIPTION[ status ] );
+			// eslint-disable-next-line no-console
+			console.log( GEOCODER_STATUS_DESCRIPTION[ status ] );
 		}
 	}
 
-	if ( window.addEventListener ) {
-		window.addEventListener( 'load', initMap );
-	} else if ( window.attachEvent ) {
-		window.attachEvent( 'onload', initMap );
-	}
+	window.addEventListener( 'load', initMap );
 } )();
