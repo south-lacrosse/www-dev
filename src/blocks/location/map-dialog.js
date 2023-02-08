@@ -107,8 +107,8 @@
 			map.setCenter( results[ 0 ].geometry.location );
 			marker.setPosition( results[ 0 ].geometry.location );
 		} else {
-			// eslint-disable-next-line no-console
-			console.log( GEOCODER_STATUS_DESCRIPTION[ status ] );
+			// eslint-disable-next-line no-alert, no-undef
+			alert( GEOCODER_STATUS_DESCRIPTION[ status ] );
 		}
 	}
 

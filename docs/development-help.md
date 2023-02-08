@@ -46,7 +46,7 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 
     Use `-D` if branch has unmerged changes.
 
-## Commits
+### Commits
 
 * `git add .` - add all files in and below current directory to index. Use `git add -A` to add everything in the repo.
 * `git commit -am "message"` - commit with a message. The `-a` flag (all) automatically stages files that have been modified and deleted, but new files you have not told Git about are not affected.
@@ -342,6 +342,20 @@ Markdown (.md) files (like this one)
 
 * Preview - `Ctrl+Shift+V` in the editor
 * Preview side-by-side `Ctrl+K V`
+
+## Debugging WordPress Blocks
+
+To see the state of your blocks you can use the console in the browser on the edit screen. For example, select the block in the editor and:
+
+```js
+wp.data.select( 'core/block-editor' ).getSelectedBlock()
+```
+
+Or add `.attributes` to the end for just the attributes.
+
+The block ID can be found by in the blocks's markup in outermost div, something like 'block-b76e9375-e161-4945-884b-26f1a5dd268f'. Alternatively select the block and `wp.data.select( 'core/block-editor' ).getSelectedBlockClientId()`.
+
+You can then do things like `wp.data.select( 'core/block-editor' ).getBlockAttributes( 'b76e9375-e161-4945-884b-26f1a5dd268f' )`.
 
 ## Testing JSON
 
