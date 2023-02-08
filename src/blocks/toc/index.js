@@ -1,15 +1,37 @@
 /**
  * Gutenberg block for table of contents
- * Cribbed from https://wordpress.org/plugins/ultimate-blocks/#developers
  */
 import { registerBlockType } from '@wordpress/blocks';
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
-import TableOfContents from './TableOfContents';
+import {
+	InspectorControls,
+	store as blockEditorStore,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import { Disabled, PanelBody, TextControl } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { RawHTML, useEffect } from '@wordpress/element';
 
 import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, isSelected } ) {
+	const { title, toc } = attributes;
+
+	const latestToc = useSelect( ( select ) => {
+		const rootBlocks = select( blockEditorStore ).getBlocks();
+		const tocTree = [];
+		rootBlocks.forEach( ( block ) => {
+			extractHeadings( block, tocTree );
+		} );
+		return tocTree.length === 0 ? '' : createHtml( tocTree );
+	}, [] );
+
+	// use an effect to setAttributes, so that it is only called when latestToc changes.
+	useEffect( () => {
+		if ( latestToc !== toc ) {
+			setAttributes( { toc: latestToc } );
+		}
+	}, [ latestToc ] );
+
 	return (
 		<div { ...useBlockProps() }>
 			<InspectorControls>
@@ -29,17 +51,12 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 							onChange={ ( text ) =>
 								setAttributes( { title: text } )
 							}
-							value={ attributes.title }
+							value={ title }
 							keepPlaceholderOnFocus={ true }
 						/>
 					) }
-					{ ! isSelected && attributes.title && (
-						<h4>{ attributes.title }</h4>
-					) }
-					<TableOfContents
-						value={ attributes.toc }
-						onChange={ ( val ) => setAttributes( { toc: val } ) }
-					/>
+					{ ! isSelected && title && <h4>{ title }</h4> }
+					<Disabled>{ content( toc ) }</Disabled>
 				</nav>
 			</div>
 		</div>
@@ -47,16 +64,91 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 }
 
 function save( { attributes } ) {
+	const { title, toc } = attributes;
 	return (
 		<div id="semla_toc" { ...useBlockProps.save() }>
 			<nav id="semla_toc-nav">
-				{ attributes.title.trim().length > 0 && (
-					<h4>{ attributes.title.trim() }</h4>
-				) }
-				<TableOfContents.Content value={ attributes.toc } />
+				{ title.trim().length > 0 && <h4>{ title.trim() }</h4> }
+				{ content( toc ) }
 			</nav>
 		</div>
 	);
 }
 
 registerBlockType( metadata.name, { edit: Edit, save } );
+
+function content( toc ) {
+	// note: <ul> is inside RawHTML as in editor RawHTML will include <div>, so we
+	// need to make sure the div is outside the ul (removes when serialising)
+	return <RawHTML>{ '<ul id="semla_toc-list">' + toc + '</ul>' }</RawHTML>;
+}
+
+// Extract headings, and recurse through inner blocks
+function extractHeadings( block, tocTree ) {
+	if ( block.name === 'core/heading' ) {
+		addToTocTree( block, tocTree );
+		return;
+	}
+	block.innerBlocks.forEach( ( innerBlock ) => {
+		extractHeadings( innerBlock, tocTree );
+	} );
+}
+
+// Find correct place to insert heading into Table of Contents
+function addToTocTree( block, tocTree ) {
+	let attributes = block.attributes;
+
+	if ( ! attributes.content ) {
+		return;
+	}
+	// if a heading has no anchor then make sure we add one
+	if ( ! attributes.anchor || attributes.anchor.startsWith( 'st-' ) ) {
+		attributes.anchor =
+			'st-' +
+			attributes.content
+				.toString()
+				.replace( /( |<br>)/g, '-' )
+				.replace( /[^\w\s-]/g, '' );
+	}
+	// need to copy to new object as we'll be adding children
+	attributes = {
+		level: attributes.level,
+		content: attributes.content,
+		anchor: attributes.anchor,
+	};
+
+	if ( tocTree.length === 0 ) {
+		tocTree.push( attributes );
+		return;
+	}
+
+	// eslint-disable-next-line no-constant-condition
+	while ( true ) {
+		// look at last item in current level in table of contents
+		const last = tocTree[ tocTree.length - 1 ];
+		if ( attributes.level <= last.level ) {
+			tocTree.push( attributes );
+			return;
+		}
+		// needs to go in child level - let's see if that exists yet
+		if ( ! last.children ) {
+			// nope - so create children array
+			last.children = [ attributes ];
+			return;
+		}
+		// look next level down
+		tocTree = last.children;
+	}
+}
+
+function createHtml( tocTree ) {
+	let html = '';
+	tocTree.forEach( ( item ) => {
+		html += `<li><a href="#${ item.anchor }">${ item.content }</a>`;
+		if ( item.children ) {
+			html += '<ul>' + createHtml( item.children ) + '</ul>';
+		}
+		html += '</li>';
+	} );
+	return html;
+}

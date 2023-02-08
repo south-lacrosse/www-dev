@@ -1,5 +1,7 @@
 # Custom Gutenberg Blocks
 
+See also [debugging WordPress blocks](../../docs/development-help.md#debugging-wordpress-blocks).
+
 This is the source directory for our WordPress blocks. They are built using the WordPress provided `wp-scripts`, and compiled to the `plugin` directory in the `www` repository.
 
 You must have a `.npmrc` file in the root of this project to point to the location of your `www` directory, e.g. `www=C:/Users/{user}/localwp/south-lacrosse/app/public`.
