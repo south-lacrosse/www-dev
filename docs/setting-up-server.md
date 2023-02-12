@@ -22,6 +22,21 @@ git config --list
 
 You might also want to copy over any useful aliases set up on the old machine. Either copy the relevant section in `~/.gitconfig`, or on the old machine run `git config --global --get-regexp alias` and you can add those on the new machine with `git config --global alias.xxx`.
 
+## Scripts
+
+There are probably some useful shell scripts in the old server's `~/bin` directory, so copy over whichever ones are useful. They should include all the scripts in [this repos bin directory](../bin/), but if not then copy them over.
+
+Check all the scripts in case you need to change directories for the new server layout.
+
+Also check the `~/.profile` file (or whatever file the hosts use) as there may be useful settings you should copy, e.g. aliases such as:
+
+```bash
+alias stg="cd ~/public_html/sub/stg"
+alias stg-bin="cd ~/public_html/sub/stg/bin"
+alias prod="cd ~/public_html"
+alias prod-bin="cd ~/public_html/bin"
+```
+
 ## Configure SSH Keys For SEMLA Webmaster
 
 To enable the server to push to the git `media` and `wordress` repos for backing up, and to pull the `fix` repo, you need to copy over the SSH keys and configuration. Either FTP or copy-paste the following:
@@ -67,7 +82,7 @@ If everything is OK then run the script again, but with `-go` on the end. It may
 
 Create a MySQL database. Your host will have instructions on how to do this. Then edit `wp-config.php` and update the database credentials to those of the database you just created.
 
-The copying step above will have copied a database backup that you can load by going to `bin` and running `./restore-db.sh backup.sql.gz`.
+The copying step above will have copied a database backup that you can load with `mysql-www path/to/backup.sql.gz` (or `bin/run-sql.sh` if `mysql-www` isn't set up).
 
 ## Other Configuration
 
@@ -125,19 +140,6 @@ We use WP Mail SMTP for sending mails from WordPress (automatic core/plugin/them
 ## DNS Change
 
 When you change the DNS records to point to the new host's nameservers you can use a useful too <https://www.whatsmydns.net/#A/www.southlacrosse.org.uk> to see where the change has propagated to.
-
-## Scripts
-
-There are probably some useful shell scripts in the old server's `~/bin` directory, so you should copy over whichever ones are useful.
-
-You should also check the `~/.profile` file (or whatever file the hosts use) as there may be useful settings you should copy, e.g. aliases such as:
-
-```bash
-alias stg="cd ~/public_html/sub/stg"
-alias stg-bin="cd ~/public_html/sub/stg/bin"
-alias prod="cd ~/public_html"
-alias prod-bin="cd ~/public_html/bin"
-```
 
 ## Finally
 

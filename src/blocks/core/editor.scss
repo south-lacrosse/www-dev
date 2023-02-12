@@ -17,6 +17,10 @@
 .semla__border_dashed {
     border-style: dashed;
 }
+div.editor-styles-wrapper {
+    padding-left: 8px;
+    padding-right: 8px;
+}
 
 /*--------------------- attr-value -------------------*/
 
@@ -44,7 +48,7 @@ ul.flags, ul.flags ul {
 	line-height: 1.5 !important;
 }
 
-/*--------------------- location -------------------*/
+/*--------------------- map -------------------*/
 
 .semla-map-modal.semla-map-modal /* workaround for specificity issues */ {
     width: 90%;
@@ -61,9 +65,6 @@ ul.flags, ul.flags ul {
 }
 .semla-map-buttons {
     text-align: right;
-}
-.acrd-btn {
-    cursor: default !important;
 }
 
 /*--------------------- toc -------------------*/

@@ -11,23 +11,7 @@
 		"address": {
 			"type": "string",
 			"source": "text",
-			"selector": ".wp-block-semla-location > p:first-child"
-		},
-		"notes": {
-			"type": "string",
-			"source": "html",
-			"multiline": "p",
-			"selector": ".location__notes",
-			"default": ""
-		},
-		"lat": {
-			"type": "number"
-		},
-		"long": {
-			"type": "number"
-		},
-		"latLong": {
-			"type": "string"
+			"selector": "p"
 		}
 	},
 	"supports": {

@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "semla/map",
+	"version": "1.0.0",
+	"title": "Map",
+	"category": "widgets",
+	"description": "Google Map & directions",
+	"attributes": {
+		"lat": {
+			"type": "number"
+		},
+		"long": {
+			"type": "number"
+		},
+		"latLong": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js"
+}

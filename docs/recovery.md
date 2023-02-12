@@ -40,7 +40,7 @@ Check `bin/backups` for the backup you wish to use, or if that is corrupted or b
 
 If you need to restore the current fixtures/league tables (database tables `slc_`) then you can just run the fixtures sheet import again to recreate the tables.
 
-Databases can be recovered by running `bin/restore-db.sh path/to/backup.sql.gz`.
+Databases can be recovered by running `bin/run-sql.sh path/to/backup.sql.gz`, or assuming the scripts are set up using `mysql-www`/`mysql-stg`/`mysql-dev` depending on the environment.
 
 There are several different types of backup you can load, and they should all have their creation date as part of the filename. The main ones are:
 
@@ -89,7 +89,7 @@ This following is the process to create a complete restore in a new directory, w
 * Create a new database, and update `wp-config.php` with the credentials.
 * Populate the database with with a backup by following the [Database Recovery above](#database-recovery)
 * Reinstall all WordPress plugins. There is a `load-plugins.sh` script in our private `www-dev-private` repo to run WP-CLI to download all required plugins which you should run from the `www` directory. Alternatively if you know all used plugins then you can `wp install <plugin-names> --activate`.
-* The previous step may have changed the database, so just to be sure you should restore the database again using `bin/restore-db.sh backup.sql.gz`.
+* The previous step may have changed the database, so just to be sure you should restore the database again using `bin/run-sql backup.sql.gz`.
 * Make sure all the files have the correct permissions. From the WordPress root run `bin/secure.sh` (you may have to set that to executable first)
 * Switch out your old site by replacing the directory. e.g if your site was in `~/public_html/`
 
