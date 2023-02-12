@@ -22,7 +22,7 @@ import { createHigherOrderComponent } from '@wordpress/compose';
 import domReady from '@wordpress/dom-ready';
 import { useEffect, useRef } from '@wordpress/element';
 import { addFilter } from '@wordpress/hooks';
-import { lineSpacingIcon } from '../icons';
+import LineSpacingIcon from './line-spacing-icon';
 import { hasClass, replaceClasses, toggleClass } from './class-utils';
 
 import './editor.scss';
@@ -184,7 +184,7 @@ function ListControls( { attributes, setAttributes } ) {
 		return {
 			role: 'menuitemradio',
 			title: label,
-			icon: lineSpacingIcon,
+			icon: LineSpacingIcon,
 			isActive: value === spacing,
 			onClick: () => {
 				setAttributes( {
@@ -218,7 +218,7 @@ function ListControls( { attributes, setAttributes } ) {
 				<ToolbarGroup>
 					<ToolbarDropdownMenu
 						isCollapsed={ true }
-						icon={ lineSpacingIcon }
+						icon={ LineSpacingIcon }
 						label="Set spacing"
 						controls={ spacingControls }
 					/>

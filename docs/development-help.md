@@ -48,10 +48,12 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 
 ### Commits
 
-* `git add .` - add all files in and below current directory to index. Use `git add -A` to add everything in the repo.
+* `git add .` - add all files in and below current directory to index. Use `git add -A` to add everything in the repository's directory.
 * `git commit -am "message"` - commit with a message. The `-a` flag (all) automatically stages files that have been modified and deleted, but new files you have not told Git about are not affected.
 * `git log -S search-string` - search for commits that reference search-string, so will show any commit that added or removed a reference to a specific function.
-* `git reset --hard HEAD^` - delete the last commit. Be careful with this one! And don't do if you've pushed to a repo that others may have pulled from.
+* Undoing commits (don't do if you've pushed to a repo that others may have pulled from).
+    * `git reset --soft "HEAD^"` - undo the last commit (and everything staged), but leave the working directory intact.
+    * `git reset --hard "HEAD^"` - delete the last commit, and reset working directory to the previous commit. Be careful with this one!
 * `git rebase --committer-date-is-author-date -i HEAD~10` - interactive rebase. Opens up an editor with a list of commits, and you can pick which commits to keep. Git then applies the remaining commits one-by-one from the starting point you specified, effectively deleting the removed commits. `HEAD~10` could also be a commit e.g. `ad14bf3`.
 
     On a rebase author date is preserved, but committer date is modified. There is no way to preserve the committer date, but you can do the next best thing and `--committer-date-is-author-date`.

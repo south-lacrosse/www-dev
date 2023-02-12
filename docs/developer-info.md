@@ -136,7 +136,7 @@ When these instructions mention a "shell" they mean to open up a shell (e.g. com
 1. Get a copy of the Production database. The Webmaster should create this using `bin/create-dev-db.sh`, which will take a backup of the current database with user emails replaced with user{number}@southlacrosse.org.uk, and all the passwords set to 'pass'.
 1. Import the production database
 
-    Run `bin/restore-db.sh path/to/backup.sql.gz` (assumes the site/MySQL is running). If running in Windows you can run this using a Git Bash shell, or if you have cygwin or WSL then just run `bash` to get a Bash shell.
+    Run `bin/run-sql.sh path/to/backup.sql.gz` (assumes the site/MySQL is running). If running in Windows you can run this using a Git Bash shell, or if you have cygwin or WSL then just run `bash` to get a Bash shell.
 
     Alternatively:
     * In Local
@@ -151,7 +151,7 @@ When these instructions mention a "shell" they mean to open up a shell (e.g. com
     * Install the [BE Media from Production plugin](https://wordpress.org/plugins/be-media-from-production/) with `wp plugin install be-media-from-production` which will use media from the production site if it doesn't exist on the local machine. Make sure you add `define('BE_MEDIA_FROM_PRODUCTION_URL', 'https://www.southlacrosse.org.uk');` to your `wp-config.php` file.
     * You can download the directory with ftp/rsync/scp if you have access
 1. New installations of WordPress may contain extra themes and plugins. You may safely delete those, or just leave them.
-1. If you want to run SQL from the command line then you can copy over `mysql-dev.bat` or `mysql-dev` from [bin-local](../bin-local/) into your path, and modify the script to fit your environment. You can then run `mysql-dev [sql-file]` from the command line (omitting the sql-file will open up the MySQL client).
+1. If you want to run SQL from the command line then you can copy over `mysql-dev.bat` or `mysql-dev` from [bin-local](../bin-local/) into your path, and modify the script to fit your environment. You can then run `mysql-dev [sql-file]` instead of `...\bin\run-sql.sh` (omitting the sql-file will open up the MySQL client).
 
 You should now be all set up and `https://dev.southlacrosse.org.uk/` will take you to the site.
 
@@ -255,7 +255,7 @@ Images should be compressed before being uploaded. Useful tools are:
 
 * .jpg - compress with [MozJPEG](https://github.com/mozilla/mozjpeg/releases) or [ImageMagick](https://imagemagick.org/). [Gimp](https://www.gimp.org/) is an excellent free editing tool
 * .png - [OptiPNG](http://optipng.sourceforge.net/) usage `optipng -o7 -strip all chevron-down.png` - and it will take wildcards
-* .svg - `npm run svg-optimize` will compress all SVGs in `www\wp-content\themes\lax\img`. You can also manually edit the xml in the `.svg` files.
+* .svg - `npm run svgo` will compress all SVGs in `www\wp-content\themes\lax\img`. You can also manually edit the xml in the `.svg` files.
 
 You can also use `src\optimize_images.pl` to run MozJPEG and OptiPNG on a directory.
 

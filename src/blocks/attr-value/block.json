@@ -4,7 +4,7 @@
 	"name": "semla/attr-value",
 	"version": "1.0.0",
 	"title": "Attribute/value pair",
-	"category": "formatting",
+	"category": "text",
 	"icon": "feedback",
 	"description": "An attribute/value pair, e.g. for contacts 'Captain: name/email', or 'Colours: purple'",
 	"attributes": {
