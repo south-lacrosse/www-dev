@@ -243,11 +243,11 @@ Depending on the favicon you could also try `-colors 256` on the final convert.
 
 ### Screenshots (Windows only)
 
-The simplest way to get screenshots for the [Help Sceeens](https://github.com/south-lacrosse/wp-help) on Windows is to use the built-in `Snip & Sketch` tool (`Windows Key+Shift+S`), which can save images as PNGs.
+The best option to get screenshots for the [Help Screens](https://github.com/south-lacrosse/wp-help) is [ShareX](https://getsharex.com/). To include the cursor in your image set Task Settings -> Capture -> Show cursor in screenshots.
 
-If you want to include the cursor in your image the best way is to use [IrfanView](https://www.irfanview.com/). Go to `Options->Capture/Screenshot...`, and select `Include mouse cursor`. Then `Ctrl+F11` takes a screenshot.
+And don't forget to *compress* the images (see below).
 
-And don't forget to *compress* them. For that see below, or you can also install the IrfanView plugins as those include one to compress files with OptiPNG, which you can select on `File->Save as...`.
+Alternatively use the built-in `Snip & Sketch` tool to save to `png`.
 
 ### Compression
 
