@@ -181,13 +181,17 @@ Alternatively, to have Unix commands available everywhere you can either:
 
 If you are going to run any of the `.pl` programs you will need to install a version of Perl.
 
+## CSS Normalize
+
+Our theme uses a modified [normalize.css](https://github.com/necolas/normalize.css) to normalize behaviour across browsers. If it changes you can see what's changed by doing a compare in GitHub, e.g. <https://github.com/necolas/normalize.css/compare/8.0.0...8.0.1>, and update `style.css` accordingly.
+
 ## JavaScript and CSS Testing and Minification
 
 Note: before running any `npm` commands make sure you have [installed and configured Node.js](#node).
 
 See the [Custom Gutenberg Blocks](../src/blocks/README.md) for details on how to test and generate our WordPress blocks.
 
-When testing any other JavaScript or CSS you can set SEMLA_MIN to '' in `wp-config.php` so that unminified versions are served so that it's easier to debug.
+When testing any other JavaScript or CSS you can add `define('SEMLA_MIN', '');` in `wp-config.php` so that unminified versions are served so that it's easier to debug.
 
 You will also probably find a tool like BrowserSync useful. It will automatically reload your page when any changes to the source (.js, .css, or .php) are made, and in many cases it can hot reload so only the changes are loaded, making development much easier.
 
