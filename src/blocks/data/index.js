@@ -97,7 +97,6 @@ function Edit( { attributes, setAttributes } ) {
 			</div>
 		);
 	}
-	const noPreview = src === 'clubs_map' || src === 'curr_fixtures';
 	return (
 		<div { ...blockProps }>
 			<BlockControls>
@@ -111,10 +110,10 @@ function Edit( { attributes, setAttributes } ) {
 					/>
 				</ToolbarGroup>
 			</BlockControls>
-			{ noPreview ? (
+			{ src === 'clubs_map' ? (
 				<p className="semla__border semla__border_dashed">
-					{ src === 'clubs_map' ? 'Clubs map ' : 'Fixtures' } will be
-					inserted here - check the preview to see actual rendering.
+					Clubs map will be inserted here - check the preview to see
+					actual rendering.
 				</p>
 			) : (
 				<Disabled>
