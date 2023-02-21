@@ -85,7 +85,7 @@ You should also find the Site shell script so you can call it from any shell or 
 
  The scripts will be `{site slug}.bat` and `{site slug}.sh` in the Local `ssh-entry` directory, which you can find by selecting `Reveal Local's log` from the menu in Local (in Windows it will be `C:\Users\{user}\AppData\Roaming\Local\ssh-entry\`). Note: these scripts are only created the first time you run the Site shell.
 
-Local can automatically log you in to WordPress by going to your site and enabling `One-click admin`. You can then click on `WP Admin` to go straight to the Dashboard without having to log in. You can also add a bookmark to do the same think: `http://dev.southlacrosse.org.uk/wp-admin/?localwp_auto_login=1`.
+Local can automatically log you in to WordPress by going to your site and enabling `One-click admin`. You can then click on `WP Admin` to go straight to the Dashboard without having to log in. You can also add a bookmark to the same URL: `http://dev.southlacrosse.org.uk/wp-admin/?localwp_auto_login=1`.
 
 Local will intercept any emails sent by WordPress. To see them go to your site, and under Utilities
 you will find Mailhog.
