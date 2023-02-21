@@ -22,6 +22,9 @@
 		"editor.insertSpaces": false,
 		"files.exclude": {
 			"**/node_modules": true
+		},
+		"files.associations": {
+			".htaccess-semla": "apacheconf"
 		}
 	},
 	"extensions": {
