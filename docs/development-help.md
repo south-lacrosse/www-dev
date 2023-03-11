@@ -1,6 +1,6 @@
 # Development Help File
 
-This file file contains useful info for development - probably mainly stuff I would forget if not written down! Kept out of the main README file as this is technical info which may be known by developers already - and in any case can be found with a bit of Googling.
+This file contains useful info for development - probably mainly stuff I would forget if not written down! Kept out of the main README file as this is technical info which may be known by developers already - and in any case can be found with a bit of Googling.
 
 ## Git Commands
 
@@ -195,7 +195,15 @@ The most useful ones are:
 
 #### Possible Rsync Issues On Windows Cygwin
 
-When running `rsync` you may get `error in rsync protocol data stream (code 12)`. One cause of this is when the version of `ssh` (which it uses to communicate with the server) doesn't match what `rsync` needs. If this is the case the fix is to make sure the cygwin `ssh` is higher up the path than the Windows version, so do something like `set PATH=C:\local\cygwin64\bin;%PATH%`. Assuming you are using SSH keys you will need to copy them from `%HOME%\.ssh` to your cygwin `~/.ssh` directory, which will be `cygwin-dir\home\username\.ssh`.
+When running `rsync` you may get `error in rsync protocol data stream (code 12)`. One cause of this is when the version of `ssh` (which it uses to communicate with the server) doesn't match what `rsync` needs. If this is the case the fix is to make sure the cygwin `ssh` is higher up the path than the Windows version, so do something like `set PATH=C:\local\cygwin64\bin;%PATH%`.
+
+If you are using SSH keys you will need to make them available in cygwin. The easiest way is to set your cygwin home directory to be the your Windows home (`%HOME%`, or `C:\Users\{user}`). To do that edit `/etc/nsswitch.conf` and add:
+
+```text
+db_home: /%H
+```
+
+Alternatively copy them from `%HOME%\.ssh` to your cygwin `~/.ssh` directory, which will be `cygwin-dir\home\username\.ssh`.
 
 If that works then you may find an issue with always having to re-enter passphrases. You can run the cygwin `ssh-agent` to handle this (though you'd have to run this every session, and re-enter the passphrase, though only once until you stop the `ssh-agent`), but if you already have passphrases in the Windows `ssh-agent` you can forward the cygwin requests to that instead. To do that:
 
@@ -243,14 +251,12 @@ Useful options:
 ## Npm Commands
 
 * `npm i` - install local node modules as defined in config files `package.json`/`package-lock.json`
-* `npm i <package_name> --save-dev` - install a package for development, and save to `package.json`
-* `npm i <package_name> --save` - install a package, and save to `package.json`
+* `npm i <package_name> --save-dev` - or `-D`, install a package for development, and save to `devDependencies` `package.json`
+* `npm i <package_name>` - install a package, and save to `dependencies` in `package.json`
 * `npm i <package_name> -g` - install a package globally, i.e. it can be accessed from the command line, and is installed in a globally available node directory, and not `/node_modules`
-* `npm i -g npm` - update the node package manager itself
 * `npm outdated` - see what packages are out of date, can add `-g` option to see global packages
 * `npm update <package_name>` - update a specific package, or all if `package_name` is empty. Won't install newer major versions, so 1.9.9 won't be updated to 2.0.0. To do that you need the next option.
 * `npm i <package_name>@latest --save-dev` - install latest version of a specific package
-* `npm install npm@latest -g` - Update the node package manager to latest
 
 `package-lock.json` contains a list of all installed packages, their versions, and the versions of their dependencies. That way when someone else install the npm packages they will get the exact same version. To update packages you normally do `npm update` as above.
 
