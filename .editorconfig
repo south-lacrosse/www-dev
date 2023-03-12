@@ -13,5 +13,5 @@ indent_size = 4
 [*.sh]
 end_of_line = lf
 
-[.md]
-indent_style = spaces
+[*.md]
+indent_style = space
