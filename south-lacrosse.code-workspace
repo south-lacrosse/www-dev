@@ -38,7 +38,8 @@
 			"formulahendry.vscode-mysql",
 			"mrmlnc.vscode-apache",
 			"af4jm.vscode-icalendar",
-			"tungvn.wordpress-snippet"
+			"tungvn.wordpress-snippet",
+			"esbenp.prettier-vscode"
 		]
 	}
 }
