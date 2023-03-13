@@ -1,45 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Async Test</title>
-    <style>
-@keyframes spinner-border {
-    to {
-        transform: rotate(360deg);
-    }
-}
-.spinner-border {
-    color: #6c757d !important;
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    margin-left: 10rem;
-    vertical-align: text-bottom;
-    border: .25em solid currentColor;
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: spinner-border .75s linear infinite;
-}
-.screen-reader-text {
-    border: 0;
-    clip: rect(1px, 1px, 1px, 1px);
-    clip-path: inset(50%);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute !important;
-    width: 1px;
-    word-wrap: normal !important;
-}        
-    </style>
-</head>
-<body>
-    <p>Just a page with async embed tags</p>
-    <div id="my-div"><div class="spinner-border"><span class="screen-reader-text">Loading</span></div></div>
-    <script data-target="my-div" src="https://dev.southlacrosse.org.uk/api/semla/v1/teams/Bath/fixtures.js?async" async></script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Embed Async Test</title>
+		<style>
+			@keyframes spinner-border {
+				to {
+					transform: rotate( 360deg );
+				}
+			}
+			.spinner-border {
+				color: #6c757d !important;
+				display: inline-block;
+				width: 2rem;
+				height: 2rem;
+				margin-left: 10rem;
+				vertical-align: text-bottom;
+				border: 0.25em solid currentColor;
+				border-right-color: transparent;
+				border-radius: 50%;
+				animation: spinner-border 0.75s linear infinite;
+			}
+			.screen-reader-text {
+				border: 0;
+				clip: rect( 1px, 1px, 1px, 1px );
+				clip-path: inset( 50% );
+				height: 1px;
+				margin: -1px;
+				overflow: hidden;
+				padding: 0;
+				position: absolute !important;
+				width: 1px;
+				word-wrap: normal !important;
+			}
+		</style>
+	</head>
+	<body>
+		<p>Just a page with async embed tags</p>
+		<div id="my-div">
+			<div class="spinner-border">
+				<span class="screen-reader-text">Loading</span>
+			</div>
+		</div>
+		<script
+			data-target="my-div"
+			src="https://dev.southlacrosse.org.uk/api/semla/v1/teams/Bath/fixtures.js?async"
+			async
+		></script>
+	</body>
 </html>

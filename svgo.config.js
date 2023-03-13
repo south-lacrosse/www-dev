@@ -8,7 +8,7 @@ module.exports = {
         overrides: {
           // we want the viewbox
           removeViewBox: false,
-          // leave in title for accessability
+          // leave in title for accessibility
           removeTitle: false
         },
       },
