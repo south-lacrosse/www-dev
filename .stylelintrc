@@ -1,0 +1,11 @@
+{
+	"rules": {
+		"rule-empty-line-before": [
+			"never",
+			{
+				"ignore": "after-comment"
+			}
+		],
+		"selector-id-pattern": "[a-z_-]+"
+	}
+}

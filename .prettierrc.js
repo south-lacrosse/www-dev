@@ -1,4 +1,4 @@
 module.exports = {
-	...require("@wordpress/prettier-config"),
-	endOfLine: "auto",
+	...require( '@wordpress/prettier-config' ),
+	endOfLine: 'auto',
 };

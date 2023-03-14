@@ -25,7 +25,7 @@ import { addFilter } from '@wordpress/hooks';
 import LineSpacingIcon from './line-spacing-icon';
 import { hasClass, replaceClasses, toggleClass } from './class-utils';
 
-import './editor.scss';
+import './editor.css';
 
 domReady( function () {
 	unregisterBlockType( 'core/audio' );

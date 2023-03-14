@@ -1,6 +1,11 @@
-/*
-!/src/
+/.vscode
+/bin
+/bin-local
+/config
+/docs
+/node_modules
 
 map-dialog.html
 *.md
 *.min.js
+package-lock.json
