@@ -21,7 +21,6 @@ if [[ $# -eq 0 ]]; then
 		while [[ -z "$wp" && -d "$dir" ]] ; do
 			if [[ -f "$dir/wp-config.php" ]]; then
 				wp="$dir"
-				echo Found!
 			else
 				dir=${dir%/*}
 			fi
