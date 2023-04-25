@@ -48,7 +48,9 @@ You must have the following columns in this order:
 Only the first letter is used to determine the sort order, but you should put in the full name to make it obvious.
 
 * `Default` - sort by date, competition (ranked by sequence), home team
-* `Venue/time` - some competitions e.g. Local Midlands play a 3-way round-robin at one venue, so for those you can sort by date & competition as normal, and then venue & time, and then home team
+* `Venue/time` - some competitions e.g. Local Midlands play a 3-way round-robin at one venue, so for those you can sort by date & competition as normal, and then venue & time, and then home team.
+
+Add any ladders (e.g. Division 1 and 2 teams play each other, with the results counting in their respective divisions), but omit teams. The ladder must have a row on the `sl_competition` table, with type = "ladder", and ladder_comp_id1 and ladder_comp_id2 set to the divisions it relates to, e.g. "SEMLA Division 1/2 Ladder" has comp_ids for "SEMLA Division 1" and "SEMLA Division 2".
 
 ## Deductions Sheet
 
@@ -58,7 +60,7 @@ Columns are `League & Division` (must be Full name from Divisions Sheet), `Team`
 
 The columns can be in any order, but they must have a heading in row 1 exactly as specified. `Competition`, `Date`, `Time`, `Home`, `Home Goals`, `v`, `Away Goals`, `Away`, `X`, `Notes`, `Venue`.
 
-The `Competition` for league matches must be the League and Division, so if the league is "SEMLA" and the Division is "Premier Division", then the value must be "SEMLA Premier Division". The programs *should* work for ladders (i.e. Division 1 and 2 teams play each other, with the results counting in their respective divisions), but could do with some testing. To do this put both League and Divisions in the Competition column, separated by '/'. For Flags matches use the full flags competition with the round name abbreviation, so "Senior Flags R16" or "Minor Flags F".
+The `Competition` for league matches must be the League and Division, so if the league is "SEMLA" and the Division is "Premier Division", then the value must be "SEMLA Premier Division". For Flags matches use the full flags competition with the round name abbreviation, so "Senior Flags R16" or "Minor Flags F".
 
 It is recommended to leave the `Venue` column blank unless the game is not at the home team's ground, as if no Venue is specified then the Home team is assumed. If you are going to use it then use the full team name. If you put in a different name to the Home team, e.g. Home is "Cambridge Eagles" and Venue is "Cambridge Uni", then it will be assumed the game is played at a different venue, so on the Fixtures page it will display "at Cambridge Uni", which is silly. It is also important to use the full team name as otherwise the pitch type cannot be displayed on the Fixtures page for upcoming games.
 

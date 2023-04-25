@@ -22,6 +22,8 @@ The relevant tables are:
 `section_name` varchar(30) DEFAULT NULL
 `seq` smallint(6) unsigned NOT NULL -- used to sequence
 `type` varchar(20) NOT NULL
+`ladder_comp_id1` smallint(6) NOT NULL
+`ladder_comp_id2` smallint(6) NOT NULL
 `head_to_head` BOOLEAN NOT NULL
 `has_history` BOOLEAN NOT NULL
 `history_page` varchar(200) NOT NULL -- 
