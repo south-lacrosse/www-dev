@@ -175,6 +175,7 @@ function ListControls( { attributes, setAttributes } ) {
 		if ( newClass !== className ) {
 			setAttributes( { className: newClass } );
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ ordered ] );
 
 	const spacing = getOption( className, listSpacingOptions );
