@@ -60,6 +60,7 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 
     Again, be careful. Should never be done on a `main` branch that has been pushed.
 * `git rebase --keep-base -i main` - rebase on to the base commit from main that the branch was created from. Useful for feature branches with many commits if you are trying to rebase or commit into main and are getting lots of conflicts in different commits. With this command you squash the commits into one, and can then deal with all the conflicts at once. The `-i` will open an editor, so change all commits apart from the first from "pick" to "s" for squash or "f" for fixup (docs will be in the editor).
+* `git cherry-pick <SHA-1>...<SHA-1> --no-commit` - apply commits from another branch
 
 ### Stashing
 
