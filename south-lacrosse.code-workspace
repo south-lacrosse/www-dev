@@ -2,7 +2,7 @@
 	"folders": [
 		{
 			"name": "www-dev",
-			"path": "..\\www-dev"
+			"path": "."
 		},
 		{
 			"name": "www",
