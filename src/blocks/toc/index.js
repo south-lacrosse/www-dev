@@ -30,6 +30,7 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 		if ( latestToc !== toc ) {
 			setAttributes( { toc: latestToc } );
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ latestToc ] );
 
 	return (

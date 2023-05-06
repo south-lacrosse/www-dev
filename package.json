@@ -15,6 +15,7 @@
 		"format:blocks": "wp-scripts format ./src/blocks",
 		"lint:css": "wp-scripts lint-style ./src/blocks/**/*{.css,.scss}",
 		"lint:js": "wp-scripts lint-js ./src/blocks",
+		"lint:scripts": "eslint ./src/scripts/*.mjs",
 		"packages-update": "wp-scripts packages-update",
 		"start": "cross-env-shell wp-scripts start --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
 		"start-hot": "cross-env-shell wp-scripts start --hot --allowed-hosts dev.southlacrosse.org.uk --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
