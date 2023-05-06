@@ -1,9 +1,6 @@
 /**
  * All blocks CSS goes here - saves loading in each block's CSS separately, plus
  * we want some common CSS too.
- *
- * Not 100% sure this doesn't go in the plugin's css/ directory, but seems
- * sensible to keep it near the rest of the blocks source.
  */
 
 /*--------------------- Common css used in multiple blocks -------------------*/
@@ -17,10 +14,6 @@
 }
 .semla__border_dashed {
 	border-style: dashed;
-}
-div.editor-styles-wrapper {
-	padding-left: 8px;
-	padding-right: 8px;
 }
 
 /*--------------------- attr-value -------------------*/
