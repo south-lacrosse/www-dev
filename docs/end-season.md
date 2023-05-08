@@ -58,6 +58,7 @@ If you need to you can always go back to this step by reloading the backup with 
 Work for this phase should be done on the staging website, so `cd ~/public_html/sub/stg/bin`
 
 1. In the staging database:
+    1. If you have added new competitions or groups for the season then make sure their `history_page` and `history_group_page` are set correctly on the relevant tables, as otherwise the historical list of winners may not be generated.
     1. Add competition winners other than flags or league (which are done automatically), so Varsity, sixes, National Championships, etc.. Since we are assuming the fixtures will be taken over by the EL system this has to be done by [manually editing the database tables](fixtures-tables-history.md#competition-winners).
     1. Make sure you have [added any remarks](fixtures-sheet-format.md#remarks-sheet) e.g. "Team x folded and their results are void", or "Competition void because of COVID", and have updated the fixtures to add them to the database.
 1. The next step will update the history tables, and then the WordPress tables, so you should create backups of both with
@@ -84,5 +85,6 @@ Go back to the production bin directory `cd ~/public_html/bin`.
 1. Run `wp semla history stats` to make sure it matches staging after stats.
 1. Test everything to make sure it's OK.
 1. If you did a Git checkout on the staging website remember to checkout the Git branch.
+1. If you have added new competitions or groups then you will need to update the History page to link to the newly generated pages. This page is manually created in order to be able to completely control the design.
 
 If you have to recover make sure you purge the Litespeed cache, otherwise visitors may see the incorrect cached pages. Either use the WordPress Admin dashboard, or from the WordPress directory `wp litespeed-purge all`.
