@@ -26,6 +26,7 @@ The relevant tables are:
 `ladder_comp_id2` smallint(6) NOT NULL -- set to id of 2nd ladder division
 `head_to_head` BOOLEAN NOT NULL -- e.g. varsity, or North v South
 `history_page` varchar(200) NOT NULL -- history page to create, see below
+`description` TEXT NOT NULL -- description to be shown on the history page
 ```
 
 `history_page` is the slug used for the page generate for the list of winners
