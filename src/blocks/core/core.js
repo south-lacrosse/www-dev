@@ -7,6 +7,7 @@
  */
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
 import {
+	getBlockTypes,
 	getBlockVariations,
 	unregisterBlockType,
 	unregisterBlockVariation,
@@ -29,8 +30,14 @@ import './editor.css';
 
 domReady( function () {
 	unregisterBlockType( 'core/audio' );
-	unregisterBlockType( 'core/latest-comments' );
+	// unregisterBlockType( 'core/latest-comments' );
 	unregisterBlockType( 'core/video' );
+	const commentRegex = /^core\/.*comment/;
+	getBlockTypes().forEach( ( block ) => {
+		if ( block.name.match( commentRegex ) ) {
+			unregisterBlockType( block.name );
+		}
+	} );
 
 	// allowed social/embeds
 	const allowedSocials = new Map();
