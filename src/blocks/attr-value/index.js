@@ -12,6 +12,7 @@ import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { formatIndent } from '@wordpress/icons';
 
 import metadata from './block.json';
+import transforms from './transforms';
 
 function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps( {
@@ -71,4 +72,4 @@ function save( { attributes } ) {
 	);
 }
 
-registerBlockType( metadata.name, { edit: Edit, save } );
+registerBlockType( metadata.name, { edit: Edit, save, transforms } );
