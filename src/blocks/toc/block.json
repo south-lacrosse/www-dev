@@ -28,7 +28,11 @@
 	},
 	"supports": {
 		"html": false,
-		"multiple": false
+		"multiple": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
 	},
 	"editorScript": "file:./index.js",
 	"viewScript": "file:./view.js"
