@@ -19,7 +19,7 @@ const template = [
 	[
 		'core/paragraph',
 		{
-			placeholder: 'Notes to always display e.g. non-grass pitch',
+			content: 'Notes to always display e.g. non-grass pitch',
 		},
 	],
 	[ 'semla/map', {} ],
