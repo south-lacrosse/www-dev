@@ -3,15 +3,10 @@
  *
  * - Add controls to set our custom classes to core blocks, e.g. "compact" on
  *    table (maybe too much integration with plugin/theme?)
- * - remove blocks/variations we don't need
+ * - remove all comment blocks, plus audio and video
  */
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
-import {
-	getBlockTypes,
-	getBlockVariations,
-	unregisterBlockType,
-	unregisterBlockVariation,
-} from '@wordpress/blocks';
+import { getBlockTypes, unregisterBlockType } from '@wordpress/blocks';
 import {
 	PanelBody,
 	SelectControl,
@@ -30,33 +25,12 @@ import './editor.css';
 
 domReady( function () {
 	unregisterBlockType( 'core/audio' );
-	// unregisterBlockType( 'core/latest-comments' );
 	unregisterBlockType( 'core/video' );
 	const commentRegex = /^core\/.*comment/;
 	getBlockTypes().forEach( ( block ) => {
 		if ( block.name.match( commentRegex ) ) {
 			unregisterBlockType( block.name );
 		}
-	} );
-
-	// allowed social/embeds
-	const allowedSocials = new Map();
-	allowedSocials.set( 'facebook', true );
-	allowedSocials.set( 'github', true );
-	allowedSocials.set( 'instagram', true );
-	allowedSocials.set( 'twitter', true );
-	allowedSocials.set( 'youtube', true );
-
-	// remove unwanted embed/social-link variations
-	// if you want to see what they are then:
-	// console.table(getBlockVariations('core/social-link'));
-	// wp.blocks.getBlockVariations if calling from console
-	[ 'core/embed', 'core/social-link' ].forEach( ( block ) => {
-		getBlockVariations( block ).forEach( ( variation ) => {
-			if ( ! allowedSocials.has( variation.name ) ) {
-				unregisterBlockVariation( block, variation.name );
-			}
-		} );
 	} );
 } );
 
