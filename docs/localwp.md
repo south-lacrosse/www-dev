@@ -14,7 +14,7 @@ Local stores files in various places, but the most important one to know is how 
 │   │   └── sql
 │   ├── conf
 │   │   ├── apache
-│   │   ├── mysql
+│   │   ├── mariadb or mysql
 │   │   └── php
 │   └── logs
 ├── {another site folder}
@@ -29,7 +29,7 @@ Once Local is installed you should create a site for the South Lacrosse website.
 1. You can set defaults in Menu->Preferences. Under "New site defaults" you can set the site path (the parent directory where Local stores your sites' files, though on Windows it won't let you store them outside `C:\Users\your-username`). The default sites path ends `Local Sites`, so you might want to change that to `localwp` in order to keep spaces out of the file name, as that can cause problems with some tools.
 1. Add a new site (the + button in the bottom left), then "Create a new site".
     * On step 1 set the name to something like `South Lacrosse`, and pull down Advanced Options and set the domain to `dev.southlacrosse.org.uk`.
-    * On step 2 select Custom, and set the Web Server to Apache (note you must be connected to the internet as the Local installation doesn't include Apache, and it will need to download it). Choose the latest installed versions of PHP and MySQL.
+    * On step 2 select Custom, and set the Web Server to Apache (note you must be connected to the internet as the Local installation doesn't include Apache, and it will need to download it). You will need to choose from MySQL and MariaDB for the database, so pick whichever our current hosts are using (at time of writing MariaDB), and choose the latest installed version of that and PHP.
     * On step 3 set your administrator username and password to admin/admin, and leave the email. These will all be replaced later anyway.
     * It will then take a couple of minutes to install, probably asking for firewall permissions on the way (you should allow private networks not public). Once your site is started you should see its details.
 1. Under `SSL` click `Trust` to add the certificate to the current user's trusted list. That will stop your browser complaining that the site is insecure when you access it via HTTPS. You will need to restart your browser for this to take effect.
@@ -64,7 +64,7 @@ Once Local is installed you should create a site for the South Lacrosse website.
         {{/unless}}
         ```
 
-        You can remove both the `unless` lines to re-enable (or comment them out e.g. `{{!#unless apache}}`). You should also set `opcache.enable_cli=0`, which stops errors in WP-CLI (and shouldn't be enabled anyway).
+        You can remove both the `unless` lines to re-enable (or comment them out with `{{!#unless apache}}` and `{{!/unless}}`). You should also set `opcache.enable_cli=0`, which stops errors in WP-CLI (and shouldn't be enabled anyway).
 1. If you want to use WP-CLI from a `bash` shell on Windows you then you may encounter an error "'C:\Program' is not recognized as an internal or external command, operable program or batch file." when you run the `wp` command.
 
     This is probably because the `wp` file has Windows line endings, so you need to convert the file to Unix format with LF line endings. The file should be `C:\Program Files (x86)\Local\resources\extraResources\bin\wp-cli\win32\wp`, but if not you can find it with `which wp`. You will need Administrator rights to change it if the file is in `Program Files (x86)`.

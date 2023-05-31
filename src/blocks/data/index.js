@@ -86,6 +86,7 @@ function Edit( { attributes, setAttributes } ) {
 					>
 						<option value="none">Select...</option>
 						<option value="clubs_list">Clubs List</option>
+						<option value="clubs_grid">Clubs Grid</option>
 						<option value="clubs_map">Clubs Map</option>
 						<option value="curr_fixtures">Fixtures</option>
 						{ options }

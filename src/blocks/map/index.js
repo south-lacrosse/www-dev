@@ -45,7 +45,7 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 				clientId,
 				'semla/location'
 			).length !== 0,
-		[]
+		[ clientId ]
 	);
 
 	// Modal has shouldCloseOnClickOutside false as otherwise it closes if you
@@ -79,7 +79,7 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 						address if there is one).
 					</p>
 					<p>
-						Enter directions below the map so the are hidden when
+						Enter directions below the map so they are hidden when
 						the page initially loads. Since 99.9% of people have
 						have a SatNav on their phones only add anything if the
 						route is complicated, or things like the postcode taking

@@ -15,7 +15,7 @@ import { useSelect } from '@wordpress/data';
 
 import metadata from './block.json';
 
-const template = [
+const TEMPLATE = [
 	[
 		'core/paragraph',
 		{
@@ -25,10 +25,10 @@ const template = [
 	[ 'semla/map', {} ],
 ];
 
-// Note: because of https://github.com/WordPress/gutenberg/issues/14515
-// make sure to have different top level arrays which useMemo won't think are
-// equal, i.e. if you compare elements up to smallest array size. Easist to just
-// make first element different
+// Note: because of https://github.com/WordPress/gutenberg/issues/14515 make
+// sure to have arrays which useMemo won't think are equal, i.e. if you compare
+// elements up to smallest array size. Easiest to just make first element
+// different
 const ALLOWED_BLOCKS = [ 'core/image', 'core/paragraph' ];
 const ALLOWED_BLOCKS_PLUS_MAP = [ 'semla/map', ...ALLOWED_BLOCKS ];
 
@@ -38,7 +38,7 @@ function Edit( { clientId, attributes: { address }, setAttributes } ) {
 			!! select( blockEditorStore )
 				.getBlock( clientId )
 				.innerBlocks.find( ( block ) => block.name === 'semla/map' ),
-		[]
+		[ clientId ]
 	);
 
 	return (
@@ -66,7 +66,7 @@ function Edit( { clientId, attributes: { address }, setAttributes } ) {
 				allowedBlocks={
 					hasMap ? ALLOWED_BLOCKS : ALLOWED_BLOCKS_PLUS_MAP
 				}
-				template={ template }
+				template={ TEMPLATE }
 			/>
 		</div>
 	);
