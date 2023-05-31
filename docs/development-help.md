@@ -26,8 +26,6 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
     * `-a` for all
 * `git push -u origin <branch>` - pushes and sets default upstream branch
 * `git merge main` - merge current branch with another
-* `git pull --prune` to tell git to discard all local pointers to remote branches which do not exist any more (works with `fetch` or `fetch --all` too)
-* `git reset --hard origin/main` - force an overwrite of local files with the specified commit/branch. Be careful as any uncommitted local changes tracked files will be lost!
 * To merge a branch into another, while squashing it to 1 commit
 
     ```console
@@ -37,6 +35,9 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
     ```
 
     Omitting the -m parameter on the commit lets you modify a draft commit message containing every message from your squashed commits before finalizing your commit.
+* `git rebase main` - alternative to merge, and very useful when working on a feature branch if the main branch is updated. It takes all the changes that were committed on one branch and replays them on a different branch, so you get a linear history as if all the changes were made after the rebase commit. If the branch has been pushed remotely then you will need to `git push --force` to the remote.
+* `git pull --prune` to tell git to discard all local pointers to remote branches which do not exist any more (works with `fetch` or `fetch --all` too)
+* `git reset --hard origin/main` - force an overwrite of local files with the specified commit/branch. Be careful as any uncommitted local changes tracked files will be lost!
 * Deleting a branch on both local and remote repos
 
     ```console
@@ -61,6 +62,28 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
     Again, be careful. Should never be done on a `main` branch that has been pushed.
 * `git rebase --keep-base -i main` - rebase on to the base commit from main that the branch was created from. Useful for feature branches with many commits if you are trying to rebase or commit into main and are getting lots of conflicts in different commits. With this command you squash the commits into one, and can then deal with all the conflicts at once. The `-i` will open an editor, so change all commits apart from the first from "pick" to "s" for squash or "f" for fixup (docs will be in the editor).
 * `git cherry-pick <SHA-1>...<SHA-1> --no-commit` - apply commits from another branch
+
+### Remove All Git Commit History
+
+The steps are:
+
+* Checkout the main branch as orphan
+* Add all the files
+* Commit the changes
+* Delete the main branch
+* Rename the current branch to main
+* Finally, force update your repository
+* Optionally remove the old files
+
+```bash
+git checkout --orphan latest_branch
+git add -A
+git commit -am "commit message"
+git branch -D main
+git branch -m main
+git push -f origin main
+git gc --aggressive --prune=all
+```
 
 ### Stashing
 
@@ -400,5 +423,9 @@ Run it with `validate-website -v -s https://dev.southlacrosse.org.uk/`
 
 If you install Ruby for one of the above utilities, then you might find the following commands useful. `gem` is the name for Ruby packages.
 
+* `gem install mygem -v 0.6.1` - install a specific version of a gem
+* `gem outdated` - output a list of outdated gems including version number you currently have and the latest version number
+* `gem uninstall mygem` - will ask you which version to uninstall if you have more than one
+* `gem update` - update all gems to latest stable version
 * `gem update gem-name` - update a gem. You should run this on the gem you are using periodically to stay up to date.
 * `gem query --local` - list installed gems
