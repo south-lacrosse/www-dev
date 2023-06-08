@@ -145,7 +145,7 @@ When these instructions mention a "shell" they mean to open up a shell (e.g. com
         * Click Choose Files within the File Upload box.
         * Select the .sql.gz file(s) you were given and click Execute.
     * Otherwise your setup should have something like phyMyAdmin, so you can drop the backup there
-1. You should now be able to log in as any user. The administrator will be email 'user1@southlacrosse.org.uk' password 'pass'.
+1. You should now be able to log in as any user. The administrator will be email 'user1\@southlacrosse.org.uk' password 'pass'.
 1. Media files (images etc.) are stored in their own private repository. To get local copies you have a few choices:
     * If you have access to the `media` repository you can clone that by running `git clone git@github.com:south-lacrosse/media.git` from the `www` directory
     * Install the [BE Media from Production plugin](https://wordpress.org/plugins/be-media-from-production/) with `wp plugin install be-media-from-production` which will use media from the production site if it doesn't exist on the local machine. Make sure you add `define('BE_MEDIA_FROM_PRODUCTION_URL', 'https://www.southlacrosse.org.uk');` to your `wp-config.php` file.
@@ -257,11 +257,14 @@ Alternatively use the built-in `Snip & Sketch` tool to save to `png`.
 
 Images should be compressed before being uploaded. Useful tools are:
 
-* .jpg - compress with [MozJPEG](https://github.com/mozilla/mozjpeg/releases) or [ImageMagick](https://imagemagick.org/). [Gimp](https://www.gimp.org/) is an excellent free editing tool
+* .jpg
+    * [MozJPEG](https://github.com/mozilla/mozjpeg/releases) - command line optimization tool. To losslessly optimize an image in place use `jpegtran -copy none -progressive -optimize -outfile filename.jpg filename.jpg`
+    * [Gimp](https://www.gimp.org/) - is an excellent free GUI editing tool
+    * [ImageMagick](https://imagemagick.org/) - command line tool to manipulate images
 * .png - [OptiPNG](http://optipng.sourceforge.net/) usage `optipng -o7 -strip all chevron-down.png` - and it will take wildcards
-* .svg - `npm run svgo` will compress all SVGs in `www\wp-content\themes\lax\img`. You can also manually edit the xml in the `.svg` files.
+* .svg - `npm run svgo:plugin` and `npm run svgo:theme` will compress all SVGs in our respective plugin and theme `img` directories. You can also manually edit the XML in the `.svg` files.
 
-You can also use `src\optimize_images.pl` to run MozJPEG and OptiPNG on a directory.
+You can also run `src\optimize_images.pl` to execute MozJPEG and OptiPNG on specified directories (both must be installed), see the program for details. You should only run this on new directories as the process can take some time.
 
 ## Other Files
 
