@@ -257,6 +257,7 @@ Alternatively use the built-in `Snip & Sketch` tool to save to `png`.
 
 Images should be compressed before being uploaded. Useful tools are:
 
+* [Squoosh](https://squoosh.app/) - tool from Google to compress images locally
 * .jpg
     * [MozJPEG](https://github.com/mozilla/mozjpeg/releases) - command line optimization tool. To losslessly optimize an image in place use `jpegtran -copy none -progressive -optimize -outfile filename.jpg filename.jpg`
     * [Gimp](https://www.gimp.org/) - is an excellent free GUI editing tool
