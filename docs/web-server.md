@@ -34,14 +34,20 @@ See [Developer Help on WP-CLI](development-help.md#wp-cli-commands) for how to u
 
 This project adds the following commands:
 
-* `wp semla fixtures update|update-all|revert` - load fixtures from the Fixtures Google sheet. Options are:
-    * `update` - load the latest fixtures and flags, and generates league tables
-    * `update-all` - the same as `update`, plus it loads teams and divisions, which only needs to be done at the beginning of the season
-    * `revert` - revert to last update, use as a last resort. Ideally you should fix the sheet.
-* `wp semla purge current|history|menu`. We cache various objects, so if they cause a problem then you can purge them.
-* `wp semla history update-pages|stats` - Manage the history pages from the database. Should only be done as part of the [end of season processing](end-season.md).
+* `wp fixtures update [--all]|revert` - load fixtures from the Fixtures Google sheet. You should use the the SEMLA Admin menu as that purges fewer cached pages than the CLI version.
 
-There may be commands that haven't been added to this documentation, so you can run `wp help semla`.
+    Options are:
+    * `update` - load the latest fixtures and flags, and generates league tables
+    * `update --all` - the same as `update`, plus it loads teams and divisions, which only needs to be done at the beginning of the season
+    * `revert` - revert to last update, use as a last resort. Ideally you should fix the sheet.
+* `wp history update|winners|stats` - Manage the history pages from the database. Should only be done as part of the [end of season processing](end-season.md).
+* `wp purge current|history|menu`. We cache various objects, so if they cause a problem then you can purge them.
+* `wp semla-media attachments|sizes|unused`
+    * `wp semla-media sizes` - updates the image size meta data in the database. Use this if you have optimized the images in the `/media` directory outside of WordPress.
+    * `wp semla-media unused` - lists unused images. Adding `--format=ids` will just list the ids, so you can delete all these images with `wp post delete $(wp semla-media unused --format=ids) --force`, though you should be **very, very careful** when doing this as there may be false positives, and you can't undo this.
+    * `wp semla-media attachments` - validate attachments and their metadata against the filesystem, and can also delete media files from the filesystem which WordPress doesn't know about.
+
+There may be commands that haven't been added to this documentation, so you can run `wp help <command>`.
 
 ## Cacheing
 

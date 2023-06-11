@@ -12,3 +12,12 @@ There are many ways to do this, but the following work well for Windows:
 
 * [Xenu's Link Sleuth](http://home.snafu.de/tilman/xenulink.html) - old, but still good. Make sure to exclude `tel:` and `data:` URLs otherwise you will see excessive messages.
 * [SEO Macroscope](https://nazuke.github.io/SEOMacroscope/blog/) - add the line `add_filter('pre_option_blog_public', function() { return '1'; },99);` into `wp-content/plugins/semla/semla.php` to test sitemaps (and don't forget to remove that line after!).
+
+## Check Media
+
+Media files (mainly images) may still exist after they are removed from any posts and pages. To check
+which media isn't used any more run `wp semla-media unused`, and run `wp help semla-media unused` for the full options. If you are sure that it's OK to delete the unused files you can pipe the output from this command into `wp post delete`.
+
+You should also run `wp semla-media attachments` to validate attachments and their metadata against the filesystem. You can run this with the `--delete` flag (again, **be careful**) too delete media files from the filesystem which WordPress doesn't know about.
+
+See the `wp semla-media` command in the [Web Server docs](web-server.md#semla-wp-cli-commands) for details.

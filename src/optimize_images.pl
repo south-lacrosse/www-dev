@@ -4,7 +4,7 @@
 # directories specified on the command line. Defaults to running in test mode
 # where no files are updated. To modify the files run with the --go flag.
 
-# Once run you can use the 'wp semla media sizes' WP-CLI command to update the
+# Once run you can use the 'wp semla-media sizes' WP-CLI command to update the
 # WordPress image file size meta data.
 
 # Tools used are:
