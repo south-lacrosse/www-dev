@@ -34,7 +34,7 @@ try {
 		encoding: 'utf8',
 		mode: 0o644,
 	} );
-	process.stderr.write( `Written to ${ out }\n` );
+	process.stdout.write( `Written to ${ out }\n` );
 } catch ( err ) {
 	process.stderr.write( `Error: ${ err }\n` );
 	process.exit( 1 );
