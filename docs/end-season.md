@@ -70,7 +70,7 @@ Work for this phase should be done on the staging website, so `cd ~/public_html/
 
     (restore either backup with `mysql-stg backups/backup.sql.gz`)
 1. Run the end of season process with `./end-season.sh`. This will update all the history tables, and create WordPress pages. If you get errors from this step then you will need to fix the them, restore the backups, and try again.
-1. `end-season.sh` will output stats about the history tables for before and after the updates, so make sure they make sense. Note that some tables may add more rows than you expect, so `slh_tables` will add 1 row per team in each division. You should also make a note of the after stats to compare to production later (you can re-run with `wp semla history stats`).
+1. `end-season.sh` will output stats about the history tables for before and after the updates, so make sure they make sense. Note that some tables may add more rows than you expect, so `slh_tables` will add 1 row per team in each division. You should also make a note of the after stats to compare to production later (you can re-run with `wp history stats`).
 1. Check the results on the website. You should go to the history pages, and make sure competition winners have been updated, results for the year have been copied over, etc. And make 100% sure you aren't seeing cached pages because of Litespeed Cache.
 1. Create a new backup of the history tables with `./db-backup.sh slh`, and make sure it is good by seeing if it's just a bit larger than last season's backup.
 1. Copy the backup [off site](off-site-backups.md#how-to-recover-and-backup), and to be doubly safe also copy it to the SEMLA Webmaster's Google Drive folder `backups`.
@@ -81,8 +81,8 @@ Go back to the production bin directory `cd ~/public_html/bin`.
 
 1. If you need to do a restore you can use the full backup we did when copying from production to staging, so `./run-sql.sh backups/full-www.sql`. If the database has changed since then you should so a new full backup `./full-backup.sh`, and use that if you need to restore.
 1. Load up the new history tables with `./run-sql.sh ../sub/stg/bin/backups/slh-...sql.gz`
-1. Update the history pages with `wp semla history update-pages`
-1. Run `wp semla history stats` to make sure it matches staging after stats.
+1. Update the history pages with `wp history update`
+1. Run `wp history stats` to make sure it matches staging after stats.
 1. Test everything to make sure it's OK.
 1. If you did a Git checkout on the staging website remember to checkout the Git branch.
 1. If you have added new competitions or groups then you will need to update the History page to link to the newly generated pages. This page is manually created in order to be able to completely control the design.
