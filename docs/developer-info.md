@@ -123,11 +123,11 @@ When these instructions mention a "shell" they mean to open up a shell (e.g. com
     * Copy and replace the `DB_CHARSET` and `DB_COLLATE` lines
     * Copy and replace everything from `$table_prefix = 'wp_';` down, and remove anything between "Live Server" and "End Live Server" (that's the live server config, we don't need that here)
 1. If the site is running you will have to restart it for the changes take effect.
-1. Add any required plugins. At a minimum you should install Envira Gallery Lite. Note that you don't need to activate them if you are going to replace the WordPress database from the production version, as it has these plugins activated. You can install them by either:
+1. Add any required plugins. Note that you don't need to activate them if you are going to replace the WordPress database from the production version, as it has these plugins activated. You can install them by either:
     * In your shell
 
         ```console
-        wp plugin install envira-gallery-lite limit-login-attempts-reloaded
+        wp plugin install limit-login-attempts-reloaded
         ```
 
     * Go to your site's Add Plugins admin screen `https://dev.southlacrosse.org.uk/wp-admin/plugin-install.php` and install them manually
