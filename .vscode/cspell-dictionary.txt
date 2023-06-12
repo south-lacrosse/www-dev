@@ -8,7 +8,6 @@ dashicon
 dashicons
 dialog
 DMARC
-envira
 fgci
 FTPS
 Hostinger
