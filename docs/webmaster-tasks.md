@@ -2,6 +2,24 @@
 
 Useful information about regular tasks the Webmaster should perform.
 
+## Database
+
+You should periodically make sure the database is performing well.
+
+You can check the table sizes with `wp db size --all-tables --size_format=MB --decimals=2`, or use our [table-sizes.sh](../bin/table-sizes.sh) script.
+
+There shouldn't be enough activity on our site to cause any problems, but it might be worth optimizing the bigger tables every now and then. You can do it in MYSQLAdmin if the host provides it by selecting the database so you get the list of tables, selecting the ones you want to optimize (there is a Check all button at the bottom), and at the bottom in `With selected:` pick optimize.
+
+Alternatively run the MYSQL command line client with `mysql-www` and enter:
+
+```SQL
+OPTIMIZE TABLE `wp_options`, `wp_postmeta`, `wp_posts`;
+```
+
+You can also optimize the complete database with the command `wp db optimize`, though this is overkill.
+
+Note you don't need this on `slc_` and `backup_` tables as these are recreated when the fixtures are reloaded.
+
 ## Check Broken Links
 
 This probably only needs to be done every couple of months. You should run this on a local copy of the website, so download the latest backup and load it using `bin/load-production-backup.sh`.
