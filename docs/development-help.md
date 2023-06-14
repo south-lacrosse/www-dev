@@ -63,6 +63,22 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 * `git rebase --keep-base -i main` - rebase on to the base commit from main that the branch was created from. Useful for feature branches with many commits if you are trying to rebase or commit into main and are getting lots of conflicts in different commits. With this command you squash the commits into one, and can then deal with all the conflicts at once. The `-i` will open an editor, so change all commits apart from the first from "pick" to "s" for squash or "f" for fixup (docs will be in the editor).
 * `git cherry-pick <SHA-1>...<SHA-1> --no-commit` - apply commits from another branch
 
+### Modify A Specific Commit
+
+To modify a specific commit in your history use `git rebase`. Be careful as this will rewrite the Git history, so you will need to `git push --force` at the end, and therefore will cause problems for anyone who has already pulled since the commit you ae modifying.
+
+For example, to modify commit `58dff4b`, run:
+
+```bash
+git rebase -i 58dff4b~
+```
+
+You need the `~` (tilde) because you need to reapply commits on top of the previous commit to `58dff4b`. `-i` is `--interactive`,
+
+This will open up your default editor with a list of all commits. Find the line for `58dff4b` and change `pick` to `edit`. Save and exit, and the repo will be updated so it's as if you just had created commit `58dff4b`, and you can easily amend it. Make your changes and then commit them with the command: `git commit --all --amend --no-edit`.
+
+After that, reapply all the other commits with `git rebase --continue`.
+
 ### Remove All Git Commit History
 
 The steps are:
