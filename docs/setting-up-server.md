@@ -118,13 +118,9 @@ You should check which headers are used, and see if you need to update the SEMLA
 
 ## Emails
 
-You will need to migrate all email accounts over. We only use the host's email to forward emails to either personal accounts, or SEMLA GMail accounts, so you will just need to set up new forwarding accounts using the details from the old server.
+You will need to migrate all email accounts over. We mainly use the host's email to forward emails to either personal accounts or SEMLA GMail accounts, so you will just need to set up new forwarding accounts using the details from the old server.
 
-You should also set up email authentication using SPF, DKIM and DMARC. This will stop any emails being regarded as spam. The new host should have SPF and DKIM records set up in their DNS, or have an easy way to to do so. You should also set up a DMARC record. See the current host for the setting, it should be under a DNS TXT record named `_dmarc`, probably something like `v=DMARC1; p=quarantine`. When setting up a new host you should monitor everything first, so the record should initially bee something like `v=DMARC1; p=none; rua=mailto:webmaster@southlacrosse.org.uk`.
-
-You will also need to ensure that the GMail accounts use the new host's outbound servers to send email. In order to use the new servers before the domain is pointed to the new host you will need to add the new servers to the old server's SPF record - otherwise sent emails will be marked as spam. Not sure what to do about DKIM and DMARC as that wasn't set up the last time we moved servers, so you should research what to do. At worst you may have to disable DKIM and DMARC for a few days.
-
-To set up a new outbound server for each GMail account:
+You will also need to ensure that the GMail accounts use the new host's outbound servers to send email "From" the southlacrosse.org.uk domain. To set up a new outbound server for each GMail account:
 
 * Go to GMail
 * In the top right, click the gear icon (Settings), and then 'See all settings'.
@@ -132,6 +128,32 @@ To set up a new outbound server for each GMail account:
 * In the 'Send email as' section, find the @southlacrosse.org.uk email address, and click 'edit info'
 * Click 'Next Step'
 * Enter the new SMTP Server, port (587), username = probably your full SEMLA email address, password, and hit 'Save Changes'
+
+### Email Authentication
+
+SPF, DKIM, and DMARC help authenticate email senders by verifying that the emails came from the domain that they claim to be from, which helps prevent spam, phishing attacks, and other email security risks. The basic way it works is that SPF and DKIM verify an email, and DMARC determines what to do if they fail, which can be `none` (allow), `quarantine` (send to the spam folder), or `reject` to reject completely, which is the ideal setting (although some email providers will just send the email to spam).
+
+It should be noted that for DMARC to fail **both** SPF and DKIM must fail or not be aligned (the SPF/DKIM domain matches the From address).
+
+Our website hosts should have SPF and DKIM set up, or have a way to easily do so. To setup DMARC the hosts may have a process, or  you just need to add a DNS TXT record named `_dmarc`with the following content:
+
+```text
+v=DMARC1; p=reject; rua=mailto:dmarc@southlacrosse.org.uk
+```
+
+* `v` is the version
+* `p` stands for policy, and should ideally be set to `reject`
+* `rua` gives an email address for receiving email servers to send aggregate reports to, so that you can monitor your DMARC policy results.
+
+Make sure you create the `dmarc@southlacrosse.org.uk` email account to receive DMARC reports.
+
+You may want to set the DMARC policy to `none`, and then build up to `quarantine` and `reject` as you monitor the effect of having a new server.
+
+Not sure what to do about migrating DKIM, SPF and DMARC as they weren't set up the last time we moved servers, so you should research what to do, and update this document. At worst you may have to tell people not to send emails for a few days.
+
+### DMARC Monitoring
+
+TBC
 
 ### WordPress SMTP Settings
 
@@ -143,4 +165,4 @@ When you change the DNS records to point to the new host's nameservers you can u
 
 ## Finally
 
-Once everything is set up and working then you should add [Automating Backups](backups.md#automating-backups).
+Once everything is set up and working then you should add [Automated Backups](backups.md#automating-backups).
