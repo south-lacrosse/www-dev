@@ -22,9 +22,11 @@ Note you don't need this on `slc_` and `backup_` tables as these are recreated w
 
 ## Email Authentication (DMARC) Failures
 
-See [Email Authentication in Server Setup](setting-up-server.md#email-authentication) for information about email authentication, and how to set up the server.
+You should receive weekly DMARC summary emails to the Webmaster email address, which will alert you to any possible problems. For more details see [Email Authentication](setting-up-server.md#email-authentication) and [DMARC Monitoring](setting-up-server.md#dmarc-monitoring).
 
-You should monitor the `dmarc@southlacrosse.org.uk` email address to see if there are any problems. There are many solutions to do this.
+It should be noted that for DMARC to fail **both** SPF and DKIM must fail or not be aligned (the SPF/DKIM domain matches the From address).
+
+You should occasionally check the `failed` folder of `dmarc@southlacrosse.org.uk` for any emails that cannot be processed.
 
 ## Broken Links
 
@@ -45,3 +47,5 @@ which media isn't used any more run `wp semla-media unused`, and run `wp help se
 You should also run `wp semla-media attachments` to validate attachments and their metadata against the filesystem. You can run this with the `--delete` flag (again, **be careful**) to delete media files from the filesystem which WordPress doesn't know about.
 
 See the `wp semla-media` command in the [Web Server docs](web-server.md#semla-wp-cli-commands) for details.
+
+You may also want to check images that editors have uploaded in case you should optimize them. See the [Images help page](https://south-lacrosse.github.io/wp-help/images.html) and [Compression](developer-info.md#compression) for more details.

@@ -262,7 +262,7 @@ Images should be compressed before being uploaded. Useful tools are:
     * [MozJPEG](https://github.com/mozilla/mozjpeg/releases) - command line optimization tool. To losslessly optimize an image in place use `jpegtran -copy none -progressive -optimize -outfile filename.jpg filename.jpg`
     * [Gimp](https://www.gimp.org/) - is an excellent free GUI editing tool
     * [ImageMagick](https://imagemagick.org/) - command line tool to manipulate images
-* .png - [OptiPNG](http://optipng.sourceforge.net/) usage `optipng -o7 -strip all chevron-down.png` - and it will take wildcards
+* .png - [OptiPNG](http://optipng.sourceforge.net/) usage `optipng -o7 -strip all chevron-down.png`
 * .svg - `npm run svgo:plugin` and `npm run svgo:theme` will compress all SVGs in our respective plugin and theme `img` directories. You can also manually edit the XML in the `.svg` files.
 
 You can also run `src\optimize_images.pl` to execute MozJPEG and OptiPNG on specified directories (both must be installed), see the program for details. You should only run this on new directories as the process can take some time.

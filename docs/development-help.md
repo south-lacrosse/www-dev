@@ -25,6 +25,7 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
     * `-r` for remotes
     * `-a` for all
 * `git push -u origin <branch>` - pushes and sets default upstream branch
+* `git branch --set-upstream-to <remote-name>/<branch-name>` - change the default upstream branch
 * `git merge main` - merge current branch with another
 * To merge a branch into another, while squashing it to 1 commit
 

@@ -131,11 +131,11 @@ You will also need to ensure that the GMail accounts use the new host's outbound
 
 ### Email Authentication
 
-SPF, DKIM, and DMARC help authenticate email senders by verifying that the emails came from the domain that they claim to be from, which helps prevent spam, phishing attacks, and other email security risks. The basic way it works is that SPF and DKIM verify an email, and DMARC determines what to do if they fail, which can be `none` (allow), `quarantine` (send to the spam folder), or `reject` to reject completely, which is the ideal setting (although some email providers will just send the email to spam).
+SPF, DKIM, and DMARC help authenticate email senders by verifying that the emails came from the domain that they claim to be from, which helps prevent spam, phishing attacks, and other email security risks. SPF uses DNS to publish the domains, subdomains and mail servers from which authorized email can be sent. DKIM uses DNS to advertise the public keys that can be used to authenticate email messages as having legitimately originated from the domain. DMARC uses DNS to publish what should happen if SPF and DKIM fail, which can be `none` (allow), `quarantine` (send to the spam folder), or `reject` to reject completely, which is the ideal setting (although some email providers will just send the email to spam).
 
-It should be noted that for DMARC to fail **both** SPF and DKIM must fail or not be aligned (the SPF/DKIM domain matches the From address).
+It should be noted that for DMARC to fail **both** SPF and DKIM must fail or not be aligned (the SPF/DKIM domain matches the From address). So, emails which are resent from an email forwarding server like bounce.secureserver.net will pass SPF (for bounce.secureserver.net) but not be aligned (so overall SPF fail), but pass DKIM, and so pass DMARC, and be delivered to the user.
 
-Our website hosts should have SPF and DKIM set up, or have a way to easily do so. To setup DMARC the hosts may have a process, or  you just need to add a DNS TXT record named `_dmarc`with the following content:
+All website hosts should have SPF and DKIM set up, or have a way to easily do so. To setup DMARC the hosts may have a process, or you just need to add a DNS TXT record named `_dmarc` with the following content:
 
 ```text
 v=DMARC1; p=reject; rua=mailto:dmarc@southlacrosse.org.uk
@@ -147,13 +147,49 @@ v=DMARC1; p=reject; rua=mailto:dmarc@southlacrosse.org.uk
 
 Make sure you create the `dmarc@southlacrosse.org.uk` email account to receive DMARC reports.
 
-You may want to set the DMARC policy to `none`, and then build up to `quarantine` and `reject` as you monitor the effect of having a new server.
+You may want to set the DMARC policy to `none`, and then build back up to `quarantine` and `reject` as you monitor the effect of having a new server.
 
 Not sure what to do about migrating DKIM, SPF and DMARC as they weren't set up the last time we moved servers, so you should research what to do, and update this document. At worst you may have to tell people not to send emails for a few days.
 
 ### DMARC Monitoring
 
-TBC
+If you have the `rua` tag set as above then aggregate reports will be sent to `dmarc@southlacrosse.org.uk`, but these will be in a user unfriendly zipped XML format.
+
+To automate report handling we use [DmarcSrg](https://github.com/liuch/dmarc-srg), a PHP parser, viewer and summary report generator for incoming DMARC reports. Our setup sends a weekly summary email to the Webmaster, and also includes the web interface.
+
+Emails to `dmarc@southlacrosse.org.uk` will be in the Inbox before they are processed, the `processed` folder if they were processed OK, or `failed` folder if they cannot be processed, so you should check this occasionally.
+
+Processed emails and report data over a certain age are deleted by the clean up process.
+
+When moving to a new server you should be able to just copy over the server directory and `dmarc_` database tables, and setup any `cron` jobs that were on the old server. You should make sure the `dmarc-srg` directory is somewhere accessible from a web server, probably as a subdomain, and then password protect it - the host should have some way to do that.
+
+To setup from scratch:
+
+1. It's not essential, but it's useful to install DmarcSrg in a location accessible from the web. For the current server we installed it under `~/public_html/sub/` so we could create a subdomain, and then used the hosts tools to password protect that directory.
+1. In your chosen parent directory install with `git clone https://github.com/liuch/dmarc-srg.git`
+1. Add an `.htaccess` file in the `utils` directory with `Require all denied` to block access to that directory from the web server.
+1. Create and populate `config/conf.php`, based on the `dmarc-srg/conf.php` file from our private `wordpress-config` repo. You should use the same database as production so that it's easier to backup.
+1. `chmod 0600 config/conf.php` so the config file isn't readable by anyone else.
+1. In the `dmarc-srg` directory run `php utils/database_admin.php init` to create the tables.
+1. Create a set of `cron` jobs to process the reports and do any administration. The programs need to run from the `dmarc-srg` directory, so the commands should be something like `cd path/to/dmarc-srg && php utils/fetch_reports.php`
+
+The cron format is `min(s) hour(s) day(s) month(s) weekday(s) command`, so a suggested setup would be:
+
+```text
+# Get reports from the email account daily at 3am, The latest reports will be
+# available daily in the web interface.
+0 3 * * * path/to/wordpress/bin/dmarc-fetch-reports.sh
+
+# Send a weekly report email on Monday at 3:15am, backup the dmarc database, and
+# clean up old backups.
+15 3 * * 1 path/to/wordpress/bin/dmarc.sh
+
+# Clean up email account and dmarc database on the 1st of the month. See the
+# config file for the number of days to keep.
+30 3 1 * * path/to/wordpress/bin/dmarc-cleanup.sh
+```
+
+Note: `dmarc.sh` and `dmarc-cleanup.sh` assume DmarcSrg is installed in `sub/dmarc-srg` inside the WordPress directory.
 
 ### WordPress SMTP Settings
 

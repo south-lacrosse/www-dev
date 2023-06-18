@@ -60,7 +60,7 @@ Other backup scripts are:
 
 Backups should be run using `cron` jobs. The cron format is `min(s) hour(s) day(s) month(s) weekday(s) command`, e.g.
 
-```console
+```text
 # Run daily cron jobs at 4:40 every day:
 40 4 * * * command
 
@@ -75,7 +75,7 @@ You can list what's scheduled with `crontab -l`, and update with `crontab -e`, a
 
 We recommended doing a daily backup of the database, config, and media files:
 
-```console
+```text
 40 2 * * * $HOME/public_html/bin/regular-backup.sh
 10 2 * * * $HOME/public_html/bin/media-backup.sh
 0 2 * * * $HOME/public_html/bin/config-backup.sh
