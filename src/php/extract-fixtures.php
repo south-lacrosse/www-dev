@@ -1,14 +1,21 @@
 <?php
 /**
- * Extract data from xlsx spreadsheet into standard fixtures format, and
- * midlands from CSV
+ * Extract data from xlsx spreadsheet into standard fixtures format, midlands
+ * from CSV, flags from tab separated (generate in WordPress
+ * Admin->SEMLA->Flags Fixtures Formulas)
  *
- * In Sheets: paste CSV data, then Data > Split text to columns
+ * Run with
+ *
+ * php extract-fixtures.php excel-file.xlsx midlands.csv flags.tsv > out.txt
+ *
+ * Then copy/paste relevant part - top bit goes to Divisions tab
+ *
+ * In Sheets: right click->Paste Special->Paste Values Only (or Ctrl-Shift-v)
  */
 use Semla\Data_Access\SimpleXLSX;
 
-if (count($argv) !== 3) {
-	die("Usage: php $argv[0] excel-file.xlsx midlands.csv");
+if (count($argv) !== 4) {
+	die("Usage: php $argv[0] excel-file.xlsx midlands.csv flags.tsv");
 }
 
 $npmrc = parse_ini_file(dirname(__DIR__, 2) . '/.npmrc');
@@ -26,12 +33,13 @@ competitions($xlsx);
 echo "\n------\n";
 // $fixtures = [];
 $fixtures = [
-	'2024-03-03101A' => "Midlands Final Four SF,,03/03/2024,,,,v",
-	'2024-03-03101B' => "Midlands Final Four SF,,03/03/2024,,,,v",
-	'2024-03-24101' => "Midlands Final Four F,,03/03/2024,,,,v",
+	'2024-03-03101A' => "Midlands Final Four SF\t\t03/03/2024\t\t\t\tv",
+	'2024-03-03101B' => "Midlands Final Four SF\t\t03/03/2024\t\t\t\tv",
+	'2024-03-24101' => "Midlands Final Four F\t\t03/03/2024\t\t\t\tv",
 ];
 fixtures($xlsx, $fixtures);
 csv($argv[2], $fixtures);
+flags($argv[3], $fixtures);
 ksort($fixtures);
 echo implode("\n",$fixtures);
 echo "\n--- Completed";
@@ -43,7 +51,7 @@ function competitions($xlsx) {
 		echo "\n" . $rows[4][$col];
 		for ($row = 6; $row < 34; $row++) {
 			if ($rows[$row][$col] === 'Yes') {
-				echo ',' . team($rows[$row][0]);
+				echo "\t" . team($rows[$row][0]);
 			}
 		}
 	}
@@ -71,7 +79,7 @@ function fixtures($xlsx, &$fixtures) {
 		$away = team($rows[$row][$AWAY]);
 		$week = team($rows[$row][$WEEK]);
 		$sort = $date . $division['sort'] . $home . $away;
-		$fixtures[$sort] = "{$division['div']},$week,$ymd[2]/$ymd[1]/$ymd[0],,$home,,v,,$away";
+		$fixtures[$sort] = "{$division['div']}\t$week\t$ymd[2]/$ymd[1]/$ymd[0]\t\t$home\t\tv\t\t$away";
 	}
 }
 
@@ -117,11 +125,39 @@ function csv($file, &$fixtures) {
 			}
 			$home = team($match[1]);
 			$away = team($match[3]);
+			$venue = $venues[$location];
+			// swap home and away if venue is away and home is not same club
+			if ($away === $venue && substr($away,0,-1) !== substr($home,0,-1)) {
+				$old_home = $home;
+				$home = $away;
+				$away = $old_home;
+			}
+			if (substr($venue,0,-1) === substr($home,0,-1)) {
+				$venue = '';
+			} else {
+				$venue = "\t\t\t$venue";
+			}
 			$sort = $sort_date . $seq . $home . $away;
-			$fixtures[$sort] = "$div,,$date,,$home,,v,,$away,,,{$venues[$location]}";
+			$fixtures[$sort] = "$div\t\t$date\t\t$home\t\tv\t\t$away$venue";
 		}
 	}
 	fclose($handle);
+}
+
+function flags($file, &$fixtures) {
+	$lines = file($file);
+
+	$seq = 0;
+	foreach ($lines as $line) {
+		$line = trim($line);
+		if ($line === '') continue;
+		$split = explode("\t",$line);
+		$comp = array_shift($split);
+		$dmy = explode('/',$split[0]);
+		$seq++;
+		$sort = "$dmy[2]-$dmy[1]-$dmy[0]200" . str_pad($seq, 3, "0", STR_PAD_LEFT);
+		$fixtures[$sort] = "$comp\t\t" . implode("\t", $split);
+	}
 }
 
 function team($team) {
