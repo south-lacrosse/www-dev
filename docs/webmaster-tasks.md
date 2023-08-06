@@ -28,6 +28,10 @@ It should be noted that for DMARC to fail **both** SPF and DKIM must fail or not
 
 You should occasionally check the `failed` folder of `dmarc@southlacrosse.org.uk` for any emails that cannot be processed.
 
+## Search Console
+
+You should have access to [Google Search Console](https://search.google.com/search-console?resource_id=sc-domain:southlacrosse.org.uk) (if you don't have access try switching user to your southlacrosse email using the icon in the top right). With the console you can see all details of Google searches, and other useful information such as mobile usability issues.
+
 ## Broken Links
 
 This probably only needs to be checked every couple of months. You should run this on a local copy of the website, so download the latest backup and load it using `bin/load-production-backup.sh`.
