@@ -1,6 +1,14 @@
 # Web Server
 
-This file documents the setup of our web server. You can see the WordPress folder setup in [Design Notes](design-notes.md#folder-structure).
+## Hosting
+
+Our current hosts are Hostinger, who use their own [hPanel](https://hpanel.hostinger.com/hosting/southlacrosse.org.uk/) server control panel. They were picked because they are a good, performant, cheap web host, which fits with the low usage requirements for the SEMLA site. They also use the LiteSpeed server which is more performant than the standard Apache, and also means cacheing is built in using the LiteSpeed Cache WordPress plugin.
+
+Since it is a cheaper host there are some restrictions, so there is no `perl` or `ftp` available on the command line, and access logs are limited.
+
+## Server Folder Setup
+
+You can see the WordPress folder setup in [Design Notes](design-notes.md#folder-structure).
 
 ```txt
 ~
@@ -24,6 +32,7 @@ The following should be in `~/bin`, but if not then [they are available here](..
 * `media-www2stg.sh` - copy production media files to staging
 * `mysql-stg` - open a MySQL client to the staging database
 * `mysql-www` - open a MySQL client to the production database
+* `table-sizes.sh` - display size of all tables in the production database, so WordPress, fixtures, history etc.
 * `website-versions.sh` - show which Git commits the production and staging websites are on
 
 Note: both production and staging use the `south-lacrosse/www` Git repository, so to update the code use the normal Git commands.
