@@ -67,8 +67,8 @@ function fixtures($xlsx, &$fixtures) {
 	$AWAY = 5;
 	for ($row = count($rows) - 1; $row > 0; $row--) {
 		if ($rows[$row][$DIVISION] === ''
-		|| $rows[$row][$HOME] === 'BYE WEEK'
-		|| $rows[$row][$AWAY] === 'BYE WEEK'
+		|| str_starts_with($rows[$row][$HOME], 'BYE WEEK')
+		|| str_starts_with($rows[$row][$AWAY], 'BYE WEEK')
 		) {
 			continue;
 		}
@@ -85,6 +85,12 @@ function fixtures($xlsx, &$fixtures) {
 }
 
 function csv($file, &$fixtures) {
+	/**
+	 * File format looks like (extract from PDF and add commas)
+	 * Gameday 1 – Sunday 8th October 2023
+	 * Gameday 1a (Nuneaton 1), Gameday 1b (Sheffield Tanger), Gameday 1c (Leicester)
+	 * Nuneaton 1 Vs (League) Stoke, Sheffield Tanger Vs (League) Derby, Leicester Vs (League) Warwick
+ 	 */
 	$handle = fopen($file, "r");
 	if ($handle === FALSE) {
 		die("cannot open CSV file $file");
