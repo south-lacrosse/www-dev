@@ -1,8 +1,9 @@
 <?php
 /**
- * Extract data from xlsx spreadsheet into standard fixtures format, midlands
- * from CSV, flags from tab separated (generate in WordPress
- * Admin->SEMLA->Flags Fixtures Formulas)
+ * Extract data into standard fixtures format from:
+ * 	1. xlsx spreadsheet, for columns see fixtures() function
+ *  2. midlands from CSV (text extracted from PDF and commas added to separate fields)
+ *  3. flags from tab separated (generate in WordPress Admin->SEMLA->Flags Fixtures Formulas)
  *
  * Run with
  *
