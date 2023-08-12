@@ -80,6 +80,7 @@ ul.flags ul {
 
 #semla_toc {
 	float: none !important;
+	margin-top: 1em;
 }
 #semla_toc-nav ul ul {
 	margin-left: 30px;
