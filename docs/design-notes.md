@@ -70,6 +70,14 @@ All class files will start with a capital letter, and match the class name, e.g.
 
 There are also several `views` directories, which are used to separate the view components from the rest of the source. These files are usually mostly HTML, with PHP variables inserted. They are then `required` whenever needed in the relevant classes.
 
+## Theme Design
+
+### Content Width
+
+People find it easiest to read text 40–70 characters, so we have a standard content width of 720px. This applies to most content within the main body of the page (so ignoring the page header, menu, and page footer).
+
+We also have a wide width of 1024px, which is usually the maximum for other blocks, and also the page header/footer and menu. Data like league tables or fixtures will use an appropriate width up to this limit. Authors can also set the width on some blocks (e.g tables, but no paragraphs) using the Align option on the toolbar, which can have options None (max 720px), Wide (1024px), and Full width (use sparingly, if at all).
+
 ## Custom Editor Blocks
 
 Our custom Gutenberg editor blocks are found in the [src/blocks](../src/blocks/) directory. See the [readme file](../src/blocks/README.md) for details.
