@@ -1,33 +1,34 @@
-/* eslint-disable no-var */
 /* global google, top */
 
 ( function () {
 	'use strict';
 
-	var map, marker;
-	var geocoder = null;
+	let map,
+		marker,
+		geocoder = null;
 
-	var GEOCODER_STATUS_DESCRIPTION = {
+	const GEOCODER_STATUS_DESCRIPTION = {
 		UNKNOWN_ERROR:
 			'The request could not be successfully processed, yet the ' +
 			'exact reason for the failure is not known',
 		OVER_QUERY_LIMIT:
 			'The webpage has gone over the requests limit in too ' +
 			'short a time',
-		REQUEST_DENIED:
-			'The webpage is not allowed to use the geocoder for some ' +
-			'reason',
+		REQUEST_DENIED: 'The webpage is not allowed to use the geocoder',
 		INVALID_REQUEST: 'This request was invalid',
 		ZERO_RESULTS: 'The address is unknown, please try another',
 		ERROR: 'There was a problem contacting the Google servers',
 	};
 
-	function initMap() {
+	async function initMap() {
+		// https://developers.google.com/maps/documentation/javascript/reference
+		const { Map } = await google.maps.importLibrary( 'maps' );
+		const { ControlPosition, LatLng, LatLngBounds } =
+			await google.maps.importLibrary( 'core' );
+		const { Autocomplete } = await google.maps.importLibrary( 'places' );
 		// get the current lat/long (if any) from the main window
-		var lat = top.semla.loc.lat;
-		var long = top.semla.loc.long;
-		var address = top.semla.loc.address;
-		var geocodeAddress = false;
+		let { lat, long, address } = top.semla.loc;
+		let geocodeAddress = false;
 		if (
 			isNaN( lat ) ||
 			isNaN( long ) ||
@@ -40,11 +41,10 @@
 			top.semla.loc.long = long = -0.140634;
 			geocodeAddress = true;
 		}
-		var latLng = new google.maps.LatLng( lat, long );
+		const latLng = new LatLng( lat, long );
 
-		map = new google.maps.Map( document.getElementById( 'map' ), {
+		map = new Map( document.getElementById( 'map' ), {
 			center: latLng,
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			mapTypeControl: true,
 			disableDoubleClickZoom: true,
 			zoomControlOptions: true,
@@ -66,23 +66,23 @@
 			marker.setPosition( event.latLng );
 		} );
 		marker.addListener( 'position_changed', function () {
-			var position = marker.getPosition();
+			const position = marker.getPosition();
 			top.semla.loc.lat = parseFloat( position.lat().toFixed( 6 ) );
 			top.semla.loc.long = parseFloat( position.lng().toFixed( 6 ) );
 		} );
 
-		var searchBox = document.getElementById( 'searchBox' );
-		map.controls[ google.maps.ControlPosition.TOP_RIGHT ].push( searchBox );
+		const searchBox = document.getElementById( 'searchBox' );
+		map.controls[ ControlPosition.TOP_RIGHT ].push( searchBox );
 
-		var autocomplete = new google.maps.places.Autocomplete( searchBox, {
-			bounds: new google.maps.LatLngBounds(
-				new google.maps.LatLng( 50, -6 ), //sw
-				new google.maps.LatLng( 54, 2 ) //ne
+		const autocomplete = new Autocomplete( searchBox, {
+			bounds: new LatLngBounds(
+				new LatLng( 50, -6 ), //sw
+				new LatLng( 54, 2 ) //ne
 			),
 			componentRestrictions: { country: 'gb' },
 		} );
 		autocomplete.addListener( 'place_changed', function () {
-			var place = this.getPlace();
+			const place = this.getPlace();
 			if ( ! place.geometry ) {
 				if ( place.name.trim() === '' ) {
 					return;
@@ -112,5 +112,5 @@
 		}
 	}
 
-	window.addEventListener( 'load', initMap );
+	initMap();
 } )();

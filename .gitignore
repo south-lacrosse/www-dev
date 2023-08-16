@@ -1,3 +1,4 @@
 /node_modules/
 /.npmrc
 work/
+/test/map/gapi.js
