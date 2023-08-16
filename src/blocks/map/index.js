@@ -20,7 +20,7 @@ import {
 	ToolbarGroup,
 	ToolbarButton,
 } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
+import { select, useSelect } from '@wordpress/data';
 import { RawHTML, useState } from '@wordpress/element';
 
 import metadata from './block.json';
@@ -30,7 +30,7 @@ import transforms from './transforms';
 const ALLOWED_BLOCKS = [ 'core/image', 'core/paragraph' ];
 
 function Edit( { clientId, attributes, setAttributes, isSelected } ) {
-	const { address, lat: blockLat, long: blockLong, latLong } = attributes;
+	const { lat: blockLat, long: blockLong, latLong } = attributes;
 
 	// store Lat/Long shown in side panel in state until "Update Map" is hit,
 	//  that way we don't save half worked on changes in the block
@@ -39,12 +39,16 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 		long: blockLong,
 	} );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
-	const hasLocationBlockParent = useSelect(
-		( select ) =>
-			select( blockEditorStore ).getBlockParentsByBlockName(
-				clientId,
-				'semla/location'
-			).length !== 0,
+	const locationBlockId = useSelect(
+		( withSelect ) => {
+			const parents = withSelect(
+				blockEditorStore
+			).getBlockParentsByBlockName( clientId, 'semla/location' );
+			if ( parents.length !== 0 ) {
+				return parents[ 0 ];
+			}
+			return null;
+		},
 		[ clientId ]
 	);
 
@@ -62,7 +66,12 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 							window.semla.loc = {
 								lat: blockLat,
 								long: blockLong,
-								address,
+								address: locationBlockId
+									? select(
+											blockEditorStore
+									  ).getBlockAttributes( locationBlockId )
+											.address
+									: null,
 							};
 							setIsModalOpen( true );
 						} }
@@ -75,8 +84,8 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 						To display the map either enter the coordinates below,
 						or find the exact location on a Google map using the
 						button in the toolbar (the map will start at the current
-						location, or if none is set then it will start at the
-						address if there is one).
+						location, or if none is set and Map is inside a Location
+						block with an address then it will start there).
 					</p>
 					<p>
 						Enter directions below the map so they are hidden when
@@ -140,11 +149,6 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 					className="semla-map-modal"
 					shouldCloseOnClickOutside={ false }
 				>
-					<p>
-						Drag the marker or double-click to set the exact
-						position. You can also use the search box to search for
-						a location.
-					</p>
 					<iframe
 						title="Map"
 						id="semla-map-iframe"
@@ -177,10 +181,15 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 							Cancel
 						</Button>
 					</ButtonGroup>
+					<p className="semla-map-instructions">
+						Drag the marker or double-click to set the exact
+						position. You can also use the search box to search for
+						a location.
+					</p>
 				</Modal>
 			) }
 			<div className="semla__border semla__border_dashed">
-				{ ! hasLocationBlockParent && isSelected && (
+				{ locationBlockId === null && isSelected && (
 					<p className="no-top-margin">
 						<strong>WARNING:</strong> This is a standalone map.
 						Transform it to a Location block for a club or venue

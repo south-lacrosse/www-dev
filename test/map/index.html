@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Map Test</title>
+		<!--
+			add a file in this directory called gapi.js with:
+			window.semla = { gapi: 'api-key' };
+		-->
+		<script src="gapi.js"></script>
+		<style>
+			#modal {
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				z-index: 99;
+				left: 0;
+				top: 0;
+				background-color: #fff;
+			}
+			#semla-map-iframe {
+				height: 350px;
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Map Test</h1>
+		<label
+			>Latitude:<br />
+			<input type="text" id="lat" name="lat" value=""
+		/></label>
+		<br />
+		<label
+			>Longitude:<br />
+			<input type="text" id="long" name="long" value=""
+		/></label>
+		<br />
+		<label
+			>Address:<br />
+			<input type="text" id="addr" name="long" value=""
+		/></label>
+		<br /><br />
+		<button type="button" id="btn">Open Map</button>
+	</body>
+	<script src="index.js"></script>
+</html>

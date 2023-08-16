@@ -1,9 +1,10 @@
 body {
 	font-family: Roboto, Arial, sans-serif;
-	font-size: 10pt;
+	font-size: 14px;
 	color: #333;
 	margin: 0;
 	padding: 8px;
+	height: calc(100vh - 16px);
 }
 #map {
 	width: 100%;

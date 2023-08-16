@@ -58,22 +58,20 @@ ul.flags ul {
 
 /*--------------------- map -------------------*/
 
-/* workaround for specificity issues */
-.semla-map-modal.semla-map-modal {
+.semla-map-modal {
 	width: 90%;
-	height: 90%;
-}
-.semla-map-modal > .components-modal__content {
-	display: flex;
-	flex-direction: column;
+	max-height: 90%; /* override WP */
 }
 #semla-map-iframe {
 	width: 100%;
-	height: calc(100% - 70px);
-	flex: 1;
+	height: 400px;
+}
+.semla-map-instructions {
+	margin-top: 0;
 }
 .semla-map-buttons {
-	text-align: right;
+	margin-left: 10px;
+	float: right;
 }
 
 /*--------------------- toc -------------------*/
