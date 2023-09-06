@@ -327,6 +327,30 @@ The WordPress command line interface is a very useful tool. See [full list of co
 
 WP-CLI will also work remotely by specifying an SSH host with the `--ssh` option, e.g. if you have our server set up as a Host sl in your `~/.ssh/config` file then `wp plugin list --ssh=sl:~/public_html` will list plugins on the production website, or if not then `--ssh=user@southlacrosse.org.uk:<port>~/public_html`. [See also the WPL-CLI guide](https://make.wordpress.org/cli/handbook/guides/running-commands-remotely/).
 
+Note that if you are accessing WP-CLI remotely or as a cron job then it won't have a pseudo-terminal allocated, so commands that display results in a table won't display correctly. Therefore results that should display like:
+
+```text
++------+-----------------------------+
+| ID   | post_title                  |
++------+-----------------------------+
+| 1288 | Nottingham Trent University |
+| 1285 | Derby Hurricanes            |
++------+-----------------------------+
+```
+
+will actually be:
+
+```text
+ID      post_title
+1288    Nottingham Trent University
+1285    Derby Hurricanes
+```
+
+You can work around this by:
+
+* For SSH access execute the command using `ssh -t` to allocate a pseudo-terminal, so `ssh sl -t "wp post list --post_type=clubs --post_status=publish --path=$HOME/public_html"`
+* For cron run the command using `script -eqc "[executable string]" /dev/null`. You can set the width that lines will wrap at with `stty columns nn`. A complete example is `script -eqc "stty columns 120;cd ~/public_html;wp post list --post_type=clubs --post_status=publish" /dev/null`
+
 ### Plugins
 
 * `wp plugin install plugin-names --activate`

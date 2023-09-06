@@ -227,7 +227,7 @@ Note: If you are working on JS in the plugin or theme using VSCode, then in orde
 
 ### Icons
 
-The Lax theme uses many SVGs (Scalable Vector Graphics) which were originally downloaded from [IcoMoon](https://icomoon.io/). SVGs can scale easily, and don't get pixelated, so are a good choice for icons.
+The Lax theme uses many SVGs (Scalable Vector Graphics) as they scale easily and don't get pixelated, so are a good choice for icons. Useful free libraries are [IcoMoon](https://icomoon.io/) and [Heroicons](https://heroicons.com/).
 
 The only problem with SVGs is that they aren't supported on really old browsers (IE8), so to allow access to the site for these users all icons which are absolutely required (home, search etc.) we have both a PNG and SVG. The PNG is served by default, and some JavaScript runs to determine if the browser supports SVG, and if it does it adds `svg` to the class on the `<html>` element so that SVGs can be served instead.
 
@@ -302,6 +302,6 @@ Not sure if we want HSTS, but if we do then leave at least few months after the 
 Header always set Strict-Transport-Security "max-age=604800; includeSubDomains"
 ```
 
-## Testing Cacheing
+## Testing Litespeed Cacheing
 
 To test locally you can drop our test plugin `src\plugins\lscache-test.php` into `wp-content\plugins` and activate it (or put it in `wp-content\mu-plugins`). It will log calls to litespeed actions to the debug log, which is usually `wp-content\debug.log`.
