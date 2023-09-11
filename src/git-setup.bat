@@ -11,5 +11,7 @@ git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe
 rem useful shortcuts to display history
 git config --global alias.lol "log --oneline --graph --decorate"
 git config --global alias.tree "log --oneline --decorate --all --graph"
+git config --global alias.commit-files "show --pretty= --name-status"
+git config --global alias.author-commit "log --pretty=format:'%C(yellow)%h%Creset %s%nAuthor: %an <%ae>%nCommit: %cn <%ce>%nADate:  %ai%nCDate:  %ci%n'"
 
 git config --list
