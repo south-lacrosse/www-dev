@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Load latest production database and notices to development
+# Load latest production database to development
 # Either run from somewhere inside the WordPress folder, or pass in the
 # WordPress directory
 
@@ -47,12 +47,5 @@ cd $wp || exit 1
 latest_backup=$(ssh sl 'ls -t ~/public_html/bin/backups/db*.sql.gz' | head -1)
 [[ -z "$latest_backup" ]] && exit
 scp "sl:$latest_backup" bin/backups/
-
-notices=wp-content/plugins/semla/core/notices.html
-if [[ $(ssh -q sl "test -f ~/public_html/$notices && echo 1 || echo 0") == '1' ]] ; then
-	scp sl:~/public_html/$notices $notices
-else
-	rm -f $notices
-fi
 
 bin/load-production-backup.sh bin/backups/$(basename -- "$latest_backup")
