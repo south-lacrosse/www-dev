@@ -18,6 +18,9 @@ import { createHigherOrderComponent } from '@wordpress/compose';
 import domReady from '@wordpress/dom-ready';
 import { useEffect, useRef } from '@wordpress/element';
 import { addFilter } from '@wordpress/hooks';
+import { external } from '@wordpress/icons';
+import { PluginMoreMenuItem } from '@wordpress/edit-post';
+import { registerPlugin } from '@wordpress/plugins';
 import LineSpacingIcon from './line-spacing-icon';
 import { hasClass, replaceClasses, toggleClass } from './class-utils';
 
@@ -235,7 +238,26 @@ function tableControls( props ) {
 	);
 }
 
-/* --------------------- Utilities ----------------------- /*
+/**
+ * Add an item to the Options menu (3 vertical dots) under Plugins
+ */
+function HelpMoreMenuItem() {
+	return (
+		<PluginMoreMenuItem
+			icon={ external }
+			href="https://south-lacrosse.github.io/wp-help/"
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			SEMLA Help
+		</PluginMoreMenuItem>
+	);
+}
+registerPlugin( 'semla-help', {
+	render: HelpMoreMenuItem,
+} );
+
+/* --------------------- Utilities ----------------------- */
 
 /*
  * Find out which of our options is in the className. Assumes first is '' for
