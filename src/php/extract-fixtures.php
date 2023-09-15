@@ -73,6 +73,7 @@ function fixtures($xlsx, &$fixtures) {
 			continue;
 		}
 		$division = division($rows[$row][$DIVISION]);
+		if (!$division) continue; // ignore flags
 		$date = substr($rows[$row][$DATE],0,10);
 		if ($date === '2023-04-06') $date = '2024-04-06';
 		$ymd = explode('-',$date);
@@ -193,6 +194,7 @@ function team($team) {
 }
 
 function division($division) {
+	if (str_starts_with(strtolower($division), 'flags')) return false;
 	$divisions = [
 		'Premier' => [ 'div' => 'SEMLA Premier Division', 'sort' => '000' ],
 		'Div 1' => [ 'div' => 'SEMLA Division 1', 'sort' => '001' ],
