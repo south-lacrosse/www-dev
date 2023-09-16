@@ -6,7 +6,11 @@
  * - remove all comment blocks, plus audio and video
  */
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
-import { getBlockTypes, unregisterBlockType } from '@wordpress/blocks';
+import {
+	getBlockTypes,
+	unregisterBlockType,
+	unregisterBlockVariation,
+} from '@wordpress/blocks';
 import {
 	PanelBody,
 	SelectControl,
@@ -35,6 +39,67 @@ domReady( function () {
 			unregisterBlockType( block.name );
 		}
 	} );
+
+	// Remove unwanted variations. If you want to see what they are then:
+	// wp.blocks
+	// 	.getBlockVariations( 'core/social-link' )
+	// 	.sort( ( a, b ) => a.name.localeCompare( b.name ) )
+	// 	.reduce( ( accum, val ) => {
+	// 		return ( accum ? accum + ',' : '' ) + `'${ val.name }'`;
+	// 	}, '' );
+	//
+	// You might also want to remove core/embed variations
+
+	// Allowed variations are commented out. Note that we don't have a whitelist
+	// so that any future variations are allowed until they are explicitly
+	// removed.
+	[
+		'amazon',
+		'bandcamp',
+		'behance',
+		// 'chain',
+		'codepen',
+		'deviantart',
+		'dribbble',
+		'dropbox',
+		'etsy',
+		// 'facebook',
+		'feed',
+		'fivehundredpx',
+		'flickr',
+		'foursquare',
+		'github',
+		'goodreads',
+		'google',
+		// 'instagram',
+		'lastfm',
+		'linkedin',
+		// 'mail',
+		'mastodon',
+		'medium',
+		'meetup',
+		'patreon',
+		'pinterest',
+		'pocket',
+		'reddit',
+		'skype',
+		'snapchat',
+		'soundcloud',
+		'spotify',
+		'telegram',
+		'tiktok',
+		'tumblr',
+		'twitch',
+		// 'twitter',
+		'vimeo',
+		'vk',
+		'whatsapp',
+		'wordpress',
+		'yelp',
+		// 'youtube',
+	].forEach( ( variation ) =>
+		unregisterBlockVariation( 'core/social-link', variation )
+	);
 } );
 
 /**
