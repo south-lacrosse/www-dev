@@ -2,12 +2,16 @@
  * Modify WordPress core blocks.
  *
  * - Add controls to set our custom classes to core blocks, e.g. "compact" on
- *    table (maybe too much integration with plugin/theme?)
+ *    table
  * - remove all comment blocks, plus audio and video
+ * - remove unwanted variations of social links
+ * - add Callout variations
+ * - add link to SEMLA help to Options menu
  */
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
 import {
 	getBlockTypes,
+	registerBlockVariation,
 	unregisterBlockType,
 	unregisterBlockVariation,
 } from '@wordpress/blocks';
@@ -26,6 +30,7 @@ import { external } from '@wordpress/icons';
 import { PluginMoreMenuItem } from '@wordpress/edit-post';
 import { registerPlugin } from '@wordpress/plugins';
 import LineSpacingIcon from './line-spacing-icon';
+import InformationIcon from './information-icon';
 import { hasClass, replaceClasses, toggleClass } from './class-utils';
 
 import './editor.css';
@@ -87,7 +92,7 @@ domReady( function () {
 		'soundcloud',
 		'spotify',
 		'telegram',
-		'tiktok',
+		// 'tiktok',
 		'tumblr',
 		'twitch',
 		// 'twitter',
@@ -302,6 +307,76 @@ function tableControls( props ) {
 		</InspectorControls>
 	);
 }
+
+/**
+ * Add variations for all our callouts
+ *
+ * Note: isActive and modifyGroupIsActive() are commented out. They allow
+ * WordPress to know the callout variation, and so display the name and icon in
+ * the toolbar and document overview. For now this wasn't determined to be
+ * needed, but can be added back if needed.
+ */
+addCalloutVariation( 'alert', 'Alert' );
+addCalloutVariation( 'info', 'Information' );
+addCalloutVariation( 'note', 'Note' );
+addCalloutVariation( 'tip', 'Tip' );
+addCalloutVariation( 'warning', 'Warning' );
+
+function addCalloutVariation( id, title ) {
+	registerBlockVariation( 'core/group', {
+		name: `callout-${ id }`,
+		title: `${ title } Callout`,
+		description: 'Draw attention to specific information',
+		example: {
+			innerBlocks: [
+				{
+					name: 'core/paragraph',
+					attributes: {
+						content: 'Draw attention to this message!',
+					},
+				},
+			],
+		},
+		icon: InformationIcon,
+		attributes: {
+			layout: { type: 'default' },
+			className: `callout callout-${ id }`,
+		},
+		// isActive: ( blockAttributes ) => {
+		// 	return (
+		// 		blockAttributes.className &&
+		// 		hasClass( blockAttributes.className, `callout-${ id }` ) &&
+		// 		hasClass( blockAttributes.className, 'callout' )
+		// 	);
+		// },
+		innerBlocks: [ [ 'core/paragraph' ] ],
+	} );
+}
+/**
+ * Wrap the isActive function of the core/group group variation as otherwise it
+ * will always return true for our callout variations.
+ */
+// function modifyGroupIsActive() {
+// 	const variations = getBlockVariations( 'core/group' );
+// 	for ( let i = 0; i < variations.length; i++ ) {
+// 		if ( variations[ i ].name !== 'group' ) continue;
+// 		const wrappedIsActive = variations[ i ].isActive;
+// 		variations[ i ].isActive = ( blockAttributes, variationAttributes ) => {
+// 			if (
+// 				blockAttributes.className &&
+// 				hasClass(
+// 					blockAttributes.className,
+// 					'callout-(alert|info|tip|note|warning)'
+// 				) &&
+// 				hasClass( blockAttributes.className, 'callout' )
+// 			) {
+// 				return false;
+// 			}
+// 			return wrappedIsActive( blockAttributes, variationAttributes );
+// 		};
+// 		return;
+// 	}
+// }
 
 /**
  * Add an item to the Options menu (3 vertical dots) under Plugins
