@@ -10,7 +10,6 @@
 	},
 	"scripts": {
 		"build:blocks": "cross-env-shell wp-scripts build --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
-		"build:blocks-core": "cross-env-shell wp-scripts build src/blocks/core/core.js --webpack-src-dir=src/blocks/core --output-path=$npm_config_www/wp-content/plugins/semla/blocks-core",
 		"check-engines": "wp-scripts check-engines",
 		"format:blocks": "wp-scripts format ./src/blocks",
 		"lint:css": "wp-scripts lint-style ./src/blocks/**/*{.css,.scss}",
@@ -19,8 +18,6 @@
 		"packages-update": "wp-scripts packages-update",
 		"start": "cross-env-shell wp-scripts start --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
 		"start-hot": "cross-env-shell wp-scripts start --hot --allowed-hosts dev.southlacrosse.org.uk --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
-		"start-core": "cross-env-shell wp-scripts start src/blocks/core/core.js --webpack-src-dir=src/blocks/core --output-path=$npm_config_www/wp-content/plugins/semla/blocks-core",
-		"start-hot-core": "cross-env-shell wp-scripts start --hot --allowed-hosts dev.southlacrosse.org.uk src/blocks/core/core.js --webpack-src-dir=src/blocks/core --output-path=$npm_config_www/wp-content/plugins/semla/blocks-core",
 		"build:blocks-map-dialog": "node ./src/scripts/inline-map-dialog.mjs",
 		"format:non-blocks": "prettier -w . !src/blocks/**",
 		"format:wp": "cross-env-shell prettier -w $npm_config_www/ --ignore-path $npm_config_www/.prettierignore",
