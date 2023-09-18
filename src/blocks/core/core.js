@@ -22,7 +22,6 @@ import {
 	ToolbarGroup,
 	ToolbarDropdownMenu,
 } from '@wordpress/components';
-import { createHigherOrderComponent } from '@wordpress/compose';
 import domReady from '@wordpress/dom-ready';
 import { useEffect, useRef } from '@wordpress/element';
 import { addFilter } from '@wordpress/hooks';
@@ -107,10 +106,10 @@ domReady( function () {
 	);
 } );
 
-/**
- * Add controls to the core blocks to add our classes to the block's className.
+/*
+ * Add controls to the core blocks to add our custom classes to the block's className.
  */
-const addCoreBlocksControls = createHigherOrderComponent( ( BlockEdit ) => {
+addFilter( 'editor.BlockEdit', 'semla/custom-core-controls', ( BlockEdit ) => {
 	return ( props ) => {
 		let controls;
 		switch ( props.name ) {
@@ -133,12 +132,7 @@ const addCoreBlocksControls = createHigherOrderComponent( ( BlockEdit ) => {
 			</>
 		);
 	};
-}, 'coreBlocksControls' );
-addFilter(
-	'editor.BlockEdit',
-	'semla/custom-core-controls',
-	addCoreBlocksControls
-);
+} );
 
 function paragraphControls( props ) {
 	const className = props.attributes.className;
