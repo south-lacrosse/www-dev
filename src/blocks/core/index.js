@@ -6,7 +6,6 @@
  * - remove all comment blocks, plus audio and video
  * - remove unwanted variations of social links
  * - add Callout variations
- * - add link to SEMLA help to Options menu
  */
 import { BlockControls, InspectorControls } from '@wordpress/block-editor';
 import {
@@ -25,9 +24,6 @@ import {
 import domReady from '@wordpress/dom-ready';
 import { useEffect, useRef } from '@wordpress/element';
 import { addFilter } from '@wordpress/hooks';
-import { external } from '@wordpress/icons';
-import { PluginMoreMenuItem } from '@wordpress/edit-post';
-import { registerPlugin } from '@wordpress/plugins';
 import LineSpacingIcon from './line-spacing-icon';
 import InformationIcon from './information-icon';
 import { hasClass, replaceClasses, toggleClass } from './class-utils';
@@ -371,25 +367,6 @@ function addCalloutVariation( id, title ) {
 // 		return;
 // 	}
 // }
-
-/**
- * Add an item to the Options menu (3 vertical dots) under Plugins
- */
-function HelpMoreMenuItem() {
-	return (
-		<PluginMoreMenuItem
-			icon={ external }
-			href="https://south-lacrosse.github.io/wp-help/"
-			target="_blank"
-			rel="noopener noreferrer"
-		>
-			SEMLA Help
-		</PluginMoreMenuItem>
-	);
-}
-registerPlugin( 'semla-help', {
-	render: HelpMoreMenuItem,
-} );
 
 /* --------------------- Utilities ----------------------- */
 

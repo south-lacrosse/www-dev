@@ -2,6 +2,8 @@ abbrev
 abbrevs
 absint
 Adminer
+callout
+callouts
 color
 CURDATE
 dashicon
