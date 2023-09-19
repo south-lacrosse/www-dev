@@ -14,5 +14,6 @@ module.exports = {
 	entry: {
 		...getWebpackEntryPoints(),
 		'core/index': './src/blocks/core/index.js',
+		'editor/index': './src/blocks/editor/index.js',
 	},
 };
