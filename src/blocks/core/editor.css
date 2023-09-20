@@ -67,10 +67,6 @@
 
 /*--------------------- toc -------------------*/
 
-#semla_toc {
-	float: none !important;
-	margin-top: 1em;
-}
 .semla__filler {
 	padding: 12px 16px 13px;
 	border: 2px dashed #ddd;
