@@ -16,7 +16,6 @@ import {
 } from '@wordpress/blocks';
 import {
 	PanelBody,
-	SelectControl,
 	ToggleControl,
 	ToolbarGroup,
 	ToolbarDropdownMenu,
@@ -161,44 +160,24 @@ const listSpacingOptions = [
 	{ label: 'Medium spaced', value: 'medium-spaced' },
 	{ label: 'Large Spaced', value: 'spaced' },
 ];
-const orderedListStyleOptions = [
-	{ label: 'Default', value: '' },
-	{ label: 'Alphabetic', value: 'is-style-alpha' },
-	{ label: 'Roman numerals', value: 'is-style-roman' },
-];
 const unstyledClass = 'is-style-unstyled';
 
-function orderedListStyleControls( className, setAttributes ) {
-	const style = getOption( className, orderedListStyleOptions );
-	return (
-		<SelectControl
-			value={ style }
-			options={ orderedListStyleOptions }
-			onChange={ ( newStyle ) =>
-				setAttributes( {
-					className: changeOption(
-						className,
-						newStyle,
-						orderedListStyleOptions
-					),
-				} )
-			}
-		/>
-	);
-}
-
-function unorderedListStyleControls( className, setAttributes ) {
+function UnorderedListSettings( { className, setAttributes } ) {
 	const isUnstyled = hasClass( className, unstyledClass );
 	return (
-		<ToggleControl
-			label="Unstyled"
-			checked={ isUnstyled }
-			onChange={ () => {
-				setAttributes( {
-					className: toggleClass( className, unstyledClass ),
-				} );
-			} }
-		/>
+		<InspectorControls>
+			<PanelBody title="Unordered list settings">
+				<ToggleControl
+					label="Unstyled"
+					checked={ isUnstyled }
+					onChange={ () => {
+						setAttributes( {
+							className: toggleClass( className, unstyledClass ),
+						} );
+					} }
+				/>
+			</PanelBody>
+		</InspectorControls>
 	);
 }
 
@@ -213,11 +192,11 @@ function ListControls( { attributes, setAttributes } ) {
 			isFirstRender.current = false;
 			return;
 		}
-		const newClass = ordered
-			? replaceClasses( className, [ unstyledClass ], '' )
-			: changeOption( className, '', orderedListStyleOptions );
-		if ( newClass !== className ) {
-			setAttributes( { className: newClass } );
+		if ( ordered ) {
+			const newClass = replaceClasses( className, [ unstyledClass ], '' );
+			if ( newClass !== className ) {
+				setAttributes( { className: newClass } );
+			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ ordered ] );
@@ -245,20 +224,9 @@ function ListControls( { attributes, setAttributes } ) {
 
 	return (
 		<>
-			<InspectorControls>
-				<PanelBody
-					title={
-						( ordered ? 'Ordered' : 'Unordered' ) + ' list style'
-					}
-				>
-					{ ordered
-						? orderedListStyleControls( className, setAttributes )
-						: unorderedListStyleControls(
-								className,
-								setAttributes
-						  ) }
-				</PanelBody>
-			</InspectorControls>
+			{ ! ordered && (
+				<UnorderedListSettings { ...{ className, setAttributes } } />
+			) }
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarDropdownMenu
