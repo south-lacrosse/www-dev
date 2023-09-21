@@ -104,27 +104,36 @@ domReady( function () {
 /*
  * Add controls to the core blocks to add our custom classes to the block's className.
  */
-addFilter( 'editor.BlockEdit', 'semla/custom-core-controls', ( BlockEdit ) => {
-	return ( props ) => {
-		let controls;
-		switch ( props.name ) {
-			case 'core/list':
-				controls = ListControls;
-				break;
-			case 'core/table':
-				controls = tableControls;
-				break;
-			default:
-				return <BlockEdit { ...props } />;
+addFilter(
+	'editor.BlockEdit',
+	'semla/custom-core-controls',
+	( BlockEdit ) => ( props ) => {
+		if ( props.name === 'core/list' ) {
+			return (
+				<>
+					<ListControls
+						className={ props.attributes.className }
+						ordered={ props.attributes.ordered }
+						setAttributes={ props.setAttributes }
+					/>
+					<BlockEdit { ...props } />
+				</>
+			);
 		}
-		return (
-			<>
-				<BlockEdit { ...props } />
-				{ controls( props ) }
-			</>
-		);
-	};
-} );
+		if ( props.name === 'core/table' ) {
+			return (
+				<>
+					<TableControls
+						className={ props.attributes.className }
+						setAttributes={ props.setAttributes }
+					/>
+					<BlockEdit { ...props } />
+				</>
+			);
+		}
+		return <BlockEdit { ...props } />;
+	}
+);
 
 const listSpacingOptions = [
 	{ label: 'Regular spaced', value: '' },
@@ -152,9 +161,7 @@ function UnorderedListSettings( { className, setAttributes } ) {
 	);
 }
 
-function ListControls( { attributes, setAttributes } ) {
-	const { className, ordered } = attributes;
-
+function ListControls( { className, ordered, setAttributes } ) {
 	const isFirstRender = useRef( true );
 	// When switching between ordered and unordered make sure we remove classes
 	// of the other list type
@@ -212,8 +219,7 @@ function ListControls( { attributes, setAttributes } ) {
 	);
 }
 
-function tableControls( props ) {
-	const className = props.attributes.className;
+function TableControls( { className, setAttributes } ) {
 	const isCompact = hasClass( className, 'compact' );
 	return (
 		<InspectorControls>
@@ -222,7 +228,7 @@ function tableControls( props ) {
 					label="Compact"
 					checked={ isCompact }
 					onChange={ () => {
-						props.setAttributes( {
+						setAttributes( {
 							className: toggleClass( className, 'compact' ),
 						} );
 					} }
