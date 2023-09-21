@@ -108,9 +108,6 @@ addFilter( 'editor.BlockEdit', 'semla/custom-core-controls', ( BlockEdit ) => {
 	return ( props ) => {
 		let controls;
 		switch ( props.name ) {
-			case 'core/paragraph':
-				controls = paragraphControls;
-				break;
 			case 'core/list':
 				controls = ListControls;
 				break;
@@ -128,32 +125,6 @@ addFilter( 'editor.BlockEdit', 'semla/custom-core-controls', ( BlockEdit ) => {
 		);
 	};
 } );
-
-function paragraphControls( props ) {
-	const className = props.attributes.className;
-	const noPrint = hasClass( className, 'no-print' );
-
-	return (
-		<InspectorControls>
-			<PanelBody title="Print Options">
-				<ToggleControl
-					label="Don't print"
-					checked={ noPrint }
-					onChange={ () => {
-						props.setAttributes( {
-							className: toggleClass( className, 'no-print' ),
-						} );
-					} }
-					help={
-						noPrint
-							? 'Remove from printed page.'
-							: 'Show on printed page.'
-					}
-				/>
-			</PanelBody>
-		</InspectorControls>
-	);
-}
 
 const listSpacingOptions = [
 	{ label: 'Regular spaced', value: '' },
