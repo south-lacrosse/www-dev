@@ -66,7 +66,7 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 
 ### Modify A Specific Commit
 
-To modify a specific commit in your history use `git rebase`. Be careful as this will rewrite the Git history, so you will need to `git push --force` at the end, and therefore will cause problems for anyone who has already pulled since the commit you ae modifying.
+To modify a specific commit in your history use `git rebase`. Be careful as this will rewrite the Git history, so you will need to `git push --force` at the end, and therefore will cause problems for anyone who has already pulled since the commit you are modifying.
 
 For example, to modify commit `58dff4b`, run:
 
