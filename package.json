@@ -9,15 +9,15 @@
 		"url": "https://github.com/south-lacrosse/www-dev.git"
 	},
 	"scripts": {
-		"build:blocks": "cross-env-shell wp-scripts build --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
+		"build:blocks": "cross-env-shell wp-scripts build --config=webpack-full.config.js --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
 		"check-engines": "wp-scripts check-engines",
 		"format:blocks": "wp-scripts format ./src/blocks",
 		"lint:css": "wp-scripts lint-style ./src/blocks/**/*{.css,.scss}",
 		"lint:js": "wp-scripts lint-js ./src/blocks",
 		"lint:scripts": "eslint ./src/scripts/*.mjs",
 		"packages-update": "wp-scripts packages-update",
-		"start": "cross-env-shell wp-scripts start --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
-		"start-hot": "cross-env-shell wp-scripts start --hot --allowed-hosts dev.southlacrosse.org.uk --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
+		"start": "cross-env-shell wp-scripts start --webpack-src-dir=src/blocks/$npm_config_block --output-path=$npm_config_www/wp-content/plugins/semla/blocks/$npm_config_block",
+		"start-all": "cross-env-shell wp-scripts start --config=webpack-full.config.js --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
 		"build:blocks-map-dialog": "node ./src/scripts/inline-map-dialog.mjs",
 		"format:non-blocks": "prettier -w . !src/blocks/**",
 		"format:wp": "cross-env-shell prettier -w $npm_config_www/ --ignore-path $npm_config_www/.prettierignore",
