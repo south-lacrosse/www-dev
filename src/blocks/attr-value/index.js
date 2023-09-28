@@ -3,7 +3,6 @@
  */
 import {
 	BlockControls,
-	PlainText,
 	RichText,
 	useBlockProps,
 } from '@wordpress/block-editor';
@@ -15,8 +14,9 @@ import metadata from './block.json';
 import transforms from './transforms';
 
 function Edit( { attributes, setAttributes } ) {
+	const { attr, value, sameLine } = attributes;
 	const blockProps = useBlockProps( {
-		className: attributes.sameLine ? 'avf-same-line' : '',
+		className: sameLine ? 'avf-same-line' : '',
 	} );
 
 	return (
@@ -26,29 +26,28 @@ function Edit( { attributes, setAttributes } ) {
 					<ToolbarButton
 						icon={ formatIndent }
 						label="Put value on line below attribute"
-						isActive={ ! attributes.sameLine }
+						isActive={ ! sameLine }
 						onClick={ () => {
 							setAttributes( {
-								sameLine: ! attributes.sameLine,
+								sameLine: ! sameLine,
 							} );
 						} }
 					/>
 				</ToolbarGroup>
 			</BlockControls>
-			<div className="avf-name">
-				<PlainText
-					value={ attributes.attr }
-					placeholder="Attribute"
-					onChange={ ( val ) => setAttributes( { attr: val } ) }
-				/>
-			</div>
-			{ attributes.sameLine && (
-				<div style={ { display: 'table-cell', width: '1em' } }>:</div>
-			) }
+			<RichText
+				tagName="div"
+				className="avf-name"
+				allowedFormats={ [] }
+				withoutInteractiveFormatting
+				value={ attr }
+				placeholder="Attribute"
+				onChange={ ( val ) => setAttributes( { attr: val } ) }
+			/>
 			<RichText
 				tagName="div"
 				className="avf-value"
-				value={ attributes.value }
+				value={ value }
 				placeholder="Value"
 				onChange={ ( val ) => setAttributes( { value: val } ) }
 			/>
@@ -57,16 +56,21 @@ function Edit( { attributes, setAttributes } ) {
 }
 
 function save( { attributes } ) {
+	const { attr, value, sameLine } = attributes;
 	const blockProps = useBlockProps.save( {
-		className: attributes.sameLine ? 'avf-same-line' : '',
+		className: sameLine ? 'avf-same-line' : '',
 	} );
 	return (
 		<div { ...blockProps }>
-			<div className="avf-name">{ attributes.attr }</div>
+			<RichText.Content
+				tagName="div"
+				className="avf-name"
+				value={ attr }
+			/>
 			<RichText.Content
 				tagName="div"
 				className="avf-value"
-				value={ attributes.value }
+				value={ value }
 			/>
 		</div>
 	);

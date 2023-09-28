@@ -16,13 +16,6 @@
 	border-style: dashed;
 }
 
-/*--------------------- attr-value -------------------*/
-
-/* No colon in editor - it's added in edit() */
-.avf-name::after {
-	content: none !important;
-}
-
 /*--------------------- calendar -------------------*/
 
 .editor-styles-wrapper .semla-cal-placeholder__text-input-field {
