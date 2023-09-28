@@ -78,7 +78,7 @@ function Edit( { attributes, setAttributes } ) {
 					instructions="Select the data source"
 				>
 					<select
-						className="semla__select"
+						className="semla-select"
 						onChange={ ( event ) => {
 							setAttributes( { src: event.target.value } );
 							event.preventDefault();
@@ -112,7 +112,7 @@ function Edit( { attributes, setAttributes } ) {
 				</ToolbarGroup>
 			</BlockControls>
 			{ src === 'clubs_map' ? (
-				<p className="semla__border semla__border_dashed">
+				<p className="semla-border semla-border-dashed">
 					Clubs map will be inserted here - check the preview to see
 					actual rendering.
 				</p>

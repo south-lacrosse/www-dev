@@ -54,7 +54,7 @@ function Edit( { context: { postId, postType } } ) {
 					/>
 				</div>
 			) : (
-				<div className="club-icon semla__club-icon-empty">
+				<div className="club-icon semla-club-icon-empty">
 					Featured image will appear here
 				</div>
 			) }
