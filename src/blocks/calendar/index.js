@@ -143,7 +143,7 @@ function Edit( { attributes, setAttributes } ) {
 			>
 				<div className="components-placeholder__fieldset">
 					<input
-						className="semla-cal-placeholder__text-input-field"
+						className="semla-cal-input"
 						type="text"
 						value={ attributes.cid }
 						aria-label="Google Calendar id"

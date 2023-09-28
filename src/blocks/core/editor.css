@@ -5,27 +5,27 @@
 
 /*--------------------- Common css used in multiple blocks -------------------*/
 
-.semla__border {
+.semla-border {
 	border: 1px solid #8d96a0;
 	border-radius: 4px;
 	box-shadow: 0 0 0 transparent;
 	padding: 3px 8px;
 	transition: box-shadow 0.1s linear;
 }
-.semla__border_dashed {
+.semla-border-dashed {
 	border-style: dashed;
 }
 
 /*--------------------- calendar -------------------*/
 
-.editor-styles-wrapper .semla-cal-placeholder__text-input-field {
+.editor-styles-wrapper .semla-cal-input {
 	width: 100%;
 	line-height: 1.5;
 }
 
 /*--------------------- club-title -------------*/
 
-.semla__club-icon-empty {
+.semla-club-icon-empty {
 	background-color: #f0f0f0;
 	height: 150px;
 	padding: 10px;
@@ -36,7 +36,7 @@
 
 /*--------------------- data -------------------*/
 
-.semla__select {
+.semla-select {
 	line-height: 1.5 !important;
 }
 
@@ -56,11 +56,4 @@
 .semla-map-buttons {
 	margin-left: 10px;
 	float: right;
-}
-
-/*--------------------- toc -------------------*/
-
-.semla__filler {
-	padding: 12px 16px 13px;
-	border: 2px dashed #ddd;
 }

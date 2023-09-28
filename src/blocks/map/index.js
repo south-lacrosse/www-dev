@@ -188,7 +188,7 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 					</p>
 				</Modal>
 			) }
-			<div className="semla__border semla__border_dashed">
+			<div className="semla-border semla-border-dashed">
 				{ locationBlockId === null && isSelected && (
 					<p className="no-top-margin">
 						<strong>WARNING:</strong> This is a standalone map.
