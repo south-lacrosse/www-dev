@@ -1,5 +1,4 @@
 import { createBlock } from '@wordpress/blocks';
-import blockMeta from './block.json';
 
 const transforms = {
 	from: [
@@ -15,10 +14,16 @@ const transforms = {
 					if ( colon === -1 ) {
 						attr = content.trim();
 					} else {
-						attr = content.substring( 0, colon ).trim();
+						// remove all html from attribute - it will be bold
+						// anyway. If any closing tags are after the colon then
+						// they will get tidied up by the RichText component
+						attr = content
+							.substring( 0, colon )
+							.replace( /(<[^>]+>)/g, '' )
+							.trim();
 						value = content.substring( colon + 1 ).trim();
 					}
-					return createBlock( blockMeta.name, {
+					return createBlock( 'semla/attr-value', {
 						attr,
 						value,
 					} );

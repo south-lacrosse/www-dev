@@ -32,9 +32,8 @@ import './editor.css';
 domReady( function () {
 	unregisterBlockType( 'core/audio' );
 	unregisterBlockType( 'core/video' );
-	const commentRegex = /^core\/.*comment/;
 	getBlockTypes().forEach( ( block ) => {
-		if ( block.name.match( commentRegex ) ) {
+		if ( block.name.match( /^core\/.*comment/ ) ) {
 			unregisterBlockType( block.name );
 		}
 	} );
