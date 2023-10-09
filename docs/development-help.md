@@ -47,6 +47,9 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
     ```
 
     Use `-D` if branch has unmerged changes.
+* `git checkout other-branch file.txt`  - copy a file or directory from another branch. Rather that `other-branch` you can specify the commit hash or `remote_name/branch_name`.
+
+    Checkout will also stage the file, to only effect the working directory use `git restore --source other-branch file.txt`
 
 ### Commits
 
@@ -104,7 +107,7 @@ git gc --aggressive --prune=all
 
 ### Stashing
 
-* `git stash [-m message]` stash the changes in a dirty working directory away, so you can do things like switch to another branch
+* `git stash [-m message]` stash the changes in a dirty working directory away, so you can do things like switch to another branch. Add `--keep-index` to ignore staged files.
 * `git stash pop` restore the stashed changes, and remove from the stash list
 * `git stash apply` restore the stashed changes, but leaves on the stash
 * `git stash list` see what's stashed
