@@ -26,7 +26,7 @@ Local stores files in various places, but the most important one to know is how 
 Once Local is installed you should create a site for the South Lacrosse website. At various steps on this process you may be asked "Do you want to allow this app to make changes to your device?", to which you should say Yes.
 
 1. Run Local
-1. You can set defaults in Menu->Preferences. Under "New site defaults" you can set the site path (the parent directory where Local stores your sites' files, though on Windows it won't let you store them outside `C:\Users\your-username`). The default sites path ends `Local Sites`, so you might want to change that to `localwp` in order to keep spaces out of the file name, as that can cause problems with some tools.
+1. You can set defaults in Menu->Preferences. Under "New site defaults" you can set the site path (the parent directory where Local stores your sites' files, though on Windows it won't let you store them outside of your `%HOME%` directory `C:\Users\your-username`). The default sites path ends `Local Sites`, so you might want to change that to `localwp` in order to keep spaces out of the file name, as that can cause problems with some tools.
 1. Add a new site (the + button in the bottom left), then "Create a new site".
     * On step 1 set the name to something like `South Lacrosse`, and pull down Advanced Options and set the domain to `dev.southlacrosse.org.uk`.
     * On step 2 select Custom, and set the Web Server to Apache (note you must be connected to the internet as the Local installation doesn't include Apache, and it will need to download it). You will need to choose from MySQL and MariaDB for the database, so pick whichever our current hosts are using (at time of writing MariaDB), and choose the latest installed version of that and PHP.
@@ -87,7 +87,7 @@ You should also find the Site shell script so you can call it from any shell or 
 
 Local can automatically log you in to WordPress by going to your site and enabling `One-click admin`. You can then click on `WP Admin` to go straight to the Dashboard without having to log in. You can also add a bookmark to the same URL: `http://dev.southlacrosse.org.uk/wp-admin/?localwp_auto_login=1`.
 
-Local will intercept any emails sent by WordPress. To see them go to your site, and under Utilities
+Local will intercept any emails sent by WordPress. To see them go to your site in Local, and under Utilities
 you will find Mailhog.
 
 ## Possible Issues
@@ -126,7 +126,7 @@ If you cannot use our script then you will need to create your own batch file su
 
 ```bat
 @echo off
-call C:\Users\{user}\AppData\Roaming\Local\ssh-entry\{site slug}.bat
+call %HOME%\AppData\Roaming\Local\ssh-entry\{site slug}.bat
 code path\to\www-dev\south-lacrosse.code-workspace | exit
 ```
 

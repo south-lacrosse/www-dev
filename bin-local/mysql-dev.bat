@@ -9,7 +9,7 @@ rem If you are running Local you will need to set paths for MySql. Either use SE
 rem here, or call the Local Site shell script (see docs\localwp.md for details)
 
 rem setlocal
-rem SET MYSQL_HOME=C:\Users\username\AppData\Roaming\Local\run\8NY41wnZV\conf\mysql
+rem SET MYSQL_HOME=%HOME%\AppData\Roaming\Local\run\8NY41wnZV\conf\mysql
 rem SET PATH=C:\Program Files (x86)\Local\resources\extraResources\lightning-services\mysql-8.0.16+6\bin\win64\bin;%PATH%
 
-bash C:\Users\username\localwp\south-lacrosse\app\public\run-sql.sh %*
+bash %HOME%\localwp\south-lacrosse\app\public\run-sql.sh %*
