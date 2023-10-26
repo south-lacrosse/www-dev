@@ -6,7 +6,7 @@
 	"title": "Attribute/value pair",
 	"category": "text",
 	"icon": "feedback",
-	"description": "An attribute/value pair, e.g. for contacts 'Captain: name/email', or 'Colours: purple'",
+	"description": "An attribute/value pair, e.g. 'Colours: Purple'. Use Contact block for contacts.",
 	"attributes": {
 		"attr": {
 			"type": "string",
@@ -25,8 +25,8 @@
 	},
 	"example": {
 		"attributes": {
-			"attr": "Captain",
-			"value": "Fred Blogs<br><a href='mailto:fred@gmail.com'>fred@gmail.com</a><br><a href='tel:07555555555'>07555 555555</a>"
+			"attr": "Colours",
+			"value": "Purple"
 		}
 	},
 	"supports": {

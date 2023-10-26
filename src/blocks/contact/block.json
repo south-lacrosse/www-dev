@@ -1,0 +1,44 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "semla/contact",
+	"version": "1.0.0",
+	"title": "Contact",
+	"category": "text",
+	"icon": "admin-users",
+	"description": "Contact with role and name, email, and telephone",
+	"attributes": {
+		"role": {
+			"type": "string"
+		},
+		"name": {
+			"type": "string"
+		},
+		"email": {
+			"type": "string"
+		},
+		"tel": {
+			"type": "string"
+		},
+		"sameLine": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"example": {
+		"attributes": {
+			"role": "Captain",
+			"name": "Fred Blogs",
+			"email": "fred@gmail.com",
+			"tel": "07555 555555"
+		}
+	},
+	"supports": {
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"editorScript": "file:./index.js"
+}
