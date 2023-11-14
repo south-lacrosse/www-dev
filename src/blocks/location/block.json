@@ -12,6 +12,10 @@
 			"type": "string",
 			"source": "text",
 			"selector": "p"
+		},
+		"mapperLinks": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"supports": {

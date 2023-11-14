@@ -10,7 +10,7 @@ import {
 	store as blockEditorStore,
 	useBlockProps,
 } from '@wordpress/block-editor';
-import { PanelBody } from '@wordpress/components';
+import { PanelBody, ToggleControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 
 import metadata from './block.json';
@@ -25,14 +25,14 @@ const TEMPLATE = [
 	[ 'semla/map', {} ],
 ];
 
-// Note: because of https://github.com/WordPress/gutenberg/issues/14515 make
-// sure to have arrays which useMemo won't think are equal, i.e. if you compare
-// elements up to smallest array size. Easiest to just make first element
-// different
 const ALLOWED_BLOCKS = [ 'core/image', 'core/paragraph' ];
 const ALLOWED_BLOCKS_PLUS_MAP = [ 'semla/map', ...ALLOWED_BLOCKS ];
 
-function Edit( { clientId, attributes: { address }, setAttributes } ) {
+function Edit( {
+	clientId,
+	attributes: { address, mapperLinks },
+	setAttributes,
+} ) {
 	const hasMap = useSelect(
 		( select ) =>
 			!! select( blockEditorStore )
@@ -53,6 +53,16 @@ function Edit( { clientId, attributes: { address }, setAttributes } ) {
 						as that will be hidden when the page is initially
 						displayed.
 					</p>
+				</PanelBody>
+				<PanelBody title="Settings">
+					<ToggleControl
+						label="Mapper Links"
+						help="Add mapper links to address on front end (currently CityMapper)"
+						checked={ mapperLinks }
+						onChange={ ( val ) => {
+							setAttributes( { mapperLinks: val } );
+						} }
+					/>
 				</PanelBody>
 			</InspectorControls>
 			<PlainText
