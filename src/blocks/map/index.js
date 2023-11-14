@@ -96,7 +96,7 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 						information about public transport.
 					</p>
 				</PanelBody>
-				<PanelBody title="Map">
+				<PanelBody title="Settings">
 					<p>
 						If you know the exact coordinates enter them below, and
 						click the &quot;Update Map&quot; button to update the
