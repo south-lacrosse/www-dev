@@ -218,23 +218,8 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 	);
 }
 
-function save( { attributes: { latLong } } ) {
-	return (
-		<div { ...useBlockProps.save() }>
-			<button
-				className="acrd-btn"
-				data-toggle="collapse"
-				aria-expanded="false"
-			>
-				Map and Directions
-			</button>
-			<div className="acrd-content">
-				{ latLong && <RawHTML>!MAP!</RawHTML> }
-				{ ! latLong && <p>Map coordinates not set!</p> }
-				<InnerBlocks.Content />
-			</div>
-		</div>
-	);
+function save() {
+	return <InnerBlocks.Content />;
 }
 
 registerBlockType( metadata.name, {
