@@ -65,4 +65,4 @@ We are currently using LSCache, the [LiteSpeed Cache for WordPress](https://docs
 
 To check if a page is cached you can use <https://check.lscache.io/>, or check the response headers for a `x-litespeed-cache` entry.
 
-You can clear the cache (or parts of it) from the Litespeed Cache Admin page, or use their WP-CLI interface from the command line, e.g. `wp litespeed-purge all`.
+You can clear the cache (or parts of it) from the Litespeed Cache Admin page, or use their WP-CLI interface from the command line, e.g. `wp litespeed-purge all`. You can combine the purge command with other WP-CLI commands, e.g. `wp litespeed-purge post_id $(wp post list --post_status=publish --post_type=clubs --format=ids)` will purge all club pages.
