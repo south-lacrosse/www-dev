@@ -171,6 +171,10 @@ To mark a file as executable on Windows `git update-index --chmod=+x foo.sh`. Yo
 * For a local repo run `git init` in the root code directory
 * To connect local repo to a remote `git remote add origin git@github.com:username/new_repo`. URL will be specified in GitHub, or if loading from our own server then `user@host:~/git/repo.git` where the user has `ssh` access.
 
+## MySQL/MariaDB
+
+* `SELECT * FROM table_name\G` - display results vertically instead of in boxes. Also `--vertical` command line option.
+
 ## SSH Keys
 
 If you find yourself regularly having to enter your password when connecting to our web server or Github then you should probably set up SSH keys so you don't have to. You can create a public/private SSH key pair locally, copy the public key to the server, and then you can authenticate using your private key. There are plenty of [guides on the internet](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
