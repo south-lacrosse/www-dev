@@ -218,6 +218,7 @@ And don't forget to set a breakpoint!
 
 * `CTRL + R` - search backwards through your command history
 * `history | grep command` - find a command in your history
+* `cat -e filename` - display file with line endings, $ for LF and ^M$ for CRLF
 
 ### Backing Up/Copying Files
 
@@ -306,6 +307,22 @@ Useful options:
 * `--random-wait` - wait from 0.5\*WAIT...1.5\*WAIT secs between retrievals
 * `--execute robots=off` - force wget to ignore the robots.txt and the nofollow directives
 * `--no-directories` or `-nd`, prevents wget from creating a hierarchy of directories
+
+### Vim Editor
+
+* `Insert` - go to edit mode
+* `Esc` - go to normal mode
+* `:` - go to command mode from normal mode
+
+From normal mode:
+
+* `dd` - delete current line, `5dd` delete 5 lines
+
+Commands (`:` first):
+
+* `wq` - write and quit
+* `q!` - quit and ignore changes
+* `set ff=dos` - change end of line format to dos (CRLF) or `unix` (LF)
 
 ## Npm Commands
 
