@@ -53,3 +53,7 @@ You should also run `wp semla-media attachments` to validate attachments and the
 See the `wp semla-media` command in the [Web Server docs](web-server.md#semla-wp-cli-commands) for details.
 
 You may also want to check images that editors have uploaded in case you should optimize them. See the [Images help page](https://south-lacrosse.github.io/wp-help/images.html) and [Compression](developer-info.md#compression) for more details.
+
+## Security
+
+You should occasionally check the logs of the Limit Logins plugin to see if there are sustained attacks, and possibly [lock down access to wp-login.php](web-server.md#restricting-access-to-wordpress-login).

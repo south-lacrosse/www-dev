@@ -59,6 +59,21 @@ This project adds the following commands:
 
 There may be commands that haven't been added to this documentation, so you can run `wp help <command>`.
 
+## Restricting Access to WordPress Login
+
+Bots are constantly trying to login to any server they can find on the internet. We use a plugin to limit the login attempts from any IP address, and Administrators can login to WordPress to see the logs to check if we are under sustained attack (50 login attempts per day isn't uncommon).
+
+To further lock this down you can use the web server's access controls to only allow access to the login page from specific IP addresses.
+
+To do this modify the `www\.htaccess` file to restrict access to `\wp-login.php`, e.g. the following only allows access from `1.1.1.1` and `2.2.2.*`, and any other IPs will receive a 403 error code. You can restrict access to specific IP addresses if really needed, but allowing access from certain IP address blocks will filter out 99.9% of the problem.
+
+```apache
+<Files "wp-login.php">
+Require all denied
+Require ip 1.1.1.1 2.2.2
+</Files>
+```
+
 ## Cacheing
 
 We are currently using LSCache, the [LiteSpeed Cache for WordPress](https://docs.litespeedtech.com/lscache/lscwp/), as our host runs the LiteSpeed server.
