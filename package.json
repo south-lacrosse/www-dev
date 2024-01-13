@@ -43,17 +43,17 @@
 		"build": "run-s build:*"
 	},
 	"devDependencies": {
-		"@wordpress/icons": "^9.32.0",
-		"@wordpress/scripts": "^26.12.0",
-		"autoprefixer": "^10.4.15",
+		"@wordpress/icons": "^9.39.0",
+		"@wordpress/scripts": "^26.19.0",
+		"autoprefixer": "^10.4.16",
 		"cross-env": "^7.0.3",
 		"glightbox": "^3.2.0",
-		"inline-source": "^8.0.2",
+		"inline-source": "^8.0.3",
 		"npm-run-all": "^4.1.5",
-		"postcss": "^8.4.29",
-		"postcss-cli": "^10.1.0",
+		"postcss": "^8.4.33",
+		"postcss-cli": "^11.0.0",
 		"postcss-csso": "^6.0.1",
-		"svgo": "^3.0.2",
+		"svgo": "^3.2.0",
 		"uglify-js": "^3.17.4"
 	}
 }
