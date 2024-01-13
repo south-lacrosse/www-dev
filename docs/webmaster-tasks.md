@@ -57,3 +57,25 @@ You may also want to check images that editors have uploaded in case you should 
 ## Security
 
 You should occasionally check the logs of the Limit Logins plugin to see if there are sustained attacks, and possibly [lock down access to wp-login.php](web-server.md#restricting-access-to-wordpress-login).
+
+## Calendars
+
+Users can subscribe to the fixtures calendar for their team. However, if a team folds then users may not realise they are still subscribed, and their calendar app will continue sending requests to our site. There is no consistent way to stop these requests, so our plugin can send an iCalendar file with a weekly event to remind them to unsubscribe.
+
+In general we respond with a 404 Not Found response code for unknown calendars, but you can add the team name into the array in `wp-content\plugins\semla\core\Rest\team-removed-calendars.php` to instead send an iCalendar with a weekly reminder event (this may be better handled with a MySQL table in future).
+
+We log requests to these removed calendars to the `sl_calendar_log` table which you can query using:
+
+```sql
+SELECT * FROM sl_calendar_log;
+```
+
+You can safely empty the table with:
+
+```sql
+TRUNCATE TABLE sl_calendar_log;
+```
+
+Requests to unknown calendars will be written to the standard access logs, so look for `404` responses to any `fixtures.ics` URIs.
+
+You should keep the `team-removed-calendars.php` file updated, so for a new season check for any 404s for any calendars still being accessed for removed teams, and add them, and when a team no longer appears in the `sl_calendar_log` table it can be safely removed.
