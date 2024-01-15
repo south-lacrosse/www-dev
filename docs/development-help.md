@@ -78,6 +78,8 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
     ```
 
     Assumes your feature is based off `main`, if not replace with the commit you want to start from. Alternative is to use `git rebase -i`
+* `git restore -s commit-hash -- pathspec` - restore a file from a previous commit. `-s <tree>` is an alias of `--source=<tree>`. `pathspec` can include wildcards, so `*/my-program.php` will work.
+* `git show commit-hash:pathspec` - just show the file at a specific commit. Can also save by adding `> some_new_name.ext`
 
 ### Modify A Specific Commit
 
