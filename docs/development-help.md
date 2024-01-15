@@ -9,6 +9,9 @@ This file contains useful info for development - probably mainly stuff I would f
 * `git remote -v` - see what remote repos are linked
 * `git remote add origin git@github.com:username/new_repo` - add remote repo (assumes connecting via SSH)
 * `git remote set-url origin new.git.url` - change remote repository
+* `git fetch origin other-branch` - fetch from remote repo and update (or create) `other-branch` branch while working on a different branch (i.e. not have to switch/pull). `other-branch` is a refspec, and can also be in the format `remote-branch-name:local-branch-name`.
+
+    Similarly `git pull origin refspec` will do the fetch as above, and then merge into the current branch.
 
 If you want to pull from multiple remotes of the same repo first do a `git remote add` as above, then:
 
