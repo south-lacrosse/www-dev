@@ -9,7 +9,8 @@ This file contains useful info for development - probably mainly stuff I would f
 * `git remote -v` - see what remote repos are linked
 * `git remote add origin git@github.com:username/new_repo` - add remote repo (assumes connecting via SSH)
 * `git remote set-url origin new.git.url` - change remote repository
-* `git fetch origin other-branch` - fetch from remote repo and update (or create) `other-branch` branch while working on a different branch (i.e. not have to switch/pull). `other-branch` is a refspec, and can also be in the format `remote-branch-name:local-branch-name`.
+* `git fetch origin other-branch` - fetch from remote repo and update (or create) `other-branch` branch while working on a different branch (i.e. not have to switch/pull). `other-branch` is a refspec.
+* `git fetch origin remote-branch-name:local-branch-name`, as above, and also update the local `local-branch-name` branch pointer. So `main:main` will fetch the `main` remote branch, and change the local `main` pointer to match.
 
     Similarly `git pull origin refspec` will do the fetch as above, and then merge into the current branch.
 
@@ -179,6 +180,12 @@ To mark a file as executable on Windows `git update-index --chmod=+x foo.sh`. Yo
 ## MySQL/MariaDB
 
 * `SELECT * FROM table_name\G` - display results vertically instead of in boxes. Also `--vertical` command line option.
+
+### Command Line Flags
+
+* `-e 'SELECT * FROM my_table'` - execute an SQL statement
+* `-t` - table display. Default batch mode (i.e. running an SQL file, so not `-e` flag) is to show tab separated result, not the nice table effect. This flag reverses that.
+* `-v`, `-vv`, `-vvv` - verboseness, `-vv` will display each query and results. Batch mode is to not display.
 
 ## SSH Keys
 
