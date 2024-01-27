@@ -122,7 +122,7 @@ git gc --aggressive --prune=all
 
 ### Stashing
 
-* `git stash [-m message]` stash the changes in a dirty working directory away, so you can do things like switch to another branch. Add `--keep-index` to ignore staged files.
+* `git stash [-m message]` stash the changes in a dirty working directory away, so you can do things like switch to another branch. Add `--keep-index` to ignore staged files, `-u|--include-untracked` to stash untracked files
 * `git stash pop` restore the stashed changes, and remove from the stash list
 * `git stash apply` restore the stashed changes, but leaves on the stash
 * `git stash list` see what's stashed
