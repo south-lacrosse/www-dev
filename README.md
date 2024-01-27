@@ -7,6 +7,7 @@ Other useful documents are:
 * [Design Notes](docs/design-notes.md) - basic outline of the design of the system
 * [Developer Information](docs/developer-info.md) - how to set up a development environment, the development cycle, and useful tools and information
 * [Development Help](docs/development-help.md) - useful notes on techie stuff like Git commands
+* [WordPress List Tables](docs/wp-list-table.md) - how to code WordPress admin list tables
 * [Web Server](docs/web-server.md) - how our web server is set up, importing fixtures from the command line, staging environment etc.
 * [Backups](docs/backups.md)
 * [Recovering From a Backup](docs/recovery.md)
