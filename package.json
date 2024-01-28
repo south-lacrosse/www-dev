@@ -26,6 +26,7 @@
 		"lint:theme": "cross-env-shell eslint $npm_config_www/wp-content/themes/lax --resolve-plugins-relative-to .",
 		"js:cal": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/cal.js -c -m -o $npm_config_www/wp-content/plugins/semla/js/cal.min.js",
 		"js:colhover": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/colhover.js -c -m -o $npm_config_www/wp-content/plugins/semla/js/colhover.min.js",
+		"js:inline-edit": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/inline-edit.js -c -m -o $npm_config_www/wp-content/plugins/semla/js/inline-edit.min.js",
 		"js:embed": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/core/Rest/views/embed.js -c -m reserved=[c,i,s,t] -o $npm_config_www/wp-content/plugins/semla/core/Rest/views/embed.min.js",
 		"js:map": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/map.js -c -m -o $npm_config_www/wp-content/plugins/semla/js/map.min.js",
 		"js:main": "cross-env-shell uglifyjs $npm_config_www/wp-content/themes/lax/main.js -c -m -o $npm_config_www/wp-content/themes/lax/main.min.js",
