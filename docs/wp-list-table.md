@@ -130,9 +130,9 @@ protected function handle_row_actions( $item, $column_name, $primary ) {
     }
     $team = urlencode($item->team);
     $actions = [
-        'edit' => '<a href="?page=semla_team_abbrev&action=edit&team=' . $team
+        'edit' => '<a href="?page=semla_teams&action=edit&team=' . $team
             . '" data-team="' . $team . '" title="Edit">Edit</a>',
-        'delete' => '<a href="?page=semla_team_abbrev&action=delete&team=' . $team . $this->nonce
+        'delete' => '<a href="?page=semla_teams&action=delete&team=' . $team . $this->nonce
             . '" class="submitdelete" data-team="' . $team . '" title="Delete">Delete</a>',
     ];
     return $this->row_actions( $actions ) ;

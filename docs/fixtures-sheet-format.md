@@ -14,7 +14,7 @@ The number of points for wins/draws/loses can be set on the SEMLA Settings page 
 
 It is suggested you add data validation where you can to restrict values users can put in. To do that select the cells, choose Data->Data validation, and enter the restriction. There are examples below.
 
-There must be 5 sheets named Fixtures, Flags, Deductions, Teams, and Divisions. There are 2 optional sheets, Remarks and Division Order.
+There must be 5 sheets named Fixtures, Flags, Deductions, Teams, and Divisions. There is also an optional sheet for Division Order.
 
 The Teams and Divisions sheets are only needed to set up the season. These sheets can be hidden during the season, and only unhidden when you need to do any changes. Therefore, if you copy over the sheet from the previous year as your starting point make sure to unhide these sheets so you can work on them (use the All Sheets menu, which is the 3 lines icon in the bottom left by the sheet names - hidden sheets will be greyed out, select to unhide).
 
@@ -26,8 +26,11 @@ Lists all teams and their info. Must have the following columns in this order:
 * `Club` - should match the title of their club page
 * `Club Page` - the club page slug, so for Bath their page is at `/clubs/bath`, and the slug will be `bath`
 * `Pitch Type` - anything here will appear on the Fixtures page if the game hasn't been played yet. It is suggested you keep this consistent, so use `3G`, `Astro`, or `Sand Astro`
-* `Minimal` - used for column headings in the Fixtures Grid, so keep it to 5 or 6 characters
-* `Short Name` -  used for the mini tables and flags draws where long names would overflow the space
+
+Team meta data can be updated in the WordPress Admin under `SEMLA->Teams`. There should set:
+
+* `Abbreviation` -  used where long names would overflow the space. such as mini tables, flags draws, and fixtures on small screens
+* `Minimal` - used for column headings in the Fixtures Grid, so keep it to 6 characters maximum
 
 ## Divisions Sheet
 
@@ -103,9 +106,9 @@ You should also put borders around matches to make reading the sheet easier, e.g
 
 ![Flags example](flags.png)
 
-## Remarks Sheet
+## Remarks
 
-Optional sheet used to add remarks for competitions, which will be displayed under the league table or flags draw. Columns are `Competition` and `Remarks`.
+Competitions remarks, which will be displayed under the league table or flags draw, can be added in WordPress Admin under `SEMLA->Remarks`.
 
 ## Division Order Sheet
 

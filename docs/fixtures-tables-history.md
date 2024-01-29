@@ -1,6 +1,6 @@
 # Information on Maintaining the Fixtures, Tables and History
 
-**Important** Much of the functionality to maintain things like competition names, competition groups, team abbreviations etc. has been started, however since SEMLA are going to use the new England Lacrosse league functionality work on that has been stopped as it will be pointless. These unused programs can be found in `www\wp-content\plugins\semla\core\Admin`, and you will see which ones are unused as they will be commented out in `Admin_Menu.php`.
+**Important** Much of the functionality to maintain things like competition names, competition groups etc. has been started, however since SEMLA are going to use the new England Lacrosse league functionality work on that has been stopped as it will be pointless. These unused programs were deleted in the commit tagged `remove-admin-list-table` so you can use the regular Git commands to see the code.
 
 However, just in case we get to the end of the season without an EL platform here is information on how to maintain the required tables.
 
