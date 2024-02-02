@@ -91,9 +91,9 @@ You could off course put the `load` and `render_page` methods in another class, 
 
 You customise your list table by overriding its methods.
 
-`public function get_columns()` - return array of columns in the format `'name' => 'title'`. If you want a checkbox for bulk actions in the first column then name it `cb`, as the list table will then handle it appropriately.
+`public function get_columns()` - return array of columns in the format `'column_name' => 'title'`. If you want a checkbox for bulk actions in the first column then name it `cb`, as the list table will then handle it appropriately.
 
-`protected function get_sortable_columns()` - return an array of sortable columns (defaults to empty array). Entries may be `'column_slug' => 'orderby'`, or `'column_slug' => [ 'orderby', true ]`  to order descending. See the method in `WP_List_Table` for a full description.
+`protected function get_sortable_columns()` - return an array of sortable columns (defaults to empty array). Entries may be `'column_name' => 'orderby'`, or `'column_name' => [ 'orderby', true ]`  to order descending. See the method in `WP_List_Table` for a full description.
 
 `protected function column_default( $item, $column_name )` - return the default column value, e.g. `return $item->$column_name;`.
 
