@@ -18,7 +18,7 @@ See also [Fixtures Sheet Format](fixtures-sheet-format.md).
 
     For flags matches it is especially important to copy before adding "R v R" as the goals columns will have formulas to copy the result from the Flags sheet, so if you delete those before copying then the result won't be copied to the rearranged match from the Flags sheet. DO NOT enter R-R as the result on the Flags sheet, as that will get copied into the Fixtures sheet for the new game date - so then both fixtures will be marked as "R v R"!
 
-    If you don't know the new date then add "Rearranged to TBC" in the Notes column, as this means you can always search for TBC to find any outstanding rearrangements.
+    If you don't know the new date then add "Rearranged to TBA" in the Notes column, as this means you can always search for TBA to find any outstanding rearrangements. Make sure you put in the actual date when it is known.
 
     Then for flags games you want to keep the formulas that copy goals form the Flags sheet (as noted above) so copy the row down, delete the "v" in the v/C/C24 column (which means the row will be ignored on the website) and add suitable Notes to the copy, e.g. "when rearranged put v back in + new date". That way when the game is rearranged you can move this row to the new date, making sure to add the new date and put the "v" back.
 
@@ -71,7 +71,7 @@ See also [Fixtures Sheet Format](fixtures-sheet-format.md).
         <tr><td colspan="11">...</td></tr>
         <tr><td>SEMLA Premier Division</td><td>22/09/2018</td><td></td><td>Reading</td><td></td><td align="center">v</td><td></td><td>Hampstead</td><td></td><td>Played at Hampstead</td><td>Hampstead</td></tr>
         <tr><th colspan="11" align="left">Postponed (e.g. rearranged because of weather etc)</th></tr>
-        <tr><td>SEMLA Premier Division</td><td>22/09/2018</td><td>2:30 pm</td><td>Hampstead</td><td align="center">R</td><td align="center">v</td><td align="center">R</td><td>Reading</td><td></td><td>Postponed - waterlogged pitch, date TBD</td><td></td></tr>
+        <tr><td>SEMLA Premier Division</td><td>22/09/2018</td><td>2:30 pm</td><td>Hampstead</td><td align="center">R</td><td align="center">v</td><td align="center">R</td><td>Reading</td><td></td><td>Postponed - waterlogged pitch, date TBA</td><td></td></tr>
         <tr><th colspan="11" align="left">Conceded, put 10-0 to winning team</th></tr>
         <tr><td>SEMLA Premier Division</td><td>22/09/2018</td><td>2:30 pm</td><td>Hampstead</td><td align="center">10</td><td align="center">C</td><td align="center">0</td><td>Reading</td><td></td><td></td><td></td></tr>
         <tr><th colspan="11" align="left">Conceded within 24 hours</th></tr>
