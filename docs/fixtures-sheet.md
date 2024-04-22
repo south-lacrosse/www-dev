@@ -25,9 +25,7 @@ See also [Fixtures Sheet Format](fixtures-sheet-format.md).
     For non-flags games just mark the fixture as "R v R".
 * If rather than rearranging a game teams decide to play the reverse fixture for double points then enter "R v R" on the rearranged fixture, and add "Double points on {new date}"  to the Notes column. For the double points game enter "Double points from {from date}" in the Notes column. This should automatically put 2 in the X column, but check just to make sure.
 * If a team doubles up a league and flags match then don't combine on one row - put the 2 fixtures down, as they are different competitions. The same goes for matches in different leagues, as the results need to be fed into the tables for each league. Also make sure the X column is empty otherwise the results count double!
-* If a league match is void mark it as "V v V", and if a friendly is cancelled mark it as "C v C".
-
-    Note: void matches are not rearranged, and count as zero points for both teams.
+* If a league match is void mark it as "V v V" if the teams are awarded no points, or "V v {points}" if the teams are awarded points. If a friendly is cancelled mark it as "C v C".
 
     If a team defaults a flags match then it should be marked as 1-0 on the Flags sheet, and the winners moved to the next round. There is generally no reason to mark it void.
 * If a match is abandoned (i.e. it started but was unable to be completed) then mark it as "A v A". Abandoned matches may or may not be rearranged.
