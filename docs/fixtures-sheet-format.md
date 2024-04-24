@@ -75,13 +75,21 @@ The `v` column is used to mark where a match is, and to mark if a match is conce
 
 You will also probably find it useful to have data validation on the goals columns, so if you have goals in column E then add validation for "Custom formula", and enter `=OR(ISNUMBER(E2),AND(LEN(E2)=1,IFERROR(FIND(E2, "ACRV"),0)>0))`. You can have this rule apply to 2 columns by setting the range to include both columns, e.g. `Fixtures!E2:E269,Fixtures!G2:G269`
 
-Column `X` is the points multiplier, which defaults to 1. To make life easier you should set this column to `=IF(AND(OR(ISNUMBER(E2),ISBLANK(E2)),REGEXMATCH(J2,"(?i)double")),2,"")` and copy down (assumes goals in E and notes in J), that way it will automatically make a match count for double points if the Notes column has "double" anywhere in it. Make sure you add a note to the column heading `Points multiplier - default 1, 2 for double points games`.
+Column `X` is the points multiplier, which defaults to 1. To make life easier you should set the column header `={"X";ARRAYFORMULA(IF(ISTEXT(E2:E),,IF(REGEXMATCH(J2:J,"(?i)double"),2,)))}` (assumes goals in E and notes in J), that way it will automatically make a match count for double points if the Notes column has "double" anywhere in it. Make sure you add a note to the column heading `Points multiplier - default 1, 2 for double points games`.
 
 The `Notes` column isn't used by our programs, but is a useful place to add things like the date a match is rearranged from/to, if it's double points etc.
 
 You may have divisions, for example the Local Midlands, where teams play tournaments at various venues, but still play each other twice. In this case make sure that for every pairing of teams each team is the Home team once, and the Away team once, as otherwise the matches will display  oddly on the Fixtures Grid.
 
 Once a season is set up, and dates are set up on the Flags sheet, then you can add Flags matches to the main Fixtures sheet with the teams and scores automatically added from the Flags sheet. Use the Flags Fixtures Formulas tab on the SEMLA WordPress Admin page to get the formulas to paste.
+
+### Missing Results
+
+You may find it useful to add an extra column to show the status of match, i.e. if it's not rearranged or has no result. The following formula can be added in the heading row `={"Status";ARRAYFORMULA(IF(F2:F<>"v",,IF(B2:B<TODAY(),IF(ISBLANK(E2:E),"No result",IF(REGEXMATCH(J2:J,"TBA"),"Not rearranged",)),)))}`. This assumes the "v" column is F, the date in B, home goals in E, and notes in J, and that rearranged matches with no future date have 'TBA' in the Notes. It will only display a status if the match date is before today.
+
+You can also highlight rows with missing results by selecting the range to highlight (probably A2:L), then Format->Conditional Formatting, and choose "Custom Formula is", and enter `=NOT(ISBLANK($L2))` and click Done. This assumes that L is the Status column.
+
+To only show missing results you can filter on the Status column, or if you could create a separate tab to show them. To show all columns use `=FILTER(Fixtures!A2:L,NOT(ISBLANK(Fixtures!L2:L)))`, of to limit the columns you can use something like `=FILTER({Fixtures!A2:B,Fixtures!D2:J,Fixtures!L2:L},NOT(ISBLANK(Fixtures!L2:L)))`.
 
 ## Flags Sheet
 
