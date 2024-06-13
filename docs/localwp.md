@@ -88,7 +88,7 @@ You should also find the Site shell script so you can call it from any shell or 
 Local can automatically log you in to WordPress by going to your site and enabling `One-click admin`. You can then click on `WP Admin` to go straight to the Dashboard without having to log in. You can also add a bookmark to the same URL: `http://dev.southlacrosse.org.uk/wp-admin/?localwp_auto_login=1`.
 
 Local will intercept any emails sent by WordPress. To see them go to your site in Local, and under Utilities
-you will find Mailhog.
+you will find Mailpit (or Mailhog for versions < 9).
 
 ## Possible Issues
 
