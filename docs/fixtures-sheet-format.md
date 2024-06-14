@@ -8,7 +8,7 @@ You should add a link to the instructions from whatever the first sheet is, usua
 
 The simplest way to understand the format is to visit the [previous Fixtures Sheets](https://drive.google.com/drive/folders/1SoT-hiBgRW_PLNRSLEkzcjbGobhXRanf?usp=sharing), and have a look at the latest version.
 
-The number of points for wins/draws/loses can be set on the SEMLA Settings page in WordPress Admin.
+The number of points for wins/draws/loses and the tie-break options can be set on the SEMLA Settings page in WordPress Admin (this option may only be available to Administrators).
 
 **IMPORTANT:** There is practically no validation in the programs which update from the Fixtures Sheet. Therefore if you mess with the format of the spreadsheet don't be surprised if everything breaks!
 
