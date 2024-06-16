@@ -21,7 +21,7 @@ import {
 	ToolbarButton,
 } from '@wordpress/components';
 import { select, useSelect } from '@wordpress/data';
-import { RawHTML, useState } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 
 import metadata from './block.json';
 import GoogleMapIcon from './google-map-icon';
