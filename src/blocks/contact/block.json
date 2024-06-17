@@ -12,13 +12,16 @@
 			"type": "string"
 		},
 		"name": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"email": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"tel": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"sameLine": {
 			"type": "boolean",
