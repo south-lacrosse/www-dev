@@ -62,7 +62,7 @@ Work for this phase should be done on the staging website, so `cd ~/public_html/
     1. Add competition winners who aren't added automatically. Flags, league, Oxford v Cambridge Varsity, Iroquois Cup, and Wilkinson Sword are all currently added, but check `end-season.sql` for as this may have changed. You will need to add competitions like the Sixes.
 
         Since we are assuming the fixtures will be taken over by the EL system this has to be done by [manually editing the database tables](fixtures-tables-history.md#competition-winners).
-    1. Make sure you have [added any remarks](fixtures-sheet-format.md#remarks) e.g. "Team x folded and their results are void", or "Competition void because of COVID", and have updated the fixtures to add them to the database.
+    1. Make sure you have added any remarks in Admin->SEMLA->Remarks e.g. "Team x folded and their results are void", or "Competition void because of COVID".
 1. The next step will update the history tables, and then the WordPress tables, so you should create backups of both with
 
     ```bash
