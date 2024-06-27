@@ -14,7 +14,7 @@ The number of points for wins/draws/loses and the tie-break options can be set o
 
 It is suggested you add data validation where you can to restrict values users can put in. To do that select the cells, choose Data->Data validation, and enter the restriction. There are examples below.
 
-There must be 5 sheets named Fixtures, Flags, Deductions, Teams, and Divisions. There is also an optional sheet for Division Order.
+There must be 5 sheets named Fixtures, Flags, Teams, and Divisions. There are also optional sheets for Deductions, and Division Order.
 
 The Teams and Divisions sheets are only needed to set up the season. These sheets can be hidden during the season, and only unhidden when you need to do any changes. Therefore, if you copy over the sheet from the previous year as your starting point make sure to unhide these sheets so you can work on them (use the All Sheets menu, which is the 3 lines icon in the bottom left by the sheet names - hidden sheets will be greyed out, select to unhide).
 
@@ -54,10 +54,6 @@ Only the first letter is used to determine the sort order, but you should put in
 * `Venue/time` - some competitions e.g. Local Midlands play a 3-way round-robin at one venue, so for those you can sort by date & competition as normal, and then venue & time, and then home team.
 
 Add any ladders (e.g. Division 1 and 2 teams play each other, with the results counting in their respective divisions), but omit teams. The ladder must have a row on the `sl_competition` table, with type = "ladder", and ladder_comp_id1 and ladder_comp_id2 set to the divisions it relates to, e.g. "SEMLA Division 1/2 Ladder" has comp_ids for "SEMLA Division 1" and "SEMLA Division 2".
-
-## Deductions Sheet
-
-Columns are `League & Division` (must be Full name from Divisions Sheet), `Team`, `Penalty` (must be positive value), `Date`, `Reason`.
 
 ## Fixtures Sheet
 
@@ -118,6 +114,10 @@ You should also put borders around matches to make reading the sheet easier, e.g
 
 Competitions remarks, which will be displayed under the league table or flags draw, can be added in WordPress Admin under `SEMLA->Remarks`.
 
+## Deductions Sheet
+
+This sheet is optional. Columns are `League & Division` (must be Full name from Divisions Sheet), `Team`, `Penalty` (must be positive value), `Date`, `Reason`. You should add Data Validation (criteria Drop-down from a range) to the `League & Division` (`=Divisions!C2:C`) and `Team` (`=Teams!A2:A`).
+
 ## Division Order Sheet
 
-Optional sheet used to order divisions in a specific order, e.g. if the final positions were set using a Final Four competition. The top row should be the full competition name, and the teams must  be listed in the correct order in that column. If there are no Division Orders then make sure to delete this sheet.
+Optional sheet used to order divisions in a specific order, e.g. if the final positions were set using a Final Four competition. The top row should be the full competition name, and the teams must be listed in the correct order in that column. If there are no Division Orders then make sure to delete this sheet.
