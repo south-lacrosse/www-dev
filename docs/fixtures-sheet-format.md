@@ -59,6 +59,8 @@ Add any ladders (e.g. Division 1 and 2 teams play each other, with the results c
 
 The columns can be in any order, but they must have a heading in row 1 exactly as specified. `Competition`, `Date`, `Time`, `Home`, `Home Goals`, `v`, `Away Goals`, `Away`, `X`, `Notes`, `Venue`.
 
+The order of the fixtures isn't crucial as the programs that load them to the website sorts them, however you should keep the fixtures in date/competition/home team order as it will then be much easier to enter the weekend's results or find a fixture.
+
 The `Competition` for league matches must be the League and Division, so if the league is "SEMLA" and the Division is "Premier Division", then the value must be "SEMLA Premier Division". For Flags matches use the full flags competition with the round name abbreviation, so "Senior Flags R16" or "Minor Flags F".
 
 It is recommended to leave the `Venue` column blank unless the game is not at the home team's ground, as if no Venue is specified then the Home team is assumed. If you are going to use it then use the full team name. If you put in a different name to the Home team, e.g. Home is "Cambridge Eagles" and Venue is "Cambridge Uni", then it will be assumed the game is played at a different venue, so on the Fixtures page it will display "at Cambridge Uni", which is silly. It is also important to use the full team name as otherwise the pitch type cannot be displayed on the Fixtures page for upcoming games.

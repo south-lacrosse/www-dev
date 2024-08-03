@@ -23,7 +23,7 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 
 ### Branches
 
-* `git checkout -b <new-branch> [<start-point>]` - create a new branch and check it out, start point is optional
+* `git switch -c <new-branch> [<start-point>]` - create a new branch and check it out, start point is optional. You can also use the old style `git checkout -b <new-branch> [<start-point>]`.
 * `git branch` - list branches, default to local. Useful options:
     * `-v` lists current commit, `-vv` also lists the linked remote branch
     * `-r` for remotes
@@ -34,7 +34,7 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 * To merge a branch into another, while squashing it to 1 commit
 
     ```console
-    git checkout main
+    git switch main
     git merge --squash bugfix-branch
     git commit
     ```
