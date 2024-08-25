@@ -44,7 +44,7 @@ else
 fi
 
 cd $wp || exit 1
-latest_backup=$(ssh sl 'ls -t ~/public_html/bin/backups/db*.sql.gz' | head -1)
+latest_backup=$(ssh sl 'ls -t ~/public_html/bin/backups/db*.sql.gz | head -1')
 [[ -z "$latest_backup" ]] && exit
 scp "sl:$latest_backup" bin/backups/
 
