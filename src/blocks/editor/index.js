@@ -2,7 +2,7 @@
  * Editor specific customisation
  */
 import { external } from '@wordpress/icons';
-import { PluginMoreMenuItem } from '@wordpress/edit-post';
+import { PluginMoreMenuItem } from '@wordpress/editor';
 import { registerPlugin } from '@wordpress/plugins';
 
 /**
