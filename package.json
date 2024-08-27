@@ -21,15 +21,15 @@
 		"build:blocks-map-dialog": "node ./src/scripts/inline-map-dialog.mjs",
 		"format:non-blocks": "prettier -w . !src/blocks/**",
 		"format:wp": "cross-env-shell prettier -w $npm_config_www/ --ignore-path $npm_config_www/.prettierignore",
-		"in-head-js": "uglifyjs src/js/in-head.js -c -m -o src/js/in-head.min.js",
+		"in-head-js": "uglifyjs src/js/in-head.js -c arrows=false -m -o src/js/in-head.min.js",
 		"lint:plugin": "cross-env-shell eslint $npm_config_www/wp-content/plugins/semla/js --resolve-plugins-relative-to .",
 		"lint:theme": "cross-env-shell eslint $npm_config_www/wp-content/themes/lax --resolve-plugins-relative-to .",
-		"js:cal": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/cal.js -c -m -o $npm_config_www/wp-content/plugins/semla/js/cal.min.js",
-		"js:colhover": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/colhover.js -c -m -o $npm_config_www/wp-content/plugins/semla/js/colhover.min.js",
+		"js:cal": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/cal.js -c arrows=false -m -o $npm_config_www/wp-content/plugins/semla/js/cal.min.js",
+		"js:colhover": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/colhover.js -c arrows=false -m -o $npm_config_www/wp-content/plugins/semla/js/colhover.min.js",
 		"js:inline-edit": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/inline-edit.js -c -m -o $npm_config_www/wp-content/plugins/semla/js/inline-edit.min.js",
-		"js:embed": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/core/Rest/views/embed.js -c -m reserved=[c,i,s,t] -o $npm_config_www/wp-content/plugins/semla/core/Rest/views/embed.min.js",
+		"js:embed": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/core/Rest/views/embed.js -c arrows=false -m reserved=[c,i,s,t] -o $npm_config_www/wp-content/plugins/semla/core/Rest/views/embed.min.js",
 		"js:map": "cross-env-shell uglifyjs $npm_config_www/wp-content/plugins/semla/js/map.js -c -m -o $npm_config_www/wp-content/plugins/semla/js/map.min.js",
-		"js:main": "cross-env-shell uglifyjs $npm_config_www/wp-content/themes/lax/main.js -c -m -o $npm_config_www/wp-content/themes/lax/main.min.js",
+		"js:main": "cross-env-shell uglifyjs $npm_config_www/wp-content/themes/lax/main.js -c arrows=false -m -o $npm_config_www/wp-content/themes/lax/main.min.js",
 		"css:plugin": "cross-env-shell postcss \"$npm_config_www/wp-content/plugins/semla/css/!(*.min)*.css\" --no-map -d $npm_config_www/wp-content/plugins/semla/css --ext min.css -u postcss-csso autoprefixer",
 		"theme-css:editor-style": "node ./src/scripts/editor-style.mjs",
 		"theme-css:minify": "cross-env-shell postcss $npm_config_www/wp-content/themes/lax/!(*.min)*.css --no-map -d $npm_config_www/wp-content/themes/lax --ext min.css -u postcss-csso autoprefixer",
@@ -44,17 +44,17 @@
 		"build": "run-s build:*"
 	},
 	"devDependencies": {
-		"@wordpress/icons": "^10.0.0",
-		"@wordpress/scripts": "^27.9.0",
-		"autoprefixer": "^10.4.19",
+		"@wordpress/icons": "^10.6.0",
+		"@wordpress/scripts": "^28.6.0",
+		"autoprefixer": "^10.4.20",
 		"cross-env": "^7.0.3",
 		"glightbox": "^3.3.0",
 		"inline-source": "^8.0.3",
 		"npm-run-all": "^4.1.5",
-		"postcss": "^8.4.38",
+		"postcss": "^8.4.41",
 		"postcss-cli": "^11.0.0",
 		"postcss-csso": "^6.0.1",
 		"svgo": "^3.3.2",
-		"uglify-js": "^3.18.0"
+		"uglify-js": "^3.19.2"
 	}
 }
