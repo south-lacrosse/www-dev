@@ -73,12 +73,4 @@ You should add these rows at the beginning of each season. You may also be able 
 
 We log calendar requests to the `sl_calendar_log` table, which keeps track of the team requested, access count, first and last access time, and whether the request went to an alias or a removed calendar.
 
-Useful SQL is:
-
-```sql
---- Query the table
-SELECT * FROM sl_calendar_log;
-
---- You can safely empty the table with
-TRUNCATE TABLE sl_calendar_log;
-```
+See also [useful calendar queries](../src/sql/calendars.sql).
