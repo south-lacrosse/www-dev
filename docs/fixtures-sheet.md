@@ -3,7 +3,7 @@
 See also [Fixtures Sheet Format](fixtures-sheet-format.md).
 
 * **Once the fixtures are published never delete a row**. Games must have a score, be conceded, rearranged/postponed, cancelled, abandoned, or void. This avoids all confusion.
-* The fixtures should be kept in date/competition/home team order as it will then be much easier to enter the weekend's results or find a fixture. So, when you add a new row then try to insert it into the correct position. It should be noted that you don't have to be 100% rigorous on this as the programs that load the fixtures to the website will sort them anyway.
+* The fixtures should be kept in date/competition/home team order as it will then be much easier to enter the weekend's results or find a fixture. So, when you add a new row then try to insert it into the correct position. It should be noted that you don't have to be 100% rigorous on this as the programs that load the fixtures to the website will sort them anyway, however it will throw an error if the dates are out of sequence.
 * Enter flags scores on the Flags sheet only. It is set up so that scores get copied from the Flags to the Fixtures sheet, so that saves you entering it twice, and minimises mistakes.
 
     Also make sure you copy the winning team to the next round on the Flags sheet. This will also automatically copy the team into the next round on the Fixtures sheet. You might want to check if you need a different date/time on the Fixtures sheet if you know the home team usually has a different start time.
