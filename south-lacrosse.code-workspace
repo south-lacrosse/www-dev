@@ -25,7 +25,8 @@
 		},
 		"files.associations": {
 			".htaccess-semla": "apacheconf"
-		}
+		},
+		"intelephense.format.braces": "k&r"
 	},
 	"extensions": {
 		"recommendations": [
