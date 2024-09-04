@@ -267,7 +267,7 @@ The most useful ones are:
 
 #### Possible Rsync Issues On Windows Cygwin
 
-When running `rsync` you may get `error in rsync protocol data stream (code 12)`. One cause of this is when the version of `ssh` (which it uses to communicate with the server) doesn't match what `rsync` needs. If this is the case the fix is to make sure the cygwin `ssh` is higher up the path than the Windows version, so do something like `set PATH=C:\local\cygwin64\bin;%PATH%`.
+When running `rsync` you may get `error in rsync protocol data stream (code 12)`. One cause of this is when the version of `ssh` (which it uses to communicate with the server) doesn't match what `rsync` needs, usually when the Windows version is used instead of the `cygwin` one. If this is the case the fix is to add `‐e path\to\ssh.exe` to the `rsync` command, or make sure the cygwin `ssh` is higher up the path than the Windows version, so do something like `set PATH=C:\local\cygwin64\bin;%PATH%`.
 
 If you are using SSH keys you will need to make them available in cygwin. The easiest way is to set your cygwin home directory to be the your Windows home (`%HOME%`, or `C:\Users\{user}`). To do that edit `/etc/nsswitch.conf` and add:
 
