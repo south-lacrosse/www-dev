@@ -6,6 +6,7 @@ We also provide our own [testing plugins](../src/plugins/).
 * [WordPress Admin Style](https://github.com/bueltge/wordpress-admin-style) - shows CSS styles used in admin pages, useful for building admin menu php programs
 * BE Media from Production - be-media-from-production - uses production media if it doesn't exist locally
 * Members - members - adds pages to the Admin dashboard to query/edit roles and capabilities
+* Rewrite Rules Inspector - rewrite-rules-inspector - adds an option under Tools to display all the rewrite rules
 * WordPress Beta Tester - wordpress-beta-tester - see below
 * WP Crontrol - wp-crontrol - all info about Cron jobs
 
