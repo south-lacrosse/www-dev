@@ -22,25 +22,29 @@ function WebsiteURLPopover( {
 	setPopover,
 	popoverAnchor,
 } ) {
+	const [ newUrl, setNewUrl ] = useState( url );
 	return (
 		<URLPopover
 			anchor={ popoverAnchor }
-			onClose={ () => setPopover( false ) }
+			onClose={ () => {
+				setPopover( false );
+				popoverAnchor?.focus();
+			} }
 		>
 			<form
 				className="block-editor-url-popover__link-editor"
 				onSubmit={ ( event ) => {
 					event.preventDefault();
+					setAttributes( { url: cleanUrl( newUrl ) } );
 					setPopover( false );
+					popoverAnchor?.focus();
 				} }
 			>
 				<div className="block-editor-url-input">
 					<URLInput
 						__nextHasNoMarginBottom
-						value={ url }
-						onChange={ ( nextURL ) =>
-							setAttributes( { url: nextURL } )
-						}
+						value={ newUrl }
+						onChange={ ( val ) => setNewUrl( val ) }
 						placeholder="Enter website address"
 						disableSuggestions={ true }
 					/>
@@ -54,8 +58,12 @@ function WebsiteURLPopover( {
 function Edit( { attributes, setAttributes, isSelected } ) {
 	const { url } = attributes;
 	let displayUrl = '';
-	if ( url ) displayUrl = filterURLForDisplay( url );
-	if ( ! displayUrl ) displayUrl = 'Set website';
+	if ( url ) {
+		displayUrl = filterURLForDisplay( url );
+	}
+	if ( ! displayUrl ) {
+		displayUrl = 'Set website';
+	}
 
 	const [ showURLPopover, setPopover ] = useState( false );
 	// Use internal state instead of a ref to make sure that the component
@@ -94,3 +102,17 @@ function save() {
 }
 
 registerBlockType( metadata.name, { icon, edit: Edit, save } );
+
+// Helpers
+
+/**
+ * Add https: if no scheme specified, add trailing slash if missing
+ * @param {string} url URL to translate
+ */
+function cleanUrl( url ) {
+	return encodeURI( url.trim() )
+		.replace( /^(?:(.*:)?\/\/)?(.*)/i, ( match, schemma, nonSchemaUrl ) =>
+			schemma ? match : `https://${ nonSchemaUrl }`
+		)
+		.replace( /(\/\/[^\/]+?)(\?|#|$)/, '$1/$2' );
+}
