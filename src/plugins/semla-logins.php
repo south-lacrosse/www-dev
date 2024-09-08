@@ -9,7 +9,7 @@
  * License URI:       https://opensource.org/licenses/mit-license.html
 */
 add_action( 'wp_login',  function ( $user_login, $user ) {
-    semla_logins_log("login $user->ID,$user_login,$user->user_email");
+    semla_logins_log("login $user->ID,$user_login,$user->user_email from {$_SERVER['REMOTE_ADDR']}");
 }, 10, 2 );
 
 add_action( 'wp_logout',  function ( $user_id  ) {
