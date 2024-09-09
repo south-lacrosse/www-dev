@@ -25,9 +25,9 @@ use Semla\Data_Access\SimpleXLSX;
 // }
 // list($program,$xlsxFile,$midsFile,$flagsFile) = $argv;
 
-$xlsxFile = 'fixtures.xlsx';
-$midsFile = 'midlands.csv';
-$flagsFile = 'flags.tsv';
+$xlsxFile = 'work/fixtures.xlsx';
+$midsFile = 'work/midlands.csv';
+$flagsFile = 'work/flags.tsv';
 
 $npmrc = parse_ini_file(dirname(__DIR__, 2) . '/.npmrc');
 if (!$npmrc) {
@@ -47,6 +47,7 @@ $times = [
 	'Hampstead' => '12:30:00',
 	'Hillcroft 1' => '10:00:00',
 	'Hillcroft 2' => '10:00:00',
+	'Richcroft' => '10:00:00',
 	'Bath' => '12:00:00',
 	'Oxford City' => '13:00:00',
 	'Reading Wildcats' => '15:00:00',
@@ -119,6 +120,9 @@ function fixtures($xlsx) {
 		$home = team($rows[$row][$HOME]);
 		$away = team($rows[$row][$AWAY]);
 		$week = team($rows[$row][$WEEK]);
+		if (str_starts_with($week, 'W')) {
+			$week = substr($week, 1);
+		}
 		$time = $times[$home] ?? '';
 		$sort = $date . $division['sort'] . $home . $away;
 		$fixtures[$sort] = "{$division['div']}\t$week\t$ymd[2]/$ymd[1]/$ymd[0]\t$time\t$home\t\tv\t\t$away";
@@ -223,10 +227,12 @@ function team($team) {
 		'Camden' => 'Camden Capybaras',
 		'Camden 2' => 'Camden Capybaras 2',
 		'Camden 3' => 'Camden Capybaras 3',
+		'Canterbury' => 'Canterbury City',
 		'Cardiff' => 'Cardiff Harlequins',
 		'East Grinstead' => 'Walcountians',
 		'Guildford' => 'Guildford Gators',
 		'Hillcroft' => 'Hillcroft 1',
+		'Richmond/Hillcroft' => 'Richcroft',
 		'Imperial' => 'Imperial College',
 		'Milton Keynes' => 'Milton Keynes Minotaurs',
 		'Reading' => 'Reading Wildcats',
