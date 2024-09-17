@@ -65,7 +65,11 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
     * `git reset --hard "HEAD^"` - delete the last commit, and reset working directory to the previous commit. Be careful with this one!
 * `git rebase --committer-date-is-author-date -i HEAD~10` - interactive rebase. Opens up an editor with a list of commits, and you can pick which commits to keep. Git then applies the remaining commits one-by-one from the starting point you specified, effectively deleting the removed commits. `HEAD~10` could also be a commit e.g. `ad14bf3`.
 
-    On a rebase author date is preserved, but committer date is modified. There is no way to preserve the committer date, but you can do the next best thing and `--committer-date-is-author-date`.
+    On a rebase author date is preserved, but committer date is modified. There is no way to preserve the committer date, but you can set `--committer-date-is-author-date` to use the author date.
+
+    Alternatively `--ignore-date` or `--reset-author-date` will use the current time for commit and author dates.
+
+    Note, the above 3 options will force a `--force-rebase` (`-f`) which will replay all commits instead of fast-forwarding, and will create all new commits.
 
     Again, be careful. Should never be done on a `main` branch that has been pushed.
 * `git rebase --keep-base -i main` - rebase on to the base commit from main that the branch was created from. Useful for feature branches with many commits if you are trying to rebase or commit into main and are getting lots of conflicts in different commits. With this command you squash the commits into one, and can then deal with all the conflicts at once. The `-i` will open an editor, so change all commits apart from the first from "pick" to "s" for squash or "f" for fixup (docs will be in the editor).
