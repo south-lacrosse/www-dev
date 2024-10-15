@@ -126,7 +126,7 @@ If you cannot use our script then you will need to create your own batch file su
 
 ```bat
 @echo off
-call %HOME%\AppData\Roaming\Local\ssh-entry\{site slug}.bat
+call %APPDATA%\Local\ssh-entry\{site slug}.bat
 code path\to\www-dev\south-lacrosse.code-workspace | exit
 ```
 
