@@ -22,8 +22,9 @@ The relevant tables are:
 `section_name` varchar(30) DEFAULT NULL
 `seq` smallint(6) unsigned NOT NULL -- used to sequence
 `type` varchar(20) NOT NULL
-`ladder_comp_id1` smallint(6) NOT NULL -- set to id of 1st ladder division
-`ladder_comp_id2` smallint(6) NOT NULL -- set to id of 2nd ladder division
+-- set to id of 1st ladder division, or flags comp for flags group stage
+`related_comp_id` smallint(6) NOT NULL
+`related_comp_id2` smallint(6) NOT NULL -- set to id of 2nd ladder division
 `head_to_head` BOOLEAN NOT NULL -- e.g. varsity, or North v South
 `history_page` varchar(200) NOT NULL -- history page to create, see below
 `description` TEXT NOT NULL -- description to be shown on the history page
@@ -42,7 +43,8 @@ processing as otherwise you will generate an empty page when running the history
 * `league`
 * `league-prelim` - a league that won't have a winner, usually a prelim like a qualifying conference
 * `ladder` - a ladder where teams from different divisions play each other, with points applying to their respective divisions
-* `cup`
+* `cup` - cup competition, e.g. flags
+* `cup-group` - group stage of flags
 * `results` - a list of winners, with possible runner-up, but no other data. Things like Varsity, Sixes
 
 ---

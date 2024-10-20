@@ -53,7 +53,7 @@ Only the first letter is used to determine the sort order, but you should put in
 * `Default` - sort by date, competition (ranked by sequence), home team
 * `Venue/time` - some competitions e.g. Local Midlands play a 3-way round-robin at one venue, so for those you can sort by date & competition as normal, and then venue & time, and then home team.
 
-Add any ladders (e.g. Division 1 and 2 teams play each other, with the results counting in their respective divisions), but omit teams. The ladder must have a row on the `sl_competition` table, with type = "ladder", and ladder_comp_id1 and ladder_comp_id2 set to the divisions it relates to, e.g. "SEMLA Division 1/2 Ladder" has comp_ids for "SEMLA Division 1" and "SEMLA Division 2".
+Add any ladders (e.g. Division 1 and 2 teams play each other, with the results counting in their respective divisions), but omit teams. The ladder must have a row on the `sl_competition` table, with type = "ladder", and related_comp_id and related_comp_id2 set to the divisions it relates to, e.g. "SEMLA Division 1/2 Ladder" has comp_ids for "SEMLA Division 1" and "SEMLA Division 2".
 
 ## Fixtures Sheet
 
@@ -91,6 +91,8 @@ To only show missing results you can filter on the Status column, or if you coul
 
 ## Flags Sheet
 
+Team names must match the name in the Teams sheet or be blank, or if the team is currently unknown you can also have the name starting "Winner", "Runner-up", or "Loser", to denote who the team will be.
+
 This sheet has to be in a rigid structure. It must be:
 
 * Line 1: Competition name in column C
@@ -102,11 +104,9 @@ This sheet has to be in a rigid structure. It must be:
 For the grid of matches, the first round should have no gaps between matches, and column B needs H/A markers for Home or Away team, or NH and NA for neutral venues, as one team is still
 "home". Column A can have match numbers, but these aren't used.
 
-The next round should have teams in column H, and H/A in column G, and then repeat across every 5 columns until the final. It is very important each match except finals have an H/A, as this is what the programs use to determine where a match is. You also need to get the matches in the correct order, as the top 2 matches in round 1 are assumed to feed into match 1 in round 2 etc. If you have done the draw in a funny way then you will need to unwind the draw so that it is in the correct order, so for example if round 2 match 1 is the winners from matches 3 and 5 from round 1 then you need to put matches 3 and 5 into positions 1 and 2 on the sheet respectively. You
-can put the match number in column A for reference.
+The next round should have teams in column H, and H/A in column G, and then repeat across every 5 columns until the final. It is very important each match except finals have an H/A, as this is what the programs use to determine where a match is. You also need to get the matches in the correct order, as the top 2 matches in round 1 are assumed to feed into match 1 in round 2 etc. If you have done the draw in a funny way then you will need to unwind the draw so that it is in the correct order, so for example if round 2 match 1 is the winners from matches 3 and 5 from round 1 then you need to put matches 3 and 5 into positions 1 and 2 on the sheet respectively. You can put the match number in column A for reference.
 
-If a team has a bye into round 2 then it must be put into round 1 as one of the teams, with the other as Bye. If you need comments then use column E, so for example if the Intermediate Flags trickles down into the minor then put "Loser Int R1 Game 7" in column E next to the slot in
-the draw. You can also put it in the team name, but that is not recommended.
+If a team has a bye into round 2 then it must be put into round 1 as one of the teams, with the other as Bye. If you need comments then use column E, so for example if the Intermediate Flags trickles down into the minor then put "Loser Int R1 Game 7" in column E next to the slot in the draw.
 
 You should also put borders around matches to make reading the sheet easier, e.g.
 
