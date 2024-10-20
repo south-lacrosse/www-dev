@@ -14,9 +14,12 @@ const pluginDir = process.env.npm_config_www + '/wp-content/plugins/semla/';
 try {
 	let output = fs.readFileSync( pluginDir + 'js/glightbox.min.js', 'utf8' );
 	const minified = UglifyJS.minify(
-		fs.readFileSync( pluginDir + 'js/glightbox-gallery.js', 'utf8' )
+		fs.readFileSync( pluginDir + 'js/glightbox-gallery.js', 'utf8' ),
+		{ compress: { arrows: false } }
 	);
-	if ( minified.error ) throw minified.error;
+	if ( minified.error ) {
+		throw minified.error;
+	}
 	output += '\n' + minified.code;
 
 	fs.writeFileSync( pluginDir + 'js/glightbox.bundle.min.js', output );
