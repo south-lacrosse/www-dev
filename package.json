@@ -9,8 +9,9 @@
 		"url": "https://github.com/south-lacrosse/www-dev.git"
 	},
 	"scripts": {
-		"build:blocks": "cross-env-shell wp-scripts build --config=webpack-full.config.js --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
-		"build:blocks-manifest": "cross-env-shell wp-scripts build-blocks-manifest --input=src/blocks --output=$npm_config_www/wp-content/plugins/semla/core/blocks-manifest.php",
+		"build:blocks": "run-s build-blocks build-blocks-manifest",
+		"build-blocks": "cross-env-shell wp-scripts build --config=webpack-full.config.js --webpack-src-dir=src/blocks --output-path=$npm_config_www/wp-content/plugins/semla/blocks",
+		"build-blocks-manifest": "cross-env-shell wp-scripts build-blocks-manifest --input=src/blocks --output=$npm_config_www/wp-content/plugins/semla/core/blocks-manifest.php",
 		"check-engines": "wp-scripts check-engines",
 		"format:blocks": "wp-scripts format ./src/blocks",
 		"lint:css": "wp-scripts lint-style ./src/blocks/**/*{.css,.scss}",
