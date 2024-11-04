@@ -63,6 +63,7 @@ If you want to pull from multiple remotes of the same repo first do a `git remot
 * Undoing commits (don't do if you've pushed to a repo that others may have pulled from).
     * `git reset --soft "HEAD^"` - undo the last commit (and everything staged), but leave the working directory intact. You can undo this with `git reset HEAD@{1}` assuming you have done no other changes, otherwise use `git reflog` to find the commit you want to reset to.
     * `git reset --hard "HEAD^"` - delete the last commit, and reset working directory to the previous commit. Be careful with this one!
+* `git log -- filename` - find commits which update a specific file. Add `--follow` to track renames.
 * `git rebase --committer-date-is-author-date -i HEAD~10` - interactive rebase. Opens up an editor with a list of commits, and you can pick which commits to keep. Git then applies the remaining commits one-by-one from the starting point you specified, effectively deleting the removed commits. `HEAD~10` could also be a commit e.g. `ad14bf3`.
 
     On a rebase author date is preserved, but committer date is modified. There is no way to preserve the committer date, but you can set `--committer-date-is-author-date` to use the author date.
