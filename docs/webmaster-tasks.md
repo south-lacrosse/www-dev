@@ -2,6 +2,27 @@
 
 Useful information about regular tasks the Webmaster should perform.
 
+## New Season Verification
+
+There is a [Fixtures Verification Google Sheet](https://docs.google.com/spreadsheets/d/11LgFqD4acY9KPVCZQqu9i9PYwPC6qdfF3pHbhUncxb0/edit?usp=sharing) which will take the data from the [Fixtures Sheet](fixtures-sheet-format.md) and show the number of home and away games for each team in each competition. You will need to set the location of the Fixtures Sheet, and possibly change the formula in Data:A6 so you get the competition, home, and away columns on the Data sheet.
+
+Note that this sheet may be private to the SEMLA Webmaster Google account, so you should share this if necessary.
+
+Once the fixtures are loaded for the new season there are a couple of useful queries to check that teams have the correct number of games in the [src/sql folder](../src/sql/).
+
+* [count-games.sql](../src/sql/count-games.sql) - count home and away games. Note it creates a `.tsv` file so it can easily be loaded into Google Sheets.
+* [count-mids-games.sql](../src/sql/count-mids-games.sql) - count Midlands games where home and away count doesn't matter.
+
+## Test New Releases Of WordPress
+
+WordPress frequently release new versions, and the website is set to automatically update.
+
+The only releases you really need to worry about are the major releases, which are versions with only 2 sequences, e.g. 6.7, 6.8, or 7.0, and not minor ones like 6.7.1 or 6.7.2. These are released every 4-5 months, and before they are WordPress will release beta and release candidate (RC) versions. You should test the site locally with RC versions when available, and you can do that with the [WordPress Beta Tester plugin](development-plugins.md#wordpress-beta-tester).
+
+You can find out information about upcoming releases from [the WordPress releases page](https://wordpress.org/news/category/releases/).
+
+One area you may miss is that if the blocks API has changed there might be deprecations or changes to functions our blocks use, or new versions of core blocks. The easiest way to check this is to open up the DevTools in your browser, go to the Console tab, and edit a club, page, and post. Any issues should be written to the console.
+
 ## Database
 
 You should periodically make sure the database is performing well.
@@ -42,6 +63,8 @@ There are many ways to do this, but the following work well for Windows:
 
 * [Xenu's Link Sleuth](http://home.snafu.de/tilman/xenulink.html) - old, but still good. Make sure to exclude `tel:` and `data:` URLs otherwise you will see excessive messages.
 * [SEO Macroscope](https://nazuke.github.io/SEOMacroscope/blog/) - add the line `add_filter('pre_option_blog_public', function() { return '1'; },99);` into `wp-content/plugins/semla/semla.php` to test sitemaps (and don't forget to remove that line after!).
+
+You can also run the [Broken Link Checker](https://wordpress.org/plugins/broken-link-checker/) WordPress plugin, though again this should be run on a local copy of the site.
 
 ## Media Files
 
