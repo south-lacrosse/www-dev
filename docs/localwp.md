@@ -136,28 +136,11 @@ Alternatively, you can just open the Site shell from Local and run VSCode from t
 
 ## Imagick
 
-Local doesn't come with the Imagick extension on some platforms, notably Windows. To add it on Windows:
+You may find PHP isn't configured correctly for the Imagick extension (at least on Windows). To check this go to the PHP Info page, which you can get to by going to your site in Local, and next to the PHP version click on "Details" (the site must be running), and look for the Imagick section.
 
-1. First you need to determine the setup of your site. Go to your site in Local, and next to the PHP version click on "Details" (the site must be running) to get the PHP Info page. Make a note of:
-    * Architecture (probably x64)
-    * Thread Safety (probably disabled)
-    * PHP version
-    * extension_dir - the PHP directory will be this directory's parent (there should be `php.exe` in there)
-1. Go to <http://pecl.php.net/package/imagick>
-1. Pick the version of the extension you want, usually the latest version, and click on DLL
-1. Pick the download compatible with your site e.g. "8.1 Non Thread Safe (NTS) x64"
-1. Extract the zip file
-1. For the next 2 steps you will need Administrator privileges
-1. Move `php_imagick.dll` to the `extension_dir`
-1. Move all other dlls into the PHP directory
-1. Edit `{site folder}\conf\php\php.ini.hbs` and add
+Local actually ships PHP with the Imagick extensions, it just fails to put the ImageMagick directory on the path. You can fix this by:
 
-    ```ini
-    {{#if os.windows}}
-    [imagick]
-    extension = php_imagick.dll
-    {{/if}}
-    ```
-
+1. On the PHP Info page search for `extension_dir`, and the PHP directory will be this directory's parent (there should be `php.exe` in there)
+1. Move everything in the `ImageMagick` subdirectory into the PHP directory
 1. Restart the site
-1. Reload the PHP Info page, and check for the imagick module section
+1. Reload the PHP Info page, and check for the Imagick module section
