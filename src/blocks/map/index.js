@@ -12,7 +12,6 @@ import {
 } from '@wordpress/block-editor';
 import {
 	Button,
-	ButtonGroup,
 	Icon,
 	Modal,
 	PanelBody,
@@ -154,7 +153,7 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 						id="semla-map-iframe"
 						src={ getScriptUrl() + '../../modal/map-dialog.html' }
 					/>
-					<ButtonGroup className="semla-map-buttons">
+					<div role="group" className="semla-map-buttons">
 						<Button
 							variant="primary"
 							onClick={ () => {
@@ -180,7 +179,7 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 						>
 							Cancel
 						</Button>
-					</ButtonGroup>
+					</div>
 					<p className="semla-map-instructions">
 						Drag the marker or double-click to set the exact
 						position. You can also use the search box to search for
