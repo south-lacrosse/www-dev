@@ -6,11 +6,13 @@
 	let map,
 		marker,
 		geocoder = null;
+	const includedRegionCodes = [ 'gb' ];
 
 	const GEOCODER_STATUS_DESCRIPTION = {
 		UNKNOWN_ERROR:
 			'The request could not be successfully processed, yet the exact reason is unknown',
-		OVER_QUERY_LIMIT: 'The webpage has gone over the requests limit in too short a time',
+		OVER_QUERY_LIMIT:
+			'The webpage has gone over the requests limit in too short a time',
 		REQUEST_DENIED: 'The webpage is not allowed to use the geocoder',
 		INVALID_REQUEST: 'This request was invalid',
 		ZERO_RESULTS: 'The address is unknown, please try another',
@@ -19,13 +21,18 @@
 
 	async function initMap() {
 		// https://developers.google.com/maps/documentation/javascript/reference
-		const { Map } = await google.maps.importLibrary( 'maps' );
-		const { ControlPosition, LatLng, LatLngBounds } =
-			await google.maps.importLibrary( 'core' );
-		const { Autocomplete } = await google.maps.importLibrary( 'places' );
-		const { AdvancedMarkerElement } = await google.maps.importLibrary(
-			'marker'
-		);
+		const [
+			{ Map },
+			{ ControlPosition, LatLng, LatLngBounds },
+			{ PlaceAutocompleteElement },
+			{ AdvancedMarkerElement },
+		] = await Promise.all( [
+			google.maps.importLibrary( 'maps' ),
+			google.maps.importLibrary( 'core' ),
+			google.maps.importLibrary( 'places' ),
+			google.maps.importLibrary( 'marker' ),
+		] );
+
 		// get the current lat/long (if any) from the main window
 		let { lat, long, address } = top.semla.loc;
 		let geocodeAddress = false;
@@ -73,29 +80,30 @@
 			savePosition( marker.position );
 		} );
 
-		const searchBox = document.getElementById( 'searchBox' );
-		map.controls[ ControlPosition.TOP_RIGHT ].push( searchBox );
+		const searchControl = document.createElement( 'div' );
+		searchControl.className = 'searchControl';
+		searchControl.innerHTML =
+			'<p style="margin-top:0;margin-bottom:0.5em">Search:</p>';
 
-		const autocomplete = new Autocomplete( searchBox, {
-			bounds: new LatLngBounds(
-				new LatLng( 50, -6 ), //sw
-				new LatLng( 54, 2 ) //ne
-			),
-			componentRestrictions: { country: 'gb' },
+		const placeAutocomplete = new PlaceAutocompleteElement( {
+			includedRegionCodes,
 		} );
-		autocomplete.addListener( 'place_changed', function () {
-			const place = this.getPlace();
-			if ( ! place.geometry ) {
-				if ( place.name.trim() === '' ) {
-					return;
-				}
-				geocode( place.name.trim() );
-				return;
+		placeAutocomplete.id = 'search-box';
+		searchControl.append( placeAutocomplete );
+
+		placeAutocomplete.addEventListener(
+			'gmp-select',
+			async ( { placePrediction } ) => {
+				const place = placePrediction.toPlace();
+				await place.fetchFields( {
+					fields: [ 'location' ],
+				} );
+				map.setCenter( place.location );
+				marker.position = place.location;
+				savePosition( marker.position );
 			}
-			map.setCenter( place.geometry.location );
-			marker.position = place.geometry.location;
-			savePosition( marker.position );
-		} );
+		);
+		map.controls[ ControlPosition.TOP_RIGHT ].push( searchControl );
 	}
 
 	// save marker position to top window so it can be picked up on save
