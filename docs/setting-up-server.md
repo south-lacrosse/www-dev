@@ -161,17 +161,30 @@ Emails to `dmarc@southlacrosse.org.uk` will be in the Inbox before they are proc
 
 Processed emails and report data over a certain age are deleted by the clean up process.
 
-When moving to a new server you should be able to just copy over the server directory and `dmarc_` database tables, and setup any `cron` jobs that were on the old server. You should make sure the `dmarc-srg` directory is somewhere accessible from a web server, probably as a subdomain, and then password protect it - the host should have some way to do that.
+When moving to a new server you should be able to just copy over the server directory and `dmarc_` database tables, and setup any `cron` jobs that were on the old server. You should make sure the `dmarc-srg/public` directory is somewhere accessible from a web server, probably as a subdomain with the root directory as `dmarc-srg/public`, and then password protect that directory (the host should have some way to do that).
 
 To setup from scratch:
 
-1. It's not essential, but it's useful to install DmarcSrg in a location accessible from the web. For the current server we installed it under `~/public_html/sub/` so we could create a subdomain, and then used the hosts tools to password protect that directory.
-1. In your chosen parent directory install with `git clone https://github.com/liuch/dmarc-srg.git`
-1. Add an `.htaccess` file in the `utils` directory with `Require all denied` to block access to that directory from the web server.
-1. Create and populate `config/conf.php`, based on the `dmarc-srg/conf.php` file from our private `wordpress-config` repo. You should use the same database as production so that it's easier to backup.
+1. It's not essential, but it's useful to install DmarcSrg in a location accessible from the web. For the current server we installed it at `~/public_html/sub/dmarc-srg` so we could create a subdomain pointed to `~/public_html/sub/dmarc-srg/public`, and then used the hosts tools to password protect that directory.
+1. From the directory you want to install to (replace 2.3 with the version you want):
+
+    ```console
+    wget https://github.com/liuch/dmarc-srg/archive/refs/tags/v2.3.tar.gz
+    tar -xzvf v2.3.tar.gz --strip-components=1
+    rm v2.3.tar.gz
+    ```
+
+1. To install dependencies you can use Composer, which should be installed on the host (if not there are plenty of tutorials on how to install it on shared hosting). Our current host Hostinger has the latest Composer installed as `composer2`, so it's best to use that. You can just run `composer2 update` to install all dependencies, however in the current version we don't need them all (only PHPMailer to send emails via SMTP), so assuming that remains the case then from the install directory run:
+
+    ```console
+    rm composer.*
+    composer2 require phpmailer/phpmailer
+    ```
+
+1. Create and populate `config/conf.php`, based on the `dmarc-srg/conf.php` file from our private `wordpress-config` repo. You should use the same database as production so that it's easier to backup. If you make changes then ensure you also commit and push those changes back to the `wordpress-config` repo.
 1. `chmod 0600 config/conf.php` so the config file isn't readable by anyone else.
 1. In the `dmarc-srg` directory run `php utils/database_admin.php init` to create the tables.
-1. Create a set of `cron` jobs to process the reports and do any administration. The programs need to run from the `dmarc-srg` directory, so the commands should be something like `cd path/to/dmarc-srg && php utils/fetch_reports.php`
+1. Create a set of `cron` jobs (see below) to process the reports and do any administration. The programs need to run from the `dmarc-srg` directory, so the commands should be something like `cd path/to/dmarc-srg && php utils/fetch_reports.php`
 
 The cron format is `min(s) hour(s) day(s) month(s) weekday(s) command`, so a suggested setup would be:
 
@@ -191,13 +204,15 @@ The cron format is `min(s) hour(s) day(s) month(s) weekday(s) command`, so a sug
 
 Note: `dmarc.sh` and `dmarc-cleanup.sh` assume DmarcSrg is installed in `sub/dmarc-srg` inside the WordPress directory.
 
+Note 2: PHP 8.4 no longer bundles the IMAP extension which is used by DmarcSrg (at least to v2.3) to fetch reports and tidy up the mailbox. The IMAP extension can be installed using PEAR, but that can be difficult on some shared hosting, so it's currently easiest to run the `fetch_reports.php` and `mailbox_cleaner.php` utils using PHP8.3.
+
 ### WordPress SMTP Settings
 
-We use WP Mail SMTP for sending mails from WordPress (automatic core/plugin/theme updates, password resets etc.), as the default method can be flaky, and will also cause SPF verification issues. You will need to make sure you set up the WordPress email account to the new server, and also update the plugin settings in WordPress. Go to the Admin dashboard, then WP Mail SMTP, update the `SMTP host` setting, and Save. The password is held in the `wp-config.php` file so as not to save it in the database.
+We use SMTP for sending mails from WordPress (automatic core/plugin/theme updates, password resets etc.), as the default method can be flaky, and will also cause SPF verification issues. You will need to make sure you set up the WordPress email account on the new server. The mailbox user and password are held in the `wp-config.php` file so as not to save them in the database.
 
 ## DNS Change
 
-When you change the DNS records to point to the new host's nameservers you can use a useful too <https://www.whatsmydns.net/#A/www.southlacrosse.org.uk> to see where the change has propagated to.
+When you change the DNS records to point to the new host's nameservers you can use a useful tool <https://www.whatsmydns.net/#A/www.southlacrosse.org.uk> to see where the change has propagated to.
 
 ## Finally
 
