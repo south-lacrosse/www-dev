@@ -4,6 +4,7 @@
 /config
 /docs
 /node_modules
+/src/local-db-service
 
 map-dialog.html
 *.md

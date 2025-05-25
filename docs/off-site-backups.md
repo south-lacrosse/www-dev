@@ -49,6 +49,6 @@ Test it by listing files on the remote: `rclone ls backup:/`.
 
 **Warning:** If you are backing up to a Hostinger server the FTP transfer will fail as the server certificate does not match the server name because Hostinger have `CN=*.hstgr.io` in their FTP certificates. To get around this you should find the `hstgr.io` address of the server as follows:
 
-* Connect to the FTP server via SSH and run `set|grep HOSTNAME`, which should give you the host name like `uk-fast-web999.main-hosting.eu`
+* Connect to the FTP server via SSH and run `hostname`, which should give you the host name like `uk-fast-web999.main-hosting.eu`
 * Use the `hstgr.io` version of that host name, so `uk-fast-web999.hstgr.io`. Try pinging it so see that it works, and matches the IP address.
 * If that fails try the following format: `srv999.hstgr.io`. If you `ping` that (or do a `nslookup`) it should tell you the server it redirects to, e.g. `Pinging uk-fast-web999.hstgr.io...`. Or just use that host name if the site resolves to the same IP address as our website. You can also get the server number by going into the hPanel and digging around (it'll be Server999 in the previous example). It should also be the URL if you go to Files->File manager.

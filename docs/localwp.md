@@ -23,6 +23,8 @@ Local stores files in various places, but the most important one to know is how 
 
 ## Creating The South Lacrosse Site In Local
 
+Note: Before creating your site you should take a glance at [Custom Database Versions](#custom-database-versions).
+
 Once Local is installed you should create a site for the South Lacrosse website. At various steps on this process you may be asked "Do you want to allow this app to make changes to your device?", to which you should say Yes.
 
 1. Run Local
@@ -144,3 +146,7 @@ Local actually ships PHP with the Imagick extensions, it just fails to put the I
 1. Move everything in the `ImageMagick` subdirectory into the PHP directory
 1. Restart the site
 1. Reload the PHP Info page, and check for the Imagick module section
+
+## Custom Database Versions
+
+Local only comes with a limited number of versions of MySQL and MariaDB. It is generally preferable to have the database match that used on the production site, so if your preferred version is not available then see [How to create a custom DB service](../src/local-db-service/README.md).
