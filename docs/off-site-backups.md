@@ -41,14 +41,14 @@ You can then edit your `~/.profile` (or whatever file is used on your server) to
 
 The config is stored in `~/.config/rclone/rclone.conf`, so you can copy that if moving hosts.
 
-The current off site backup process requires a remote FTP server to back up to, so if the current one becomes unavailable you will need to arrange another one.
+The current off site backup process requires a remote FTP server to back up to, so if the current server becomes unavailable you will need to arrange another one.
 
-You will need to know the FTP server host name, port, user and password, and hopefully that is uses TLS (explicit or implicit). Then follow the instructions at <https://rclone.org/ftp/> (basically just `rclone config` and follow the prompts), and set the name to `backup`, either  and either `Use Implicit FTPS (FTP over TLS)` or `Use Explicit FTPS (FTP over TLS)` to true (whichever the remote host uses).
+You will need to know the FTP server host name, port, user and password, and hopefully that is uses TLS (explicit or implicit). Then follow the instructions at <https://rclone.org/ftp/> (basically just `rclone config` and follow the prompts), and set the name to `backup`, and set either `Use Explicit FTPS (FTP over TLS)` or `Use Implicit FTPS (FTP over TLS)` to true (whichever the remote host uses, explicit is best).
 
 Test it by listing files on the remote: `rclone ls backup:/`.
 
-**Warning:** If you are backing up to a Hostinger server the FTP transfer will fail as the server certificate does not match the server name because Hostinger have `CN=*.hstgr.io` in their FTP certificates. To get around this you should find the `hstgr.io` address of the server as follows:
+## Certificate Errors
 
-* Connect to the FTP server via SSH and run `hostname`, which should give you the host name like `uk-fast-web999.main-hosting.eu`
-* Use the `hstgr.io` version of that host name, so `uk-fast-web999.hstgr.io`. Try pinging it so see that it works, and matches the IP address.
-* If that fails try the following format: `srv999.hstgr.io`. If you `ping` that (or do a `nslookup`) it should tell you the server it redirects to, e.g. `Pinging uk-fast-web999.hstgr.io...`. Or just use that host name if the site resolves to the same IP address as our website. You can also get the server number by going into the hPanel and digging around (it'll be Server999 in the previous example). It should also be the URL if you go to Files->File manager.
+It is possible the remote FTP server has a certificate that doesn't match the domain (Hostinger uses certificates with `CN=*.hstgr.io`) in which case `rclone` will fail.
+
+To ignore certificate errors run `rclone config` and edit the config, accept all the previous values, say yes to `Edit advanced config?`, and set the option `no_check_certificate`.  Alternatively edit `~/.config/rclone/rclone.conf` and add the line `no_check_certificate = true` at the end of the backup config.
