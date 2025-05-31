@@ -314,6 +314,7 @@ By default sed outputs to standard out. Include the `-i` flag after sed to modif
 
 * `wget -x https://dev.southlacrosse.org.uk/robots.txt`- `-x` aka `--force-directories`, create a hierarchy of directories, even if one would not have been created otherwise, so this will create file dev.southlacrosse.org.uk/robots.txt
 * `wget --force-directories --no-check-certificate --input-file=dev-urls.txt` - download URLs in file, creating directories. Get [site URLs from WP-CLI](#site-urls).
+* `wget --ftp-user=user --ftp-password=password ftps://server/file.gz file.gz` - get from FTPS server
 
 Useful options:
 
@@ -324,6 +325,14 @@ Useful options:
 * `--random-wait` - wait from 0.5\*WAIT...1.5\*WAIT secs between retrievals
 * `--execute robots=off` - force wget to ignore the robots.txt and the nofollow directives
 * `--no-directories` or `-nd`, prevents wget from creating a hierarchy of directories
+
+### Downloading And Uploading with curl
+
+* `curl --list-only --ssl-reqd -u user:password ftp://ftp.example.com/path/` - list directory
+* `curl --ssl-reqd -u user:password ftp://ftp.example.com/path/remote-file -o localfile` - download file
+* `curl --ssl-reqd -u user:password -T localfile ftp://ftp.example.com/dir/path/remote-file` - upload file
+
+Add the `-k` flag to ignore certificate errors
 
 ### Vim Editor
 

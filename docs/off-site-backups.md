@@ -52,3 +52,7 @@ Test it by listing files on the remote: `rclone ls backup:/`.
 It is possible the remote FTP server has a certificate that doesn't match the domain (Hostinger uses certificates with `CN=*.hstgr.io`) in which case `rclone` will fail.
 
 To ignore certificate errors run `rclone config` and edit the config, accept all the previous values, say yes to `Edit advanced config?`, and set the option `no_check_certificate`.  Alternatively edit `~/.config/rclone/rclone.conf` and add the line `no_check_certificate = true` at the end of the backup config.
+
+## Other Ways To Transfer Files
+
+There are a few other Linux commands you can use to transfer files to and from a remote FTPS server. See other docs for [downloading with wget](development-help.md#download-files-with-wget) and [uploading and downloading with curl](development-help.md#downloading-and-uploading-with-curl).
