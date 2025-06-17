@@ -13,7 +13,7 @@ Rclone paths are either `remote:path` or `/path/to/local` or `relative/local/pat
 * `copy` command. Does not transfer files that are identical in source and destination. `-P` shows progress.
 
     * `rclone copy backup:/db-2023-02-01-024001-monthly.sql.gz local-dest-dir/ -P` - recover a single file
-    * `rclone copy backup:/ backups/slh-2022-05-13-105531.sql.gz -P` - backup a single file
+    * `rclone copy backups/slh-2022-05-13-105531.sql.gz backup:/ -P` - backup a single file
     * `rclone copy backup:/ local-dest-dir/ --include="db*" -P` - copy included files from source folder to destination folder
 
 * `rclone ls backup:/ --include="db*" --max-age 10d` - list files with pattern and max age. Use `lsl` to also include modification date.
