@@ -2,6 +2,8 @@
 
 Weekly and monthly backups are automatically copied to a FTP backup server using Rclone [(see below)](#configuring) as part of the [backup cron jobs](backups.md#automating-backups).
 
+If for any reason you cannot get Rclone to work then use the [PHP alternative](#alternative-to-rclone).
+
 It should be noted that our hosts Hostinger do not have a suitable FTP client, so you will need to use `rclone` to access the FTP server. You can also access the backup server using an FTP client from any other machine. The settings can be found with `rclone config show backup` (but you'll need the password), and make sure you set `Explicit FTP over TLS` (or `ftps://`) so that the connection is secure.
 
 ## How to Recover and Backup
@@ -56,3 +58,9 @@ To ignore certificate errors run `rclone config` and edit the config, accept all
 ## Other Ways To Transfer Files
 
 There are a few other Linux commands you can use to transfer files to and from a remote FTPS server. See other docs for [downloading with wget](development-help.md#download-files-with-wget) and [uploading and downloading with curl](development-help.md#downloading-and-uploading-with-curl).
+
+## Alternative To Rclone
+
+If you cannot get Rclone to work then there is also a PHP script in the main `www` repository at `bin/off-site.php` which will use the FTP functions in PHP to do the off site copying. See the top of that script for details on its use.
+
+Make sure you change `bin\regular-backup.sh` to call this script instead of `off-site-backup.sh`.
