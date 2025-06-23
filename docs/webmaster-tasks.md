@@ -8,7 +8,7 @@ There is a [Fixtures Verification Google Sheet](https://docs.google.com/spreadsh
 
 Note that this sheet may be private to the SEMLA Webmaster Google account, so you should share this if necessary.
 
-Once the fixtures are loaded for the new season there are a couple of useful queries to check that teams have the correct number of games in the [src/sql folder](../src/sql/).
+There are also a couple of queries that we used before the verification sheet was created, and these are kept in [src/sql folder](../src/sql/) in case they are useful. Note that these query the database, so make sure the fixtures are loaded before you run them.
 
 * [count-games.sql](../src/sql/count-games.sql) - count home and away games. Note it creates a `.tsv` file so it can easily be loaded into Google Sheets.
 * [count-mids-games.sql](../src/sql/count-mids-games.sql) - count Midlands games where home and away count doesn't matter.

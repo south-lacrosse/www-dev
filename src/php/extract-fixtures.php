@@ -2,6 +2,8 @@
 /**
  * Extract data into standard fixtures format from:
  * 	1. xlsx spreadsheet, for columns see fixtures() function
+ *     IMPORTANT: make sure dates column is formatted as a date otherwise the
+ *     date parsing won't work correctly
  *  2. midlands from CSV (text extracted from PDF and commas added to separate
  *     fields, see mids function for format)
  *  3. flags from tab separated (generate in WordPress Admin->SEMLA->Flags Fixtures Formulas)
@@ -12,7 +14,7 @@
  *
  * Run with
  *
- * php extract-fixtures.php fixtures.xlsx midlands.csv flags.tsv > out.txt
+ * php extract-fixtures.php > out.txt
  *
  * Then copy/paste relevant part - top bit goes to Divisions tab
  *
@@ -20,14 +22,19 @@
  */
 use Semla\Data_Access\SimpleXLSX;
 
-// if (count($argv) !== 4) {
-// 	die("Usage: php $argv[0] fixtures.xlsx midlands.csv flags.tsv");
-// }
-// list($program,$xlsxFile,$midsFile,$flagsFile) = $argv;
-
+// hard code files, not point in doing it via arguments
 $xlsxFile = 'work/fixtures.xlsx';
 $midsFile = 'work/midlands.csv';
 $flagsFile = 'work/flags.tsv';
+
+// columns in fixtures xlsx
+define('DIVISION', 0);
+define('WEEK', 1);
+define('DATE', 2);
+define('HOME', 3);
+define('AWAY', 4);
+define('NOTES', 5); // don't define if there is no notes column
+
 
 $npmrc = parse_ini_file(dirname(__DIR__, 2) . '/.npmrc');
 if (!$npmrc) {
@@ -45,10 +52,10 @@ $times = [
 	'Bath' => '12:00:00',
 	'Buckhurst Hill' => '13:00:00',
 	'Hampstead' => '12:30:00',
+	'Hampstead 2' => '12:30:00',
 	'Hillcroft 1' => '10:00:00',
 	'Hillcroft 2' => '10:00:00',
 	'Richcroft' => '10:00:00',
-	'Bath' => '12:00:00',
 	'Oxford City' => '13:00:00',
 	'Reading Wildcats' => '15:00:00',
 ];
@@ -57,29 +64,26 @@ $divisions = [
 	'Div 1' => [ 'div' => 'SEMLA Division 1', 'sort' => '001' ],
 	'Div 2' => [ 'div' => 'SEMLA Division 2', 'sort' => '002' ],
 	'Div 3' => [ 'div' => 'SEMLA Division 3', 'sort' => '003' ],
-	'SE1' => [ 'div' => 'Local South East 1', 'sort' => '004' ],
-	'SE2' => [ 'div' => 'Local South East 2', 'sort' => '005' ],
-	'SE3' => [ 'div' => 'Local South East 3', 'sort' => '006' ],
+	'SE Div 1' => [ 'div' => 'Local South East 1', 'sort' => '004' ],
+	'SE Div 2' => [ 'div' => 'Local South East 2', 'sort' => '005' ],
+	'SE Div 3' => [ 'div' => 'Local South East 3', 'sort' => '006' ],
 	'SW' => [ 'div' => 'Local South West', 'sort' => '007' ],
 	'Local Midlands' => [ 'div' => 'Local Midlands' ],
 ];
 $fixtures = [];
-$fixtures = [
-	'2025-03-02101A' => "Midlands Final Four SF\t\t02/03/2025\t\t\t\tv",
-	'2025-03-02101B' => "Midlands Final Four SF\t\t02/03/2025\t\t\t\tv",
-	'2025-03-16101' => "Midlands Final Four F\t\t16/03/2025\t\t\t\tv",
-];
+// $fixtures = [
+// 	'2025-03-02101A' => "Midlands Final Four SF\t\t02/03/2025\t\t\t\tv",
+// 	'2025-03-02101B' => "Midlands Final Four SF\t\t02/03/2025\t\t\t\tv",
+// 	'2025-03-16101' => "Midlands Final Four F\t\t16/03/2025\t\t\t\tv",
+// ];
 fixtures($xlsx);
-mids($midsFile, $fixtures);
+// mids($midsFile, $fixtures);
 flags($flagsFile, $fixtures);
 ksort($fixtures);
-// foreach ($fixtures as ) {
-
-// }
 echo implode("\n",$fixtures);
 echo "\n---";
 foreach ($divisions as $division) {
-	if (is_array($division['teams'])) {
+	if (key_exists('teams', $division) && is_array($division['teams'])) {
 		ksort($division['teams']);
 		echo "\n{$division['div']}\t" . implode("\t",array_keys($division['teams']));
 	}
@@ -90,45 +94,51 @@ exit(0);
 function fixtures($xlsx) {
 	global $fixtures, $divisions, $times;
 
-	$rows = $xlsx->rows(0);
-	$DIVISION = 1;
-	$WEEK = 2;
-	$DATE = 3;
-	$HOME = 4;
-	$AWAY = 5;
-	for ($row = count($rows) - 1; $row > 1; $row--) {
-		if ($rows[$row][$DIVISION] === ''
-		|| $rows[$row][$DIVISION] === 'LOCAL LEAGUE'
-		|| ! $rows[$row][$HOME]
-		|| ! $rows[$row][$AWAY]
-		|| str_starts_with($rows[$row][$HOME], 'BYE')
-		|| str_starts_with($rows[$row][$AWAY], 'BYE')
-		) {
-			continue;
-		}
-		$divname = $rows[$row][$DIVISION];
-		if (str_starts_with(strtolower($divname), 'flags')) continue; // ignore flags
-		$divname = str_replace('Draft ','',$divname);
-		if (!$divisions[$divname]) {
-			die("Unknown division $divname");
-		}
+	$sheets_count = $xlsx->sheetsCount();
+	for ($sheet = 0; $sheet < $sheets_count; $sheet++) {
+		$rows = $xlsx->rows($sheet);
+		$row_count = count($rows);
+		// skip title row
+		for ($row = 1; $row < $row_count; $row++) {
+			if ($rows[$row][DIVISION] === ''
+			|| ! $rows[$row][HOME]
+			|| ! $rows[$row][AWAY]
+			|| str_starts_with($rows[$row][HOME], 'BYE')
+			|| str_starts_with($rows[$row][AWAY], 'BYE')
+			) {
+				continue;
+			}
+			$div_name = $rows[$row][DIVISION];
+			if (str_starts_with(strtolower($div_name), 'flags')) continue; // ignore flags
+			$div_name = trim(str_replace('Draft ','',$div_name));
+			if (!$divisions[$div_name]) {
+				die("Unknown division $div_name");
+			}
 
-		$division = $divisions[$divname];
-		if (!$division) continue; // ignore flags
-		$date = substr($rows[$row][$DATE],0,10);
-		$ymd = explode('-',$date);
-		$home = team($rows[$row][$HOME]);
-		$away = team($rows[$row][$AWAY]);
-		$week = team($rows[$row][$WEEK]);
-		if (str_starts_with($week, 'W')) {
-			$week = substr($week, 1);
-		}
-		$time = $times[$home] ?? '';
-		$sort = $date . $division['sort'] . $home . $away;
-		$fixtures[$sort] = "{$division['div']}\t$week\t$ymd[2]/$ymd[1]/$ymd[0]\t$time\t$home\t\tv\t\t$away";
+			$division = $divisions[$div_name];
 
-		$divisions[$divname]['teams'][$home] = 1;
-		$divisions[$divname]['teams'][$away] = 1;
+			// SimpleXLSX formats dates as yyyy-mm-dd hh:mm:ss. We don't change
+			// the default format as we need to sort by ymd, so we just format
+			// the date into d/m/Y for the csv
+			$date = substr($rows[$row][DATE],0,10);
+			$ymd = explode('-',$date);
+			$home = team($rows[$row][HOME]);
+			$away = team($rows[$row][AWAY]);
+			$week = team($rows[$row][WEEK]);
+			if (str_starts_with($week, 'W')) {
+				$week = substr($week, 1);
+			}
+			$time = $times[$home] ?? '';
+			$notes = defined('NOTES') ? trim($rows[$row][NOTES]) : '';
+			if ($notes) {
+				$notes = "\t\t$notes";
+			}
+			$sort = $date . $division['sort'] . $home . $away;
+			$fixtures[$sort] = "{$division['div']}\t$week\t$ymd[2]/$ymd[1]/$ymd[0]\t$time\t$home\t\tv\t\t$away$notes";
+
+			$divisions[$div_name]['teams'][$home] = 1;
+			$divisions[$div_name]['teams'][$away] = 1;
+		}
 	}
 }
 
@@ -145,15 +155,15 @@ function mids($file, &$fixtures) {
 		die("cannot open CSV file $file");
 	}
 	$phase = '';
-	$seperator = ' – ';
-	$seperator_len = strlen($seperator);
+	$separator = ' – ';
+	$separator_len = strlen($separator);
 	while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
 		$num = count($data);
 		if ($num === 1) {
-			if (($pos = strpos($data[0], $seperator)) === FALSE) {
-				die("Missing '$seperator' in gameday line: $data[0]");
+			if (($pos = strpos($data[0], $separator)) === FALSE) {
+				die("Missing '$separator' in gameday line: $data[0]");
 			}
-			$timestamp = strtotime(substr($data[0], $pos + $seperator_len));
+			$timestamp = strtotime(substr($data[0], $pos + $separator_len));
 			$date = date('d/m/Y', $timestamp);
 			$sort_date = date('Y-m-d', $timestamp);
 			$phase = 'venues';
@@ -235,9 +245,12 @@ function team($team) {
 		'Richmond/Hillcroft' => 'Richcroft',
 		'Imperial' => 'Imperial College',
 		'Milton Keynes' => 'Milton Keynes Minotaurs',
+		'Raptors' => 'Purley Raptors',
+		'Raptors 2' => 'Purley Raptors 2',
 		'Reading' => 'Reading Wildcats',
 		'Welwyn' => 'Welwyn Warriors',
 		'Welwyn 2' => 'Welwyn 2/MK',
+		'Welwyn 2 / MK' => 'Welwyn 2/MK',
 		// Midlands
 		'Derby' => 'Derby Hurricanes',
 		'Leicester 1' => 'Leicester City 1',

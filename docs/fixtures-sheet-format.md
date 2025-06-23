@@ -4,6 +4,8 @@ All fixtures, league, and flags data is loaded from a spreadsheet on Google Shee
 
 There are [Instructions on how to modify this sheet](fixtures-sheet.md) during the season, but the most important instruction is **never delete a row** once the fixtures are published, after that games must have a score, be conceded, rearranged, or void.
 
+See also the [New Season Verification](webmaster-tasks.md#new-season-verification) webmaster task for how to verify the fixtures are valid, i.e. games are balanced, all teams play the correct number of games, etc..
+
 You should add a link to the instructions from whatever the first sheet is, usually Fixtures.
 
 The simplest way to understand the format is to visit the [previous Fixtures Sheets](https://drive.google.com/drive/folders/1SoT-hiBgRW_PLNRSLEkzcjbGobhXRanf?usp=sharing), and have a look at the latest version.
