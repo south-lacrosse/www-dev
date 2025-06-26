@@ -16,7 +16,7 @@ The number of points for wins/draws/loses and the tie-break options can be set o
 
 It is suggested you add data validation where you can to restrict values users can put in. To do that select the cells, choose Data->Data validation, and enter the restriction. There are examples below.
 
-There must be 5 sheets named Fixtures, Flags, Teams, and Divisions. There are also optional sheets for Deductions, and Division Order.
+There must be 4 sheets named Fixtures, Flags, Teams, and Divisions. There are also optional sheets for Deductions, and Division Order.
 
 The Teams and Divisions sheets are only needed to set up the season. These sheets can be hidden during the season, and only unhidden when you need to do any changes. Therefore, if you copy over the sheet from the previous year as your starting point make sure to unhide these sheets so you can work on them (use the All Sheets menu, which is the 3 lines icon in the bottom left by the sheet names - hidden sheets will be greyed out, select to unhide).
 
@@ -29,7 +29,7 @@ Lists all teams and their info. Must have the following columns in this order:
 * `Club Page` - the club page slug, so for Bath their page is at `/clubs/bath`, and the slug will be `bath`
 * `Pitch Type` - anything here will appear on the Fixtures page if the game hasn't been played yet. It is suggested you keep this consistent, so use `3G`, `Astro`, or `Sand Astro`
 
-Team meta data can be updated in the WordPress Admin under `SEMLA->Teams`. There should set:
+Team meta data can be updated in the WordPress Admin under `SEMLA->Teams`. There you should set:
 
 * `Abbreviation` -  used where long names would overflow the space. such as mini tables, flags draws, and fixtures on small screens
 * `Minimal` - used for column headings in the Fixtures Grid, so keep it to 6 characters maximum
@@ -125,3 +125,7 @@ This sheet is optional. Columns are `League & Division` (must be Full name from 
 ## Division Order Sheet
 
 Optional sheet used to order divisions in a specific order, e.g. if the final positions were set using a Final Four competition. The top row should be the full competition name, and the teams must be listed in the correct order in that column. If there are no Division Orders then make sure to delete this sheet.
+
+## Getting Notified of Changes
+
+Google Sheets can notify you when anything on the Fixtures sheet changes, just go to Tools->Notification settings->Edit (shortcut `Alt + T + N + E`) and add a rule.
