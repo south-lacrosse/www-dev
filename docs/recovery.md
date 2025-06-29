@@ -112,5 +112,7 @@ Follow the steps above, and also:
 
 * Change the server password using your host's tools.
 * Create a new database with a new password, and change `wp-config.php` to match. Then restore a backup to that database.
-* Change all WordPress passwords by running `reset-all-passwords.php` from the `fix` repository. It will list all users' email addresses and new passwords.
+* Change all WordPress passwords. Either:
+    1. Run `reset-all-passwords.php` from the `fix` repository. It will list all users' email addresses and new passwords.
+    1. Or you can use WP-CLI with `wp user reset-password $(wp user list --format=ids) --show-password --skip-email`.
 * [Regenerate the semla-webmaster SSH keys](setting-up-server.md#regenerating-ssh-keys-for-semla-webmaster).
