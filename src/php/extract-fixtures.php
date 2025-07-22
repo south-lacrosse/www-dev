@@ -24,7 +24,7 @@
  *
  * Run with
  *
- *    php extract-fixtures.php > out.txt
+ *    php extract-fixtures.php > work\out.txt
  *
  * Then copy/paste relevant parts into the Fixtures sheet, the top section goes
  * on the Fixtures tab, and the bottom to the Divisions tab
@@ -41,7 +41,7 @@ $flags_file = 'work/flags.tsv';
 // arguments for fixtures xlsx sheets
 $fixtures_sheets = [0,2]; // sheets with regular fixtures
 // 3-way setup, array of sheet no, start row, possible columns, division name
-// not rows and cols start at 0
+// Note: rows and cols start at 0
 $three_way_sheets = [ [1,10,[1,5,9],'Div 3'] ]; // sheets with 3-way
 $fixtures_args = [
 	'division_col' => 0, 'week_col' => 1, 'date_col' => 2,
@@ -56,6 +56,8 @@ $midlands_args = [
 $times = [
 	'Bristol Bombers' => '13:00:00',
 	'Buckhurst Hill' => '13:00:00',
+	'Cheltenham' => '12:00:00',
+	'Cheltenham A' => '12:00:00',
 	'Hampstead' => '12:30:00',
 	'Hampstead 2' => '12:30:00',
 	'Hillcroft 1' => '10:00:00',
