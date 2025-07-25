@@ -231,7 +231,7 @@ The Lax theme uses many SVGs (Scalable Vector Graphics) as they scale easily and
 
 The only problem with SVGs is that they aren't supported on really old browsers (IE8), so to allow access to the site for these users all icons which are absolutely required (home, search etc.) we have both a PNG and SVG. The PNG is served by default, and some JavaScript runs to determine if the browser supports SVG, and if it does it adds `svg` to the class on the `<html>` element so that SVGs can be served instead.
 
-To create a PNG from the SVG use [Inkscape](https://inkscape.org/en/). You can set the stroke colour in `Object->Fill and Stroke...` to anything you want, then `File->Export PNG Image..`.
+To create a PNG from the SVG use [Inkscape](https://inkscape.org/en/) (Note: if you install a new version of Inkscape make sure to uninstall the previous version first). You can set the stroke colour in `Object->Fill and Stroke...` to anything you want, then `File->Export PNG Image..`.
 
 ### Favicons
 
