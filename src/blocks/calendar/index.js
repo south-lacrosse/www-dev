@@ -12,6 +12,7 @@ import {
 	TextControl,
 	ToggleControl,
 } from '@wordpress/components';
+import { PostPreviewButton } from '@wordpress/editor';
 
 import metadata from './block.json';
 
@@ -154,9 +155,13 @@ function Edit( { attributes, setAttributes } ) {
 					/>
 				</div>
 				<p className="components-placeholder__learn-more">
-					Open the Settings to set calendar options. Open the page or
-					preview to see the actual calendar.
+					Open the Settings to set calendar options. Open the preview
+					to see the actual calendar.
 				</p>
+				<PostPreviewButton
+					className="is-secondary"
+					textContent="Open preview in new tab"
+				/>
 			</Placeholder>
 		</div>
 	);
