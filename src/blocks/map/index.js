@@ -109,7 +109,7 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 						max={ 54 }
 						onChange={ ( val ) =>
 							setPanelLatAndLong( {
-								lat: parseFloat( val ),
+								lat: val ? parseFloat( val ) : val,
 								long,
 							} )
 						}
@@ -123,7 +123,7 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 						onChange={ ( val ) =>
 							setPanelLatAndLong( {
 								lat,
-								long: parseFloat( val ),
+								long: val ? parseFloat( val ) : val,
 							} )
 						}
 					/>
