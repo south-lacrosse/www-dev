@@ -7,6 +7,7 @@
  *        Must have a title row, but this is ignored
  *     b. 3-way game days. Sheets should have a date, then rows below with 3
  *        teams, then can be repeated across and down
+ *     c. 3-way game days v2, columns Date,Game Day,Venue,Teams
  *
  *     IMPORTANT: make sure dates column is formatted as a date otherwise the
  *     date parsing won't work correctly
@@ -49,8 +50,8 @@ $fixtures_args = [
 ];
 
 $midlands_args = [
-	'division_col' => 0, 'week_col' => 1, 'date_col' => 2,
-	'home_col' => 3, 'away_col' => 4, 'venue_col' => 5
+	'date_col' => 0, 'week_col' => 1, 'venue_col' => 2, 'teams_col' => 3,
+	'div_name' => 'Local Midlands'
 ];
 
 $times = [
@@ -82,12 +83,12 @@ $divisions = [
 	'Local Midlands' => [ 'div' => 'Local Midlands', 'swap_home_away' => true, 'sort' => '100' ],
 	'Friendly' => [ 'div' => 'Friendly', 'sort' => '999' ],
 ];
-$fixtures = [];
-// $fixtures = [
-// 	'2025-03-02101A' => "Midlands Final Four SF\t\t02/03/2025\t\t\t\tv",
-// 	'2025-03-02101B' => "Midlands Final Four SF\t\t02/03/2025\t\t\t\tv",
-// 	'2025-03-16101' => "Midlands Final Four F\t\t16/03/2025\t\t\t\tv",
-// ];
+// $fixtures = [];
+$fixtures = [
+	'2026-03-08101A' => "Midlands Final Four SF\t\t08/03/2026\t\t\t\tv",
+	'2026-03-08101B' => "Midlands Final Four SF\t\t08/03/2026\t\t\t\tv",
+	'2026-03-22101' => "Midlands Final Four F\t\t22/03/2026\t\t\t\tv",
+];
 
 
 $npmrc = parse_ini_file(dirname(__DIR__, 2) . '/.npmrc');
@@ -103,8 +104,8 @@ foreach ($fixtures_sheets as $sheet) {
 foreach ($three_way_sheets as list($sheet, $start_row, $columns, $div_name)) {
 	fixtures_three_way($xlsx->rows($sheet), $start_row, $columns, $div_name);
 }
-// $xlsx = load_xlsx($midlands_file);
-// ...
+$xlsx = load_xlsx($midlands_file);
+fixtures_three_way_midlands($xlsx->rows(0), $midlands_args);
 flags($flags_file, $fixtures);
 ksort($fixtures);
 echo implode("\n",$fixtures);
@@ -267,6 +268,71 @@ function fixtures_three_way($rows, $start_row, $columns, $div_name) {
 			}
 		}
 		$row = $new_row + 1;
+	}
+}
+
+/**
+ * Format is:
+ *
+ * Date,Game Day,Venue,Teams
+ * ...
+ * stops soon as there's a blank row
+ *
+ * @param [] $rows rows from sheet
+ * @param [] args
+ */
+function fixtures_three_way_midlands($rows, $args) {
+	global $fixtures, $divisions;
+
+	extract($args);
+	$division = $divisions[$div_name];
+	$swap_home_away = $division['swap_home_away'] ?? false;
+
+	$row_count = count($rows);
+	for ($row = 1; $row < $row_count; $row++) {
+		if (! $rows[$row][$date_col]
+		|| $rows[$row][$venue_col] === 'TBC') {
+			continue;
+		}
+
+		$timestamp = strtotime($rows[$row][$date_col]);
+		$date = date('Y-m-d', $timestamp);
+		$ymd = explode('-',$date);
+
+		$week = filter_var($rows[$row][$week_col], FILTER_SANITIZE_NUMBER_INT);
+		$venue = team($rows[$row][$venue_col]);
+
+		$teams = [];
+		foreach (explode(',', $rows[$row][$teams_col]) as $team) {
+			$team = team($team);
+			$divisions[$div_name]['teams'][$team] = 1;
+			$teams[] = $team;
+		}
+
+		// now create the matches
+		foreach ([[0,1], [1,2], [0,2]] as $match) {
+			$home = $teams[$match[0]];
+			$away = $teams[$match[1]];
+
+			// don't need venue if home team is the host, or the home team is in
+			// the same club
+			if ($home === $venue || is_same_club($venue, $home)) {
+				$match_venue = '';
+			} else {
+				// 2 vs 3 game, and we know 2 is not same club
+				if ($swap_home_away && is_same_club($venue, $away)) {
+					$old_home = $home;
+					$home = $away;
+					$away = $old_home;
+					$match_venue = '';
+				} else {
+					$match_venue = "\t\t\t" . $venue;
+				}
+			}
+
+			$sort = $date . $division['sort'] . $home . $away;
+			$fixtures[$sort] = "{$division['div']}\t$week\t$ymd[2]/$ymd[1]/$ymd[0]\t\t$home\t\tv\t\t$away$match_venue";
+		}
 	}
 }
 
