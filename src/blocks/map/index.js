@@ -1,6 +1,9 @@
 /**
- * SEMLA Map block - Google map and optional directions
- * Usually used inside semla/location block
+ * SEMLA Map block - Google map and optional directions. Usually used inside
+ * semla/location block
+ *
+ * TODO: The TextControl should eventually be replaced by NumberControl once
+ * that stops being experimental
  */
 import { registerBlockType } from '@wordpress/blocks';
 import {
@@ -20,6 +23,7 @@ import {
 	ToolbarButton,
 } from '@wordpress/components';
 import { select, useSelect } from '@wordpress/data';
+import { PostPreviewButton } from '@wordpress/editor';
 import { useState } from '@wordpress/element';
 
 import metadata from './block.json';
@@ -29,10 +33,11 @@ import transforms from './transforms';
 const ALLOWED_BLOCKS = [ 'core/image', 'core/paragraph' ];
 
 function Edit( { clientId, attributes, setAttributes, isSelected } ) {
-	const { lat: blockLat, long: blockLong, latLong } = attributes;
+	const { lat: blockLat, long: blockLong } = attributes;
 
 	// store Lat/Long shown in side panel in state until "Update Map" is hit,
-	//  that way we don't save half worked on changes in the block
+	// that way we don't save half worked on (and possibly invalid) changes in
+	// the block
 	const [ { lat, long }, setPanelLatAndLong ] = useState( {
 		lat: blockLat,
 		long: blockLong,
@@ -51,6 +56,20 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 		[ clientId ]
 	);
 
+	const openMap = () => {
+		window.semla = window.semla || {};
+		window.semla.loc = {
+			lat: blockLat,
+			long: blockLong,
+			address: locationBlockId
+				? select( blockEditorStore ).getBlockAttributes(
+						locationBlockId
+				  ).address
+				: null,
+		};
+		setIsModalOpen( true );
+	};
+
 	// Modal has shouldCloseOnClickOutside false as otherwise it closes if you
 	// click on the iframe
 	return (
@@ -60,32 +79,12 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 					<ToolbarButton
 						icon={ <Icon icon="location-alt" /> }
 						label="Set coordinates on map"
-						onClick={ () => {
-							window.semla = window.semla || {};
-							window.semla.loc = {
-								lat: blockLat,
-								long: blockLong,
-								address: locationBlockId
-									? select(
-											blockEditorStore
-									  ).getBlockAttributes( locationBlockId )
-											.address
-									: null,
-							};
-							setIsModalOpen( true );
-						} }
+						onClick={ openMap }
 					/>
 				</ToolbarGroup>
 			</BlockControls>
 			<InspectorControls>
 				<PanelBody title="Help" initialOpen={ false }>
-					<p>
-						To display the map either enter the coordinates below,
-						or find the exact location on a Google map using the
-						button in the toolbar (the map will start at the current
-						location, or if none is set and Map is inside a Location
-						block with an address then it will start there).
-					</p>
 					<p>
 						Enter directions below the map so they are hidden when
 						the page initially loads. Since 99.9% of people have
@@ -96,11 +95,15 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 					</p>
 				</PanelBody>
 				<PanelBody title="Settings">
-					<p>
-						If you know the exact coordinates enter them below, and
-						click the &quot;Update Map&quot; button to update the
-						map.
+					<Button variant="secondary" onClick={ openMap }>
+						Set coordinates on map
+					</Button>
+					<p style={ { 'margin-top': '0.25em' } }>
+						(the map will start at the current location, or if the
+						Map is inside a Location block with an address then it
+						will start there)
 					</p>
+					<p>If you know the exact coordinates enter them below.</p>
 					<TextControl
 						label="Latitude"
 						type="number"
@@ -129,6 +132,14 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 					/>
 					<Button
 						variant="secondary"
+						disabled={
+							isNaN( lat ) ||
+							lat < 50 ||
+							lat > 54 ||
+							isNaN( long ) ||
+							long < -6 ||
+							long > 2
+						}
 						onClick={ () => {
 							setAttributes( {
 								lat,
@@ -137,7 +148,18 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 							} );
 						} }
 					>
-						Update Map
+						Update Coordinates
+					</Button>
+					<Button
+						variant="secondary"
+						onClick={ () => {
+							setPanelLatAndLong( {
+								lat: blockLat,
+								long: blockLong,
+							} );
+						} }
+					>
+						Reset
 					</Button>
 				</PanelBody>
 			</InspectorControls>
@@ -198,18 +220,35 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 				<button className="acrd-btn">
 					Map and Directions (will start hidden on live page)
 				</button>
-				{ latLong && (
-					<iframe
-						className="gmap"
-						src={
-							'https://www.google.com/maps/embed/v1/place?q=' +
-							latLong +
-							'&zoom=15&key=' +
-							window.semla.gapi
-						}
-						title="Google Map"
-						allowFullScreen
-					></iframe>
+				{ blockLat && blockLong ? (
+					<p
+						className="semla-border semla-border-dashed"
+						style={ {
+							'margin-top': '0.5em',
+							'padding-bottom': '0.5em',
+						} }
+					>
+						A Google map at { `${ blockLat },${ blockLong }` } will
+						be inserted here - check the preview to see the actual
+						rendering, or click &quot;Set coordinates on map&quot;
+						in the toolbar or block settings to see the location.
+						<br />
+						<PostPreviewButton
+							className="is-secondary"
+							textContent="Open preview in new tab"
+						/>
+					</p>
+				) : (
+					<p
+						className="semla-border semla-border-dashed"
+						style={ {
+							'margin-top': '0.5em',
+							color: 'red',
+							'font-weight': 'bold',
+						} }
+					>
+						NO COORDINATES SET
+					</p>
 				) }
 				<InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } />
 			</div>
