@@ -33,7 +33,7 @@ import transforms from './transforms';
 const ALLOWED_BLOCKS = [ 'core/image', 'core/paragraph' ];
 
 function Edit( { clientId, attributes, setAttributes, isSelected } ) {
-	const { lat: blockLat, long: blockLong } = attributes;
+	const { lat: blockLat, long: blockLong, latLong } = attributes;
 
 	// store Lat/Long shown in side panel in state until "Update Map" is hit,
 	// that way we don't save half worked on (and possibly invalid) changes in
@@ -112,7 +112,7 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 						max={ 54 }
 						onChange={ ( val ) =>
 							setPanelLatAndLong( {
-								lat: val ? parseFloat( val ) : val,
+								lat: val,
 								long,
 							} )
 						}
@@ -126,7 +126,7 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 						onChange={ ( val ) =>
 							setPanelLatAndLong( {
 								lat,
-								long: val ? parseFloat( val ) : val,
+								long: val,
 							} )
 						}
 					/>
@@ -134,17 +134,21 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 						variant="secondary"
 						disabled={
 							isNaN( lat ) ||
+							lat === '' ||
 							lat < 50 ||
 							lat > 54 ||
 							isNaN( long ) ||
+							long === '' ||
 							long < -6 ||
 							long > 2
 						}
 						onClick={ () => {
+							const latF = parseFloat( lat );
+							const longF = parseFloat( long );
 							setAttributes( {
-								lat,
-								long,
-								latLong: encodeLatLong( lat, long ),
+								lat: latF,
+								long: longF,
+								latLong: encodeLatLong( latF, longF ),
 							} );
 						} }
 					>
@@ -220,7 +224,7 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 				<button className="acrd-btn">
 					Map and Directions (will start hidden on live page)
 				</button>
-				{ blockLat && blockLong ? (
+				{ latLong ? (
 					<p
 						className="semla-border semla-border-dashed"
 						style={ {
@@ -285,14 +289,7 @@ function getScriptUrl() {
 
 /* create a url encoded version of lat/long */
 function encodeLatLong( lat, long ) {
-	if (
-		isNaN( lat ) ||
-		isNaN( long ) ||
-		lat < 50 ||
-		lat > 54 ||
-		long < -6 ||
-		long > 2
-	) {
+	if ( lat < 50 || lat > 54 || long < -6 || long > 2 ) {
 		return null;
 	}
 	return lat.toFixed( 6 ) + '%2C' + long.toFixed( 6 );
