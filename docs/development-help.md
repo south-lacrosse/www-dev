@@ -231,11 +231,13 @@ And don't forget to set a breakpoint!
 
 ## Linux Commands
 
+Note: if you are running Cygwin on Windows some commands will conflict with existing Windows commands, e.g. `find`. To run the Cygwin version from a bash shell use the full path to the command e.g. `/bin/find`. You can see which version will run using the `which` command, e.g. `which find` returns `/cygdrive/c/WINDOWS/system32/find`.
+
 ### Bash
 
 * `CTRL + R` - search backwards through your command history
 * `history | grep command` - find a command in your history
-* `cat -e filename` - display file with line endings, $ for LF and ^M$ for CRLF
+* `cat -e filename` - display file with line endings, \$ for LF and ^M\$ for CRLF
 
 ### Backing Up/Copying Files
 
@@ -253,7 +255,7 @@ Check `rsync-excludes.txt` for excluded files, but it should include `sub/*/` so
 
 You can also use `rsync` to copy to/from a remote machine using `ssh`.
 
-### Rsync Options
+#### Rsync Options
 
 The most useful ones are:
 
@@ -300,6 +302,8 @@ Make sure you use `Ctrl-C` to terminate `socat`, otherwise it won't clean up the
 
 * ``rm `ls -t db-wp-*.sql.gz| awk 'NR>5'` ``- delete all but the most 5 recent matching files (just run the `ls` to see what would be deleted!)
 * `find backups/ -maxdepth 1 -name "db-wp-*.sql.gz" -type f -mtime +30 -delete` - delete matching files older than 30 days (run without the `-delete` argument to test)
+* `find . -type d -empty -delete` - delete empty directories (run without `-delete` first to test)
+* `find . -type d -empty -not -path "*/.git*" -delete` - as above, but exclude the `.git` directory
 
 ### Editing Files With sed
 

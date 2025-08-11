@@ -26,6 +26,10 @@
 		"sameLine": {
 			"type": "boolean",
 			"default": true
+		},
+		"exclude": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"example": {

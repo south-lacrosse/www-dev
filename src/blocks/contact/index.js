@@ -11,6 +11,7 @@ import {
 	PanelBody,
 	Placeholder,
 	TextControl,
+	ToggleControl,
 	ToolbarGroup,
 	ToolbarButton,
 } from '@wordpress/components';
@@ -22,7 +23,7 @@ import transforms from './transforms';
 import { formatTel } from './utils';
 
 function Edit( { attributes, setAttributes, isSelected } ) {
-	const { sameLine } = attributes;
+	const { exclude, sameLine } = attributes;
 	const blockProps = useBlockProps( {
 		className: sameLine ? 'avf-same-line' : '',
 	} );
@@ -47,23 +48,20 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 	const [ formAttributes, setFormAttributes ] = useState( { ...attributes } );
 	// Update formAttributes to hold the input fields, and also update the
 	// attributes to format the telephone and trim any others
-	const onChange = function ( updatedAttrs ) {
+	const onChange = function ( attr, value ) {
 		setFormAttributes( {
 			...formAttributes,
-			...updatedAttrs,
+			[ attr ]: value,
 		} );
-		const attrs = {};
-		for ( const name in updatedAttrs ) {
-			const value = '' + updatedAttrs[ name ];
-			if ( name === 'tel' ) {
-				attrs[ name ] = formatTel( value );
-			} else if ( name === 'email' ) {
-				attrs[ name ] = value.replaceAll( ' ', '' );
-			} else {
-				attrs[ name ] = value.trim().replace( /  +/g, ' ' );
-			}
+		value = '' + value;
+		if ( attr === 'tel' ) {
+			value = formatTel( value );
+		} else if ( attr === 'email' ) {
+			value = value.replaceAll( ' ', '' );
+		} else {
+			value = value.trim().replace( /  +/g, ' ' );
 		}
-		setAttributes( attrs );
+		setAttributes( { [ attr ]: value } );
 	};
 
 	// InspectorControls to update the role/name etc. are only added if
@@ -96,6 +94,8 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 					<PanelBody title="Settings" initialOpen={ true }>
 						<ContactForm
 							attributes={ formAttributes }
+							exclude={ exclude }
+							setAttributes={ setAttributes }
 							onChange={ onChange }
 						/>
 					</PanelBody>
@@ -110,6 +110,8 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 					>
 						<ContactForm
 							attributes={ formAttributes }
+							exclude={ exclude }
+							setAttributes={ setAttributes }
 							onChange={ onChange }
 						/>
 					</Placeholder>
@@ -151,31 +153,40 @@ function Contact( { attributes } ) {
 }
 
 // Used in Settings (InspectorControls) and in the main editor in edit mode
-function ContactForm( { attributes, onChange } ) {
+function ContactForm( { attributes, exclude, setAttributes, onChange } ) {
 	const { role, name, email, tel } = attributes;
 	return (
 		<>
 			<TextControl
 				label="Role"
 				value={ role }
-				onChange={ ( val ) => onChange( { role: val } ) }
+				onChange={ ( val ) => onChange( 'role', val ) }
 			/>
 			<TextControl
 				label="Name"
 				value={ name }
-				onChange={ ( val ) => onChange( { name: val } ) }
+				onChange={ ( val ) => onChange( 'name', val ) }
 			/>
 			<TextControl
 				label="Email"
 				type="email"
 				value={ email }
-				onChange={ ( val ) => onChange( { email: val } ) }
+				onChange={ ( val ) => onChange( 'email', val ) }
 			/>
 			<TextControl
 				label="Telephone"
 				type="tel"
 				value={ tel }
-				onChange={ ( val ) => onChange( { tel: val } ) }
+				onChange={ ( val ) => onChange( 'tel', val ) }
+			/>
+			<ToggleControl
+				label="Exclude from mailing lists"
+				checked={ exclude }
+				onChange={ ( val ) =>
+					setAttributes( {
+						exclude: val,
+					} )
+				}
 			/>
 		</>
 	);
