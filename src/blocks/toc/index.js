@@ -97,29 +97,30 @@ function extractHeadings( block, tocTree ) {
 
 // Find correct place to insert heading into Table of Contents
 function addToTocTree( block, tocTree ) {
-	let attributes = block.attributes;
+	// Heading blocks have attributes for the content (rich-text), level,
+	// also supports anchor
+	const attributes = block.attributes;
 
-	if ( ! attributes.content ) {
+	if ( ! attributes.content || ! attributes.content.text ) {
 		return;
 	}
 	// if a heading has no anchor then make sure we add one
 	if ( ! attributes.anchor || attributes.anchor.startsWith( 'st-' ) ) {
 		attributes.anchor =
 			'st-' +
-			attributes.content
-				.toString()
-				.replace( /( |<br>)/g, '-' )
+			attributes.content.text
+				.replace( / +/g, '-' )
 				.replace( /[^\w\s-]/g, '' );
 	}
 	// need to copy to new object as we'll be adding children
-	attributes = {
+	const node = {
 		level: attributes.level,
-		content: attributes.content,
+		content: attributes.content.text,
 		anchor: attributes.anchor,
 	};
 
 	if ( tocTree.length === 0 ) {
-		tocTree.push( attributes );
+		tocTree.push( node );
 		return;
 	}
 
@@ -127,14 +128,14 @@ function addToTocTree( block, tocTree ) {
 	while ( true ) {
 		// look at last item in current level in table of contents
 		const last = tocTree[ tocTree.length - 1 ];
-		if ( attributes.level <= last.level ) {
-			tocTree.push( attributes );
+		if ( node.level <= last.level ) {
+			tocTree.push( node );
 			return;
 		}
 		// needs to go in child level - let's see if that exists yet
 		if ( ! last.children ) {
 			// nope - so create children array
-			last.children = [ attributes ];
+			last.children = [ node ];
 			return;
 		}
 		// look next level down
