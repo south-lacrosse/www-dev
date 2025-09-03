@@ -12,7 +12,7 @@ First decide what version of MariaDB you want to use. The example here uses vers
 
 1. Copy the files in this folder into that directory, though you can skip this readme.
 1. If the version of MariaDB you're using is not 10.11.10 then edit `package.json`, `lib\MariadbService.js`, and `lib\main.js` to replace the version number.
-1. Copy over the node_modules directory from one of the other database services e.g. `Local\lightning-services\mariadb-10.4.32+1`, though make sure the dependencies match in both `package.json` files (you can ignore the dev-dependencies). Alternatively running `npm i` if you have node installed.
+1. Copy over the node_modules directory from one of the other database services e.g. `Local\lightning-services\mariadb-10.4.32+1`, though make sure the dependencies match in both `package.json` files (you can ignore the dev-dependencies). Alternatively run `npm i` if you have node installed.
 1. Go to <https://mariadb.org/mariadb/all-releases/> and download the version you want. On Windows make sure to select `Zip file` for the Package Type, and the Architecture is `x86_64`, as this code won't work for x86 (though x86 isn't
 available for recent versions anyway).
 
@@ -36,7 +36,7 @@ Since you cannot change the database of an existing site in Local, the most erro
 1. Delete the site
 1. Import the site, making sure to select the new database service
 
-Alternatively, for a service you created (so don't modify the existing Local services and they might get overwritten) just leave the previous service in place and:
+Alternatively, for a service you created (don't modify the existing Local services as they might get overwritten) just leave the previous service in place and:
 
 1. Stop the Local site
 1. Download the new MariaDB zip as above
