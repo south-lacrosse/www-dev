@@ -57,7 +57,7 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 						/>
 					) }
 					{ ! isSelected && title && <h4>{ title }</h4> }
-					<Disabled>{ content( toc ) }</Disabled>
+					<Disabled>{ tocUlHtml( toc ) }</Disabled>
 				</nav>
 			</div>
 		</div>
@@ -70,7 +70,7 @@ function save( { attributes } ) {
 		<div id="semla_toc" { ...useBlockProps.save() }>
 			<nav id="semla_toc-nav">
 				{ title.trim().length > 0 && <h4>{ title.trim() }</h4> }
-				{ content( toc ) }
+				{ tocUlHtml( toc ) }
 			</nav>
 		</div>
 	);
@@ -78,7 +78,7 @@ function save( { attributes } ) {
 
 registerBlockType( metadata.name, { edit: Edit, save } );
 
-function content( toc ) {
+function tocUlHtml( toc ) {
 	// note: <ul> is inside RawHTML as in editor RawHTML will include <div>, so we
 	// need to make sure the div is outside the ul (removes when serialising)
 	return <RawHTML>{ '<ul id="semla_toc-list">' + toc + '</ul>' }</RawHTML>;
@@ -104,18 +104,24 @@ function addToTocTree( block, tocTree ) {
 	if ( ! attributes.content || ! attributes.content.text ) {
 		return;
 	}
+	// use toString to get HTML with entities (&amp;), and then remove any html
+	// tags
+	const content = attributes.content
+		.toString()
+		.replace( /<[^>]+>/g, '' )
+		.replace( /  +/g, ' ' );
 	// if a heading has no anchor then make sure we add one
 	if ( ! attributes.anchor || attributes.anchor.startsWith( 'st-' ) ) {
 		attributes.anchor =
 			'st-' +
 			attributes.content.text
-				.replace( / +/g, '-' )
-				.replace( /[^\w\s-]/g, '' );
+				.replace( /[^\w\s-]/g, '' )
+				.replace( / +/g, '-' );
 	}
 	// need to copy to new object as we'll be adding children
 	const node = {
 		level: attributes.level,
-		content: attributes.content.text,
+		content,
 		anchor: attributes.anchor,
 	};
 
