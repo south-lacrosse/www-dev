@@ -1,5 +1,11 @@
 # Developer Information
 
+## Environment Specific Favicons
+
+In order to easily differentiate the environment you are working in we have a different favicon for each environment, so production will display the SEMLA logo, but development, local, and staging will display D, L, and S respectively, with different coloured backgrounds as below. The environment is set in `wp-config.php`.
+
+![Favicons](favicons.png)
+
 ## Developer Setup
 
 ### Skill Requirements
