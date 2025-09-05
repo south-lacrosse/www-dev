@@ -44,7 +44,8 @@ Once Local is installed you should create a site for the South Lacrosse website.
     ```
 
 1. Local also doesn't load `mod_deflate`, which is used in production to automatically compress all server output. For local development it isn't worth compressing/decompressing each request, but you can add it as above if you are testing that functionality.
-1. You should change Local's PHP configuration to fix their Xdebug settings and enable OPcache, so edit `{site folder}\conf\php\php.ini.hbs`.
+1. You should change Local's PHP configuration, which is at `{site folder}\conf\php\php.ini.hbs`.
+    * Change `short_open_tag = On` to `Off` as hosts usually have this off. With this option Off short tags (`<?` instead of `<?php`) cause an error, so it's important that the local environment matches to catch errors early on.
     * You should be using PHP8+, which uses Xdebug 3. Local has `xdebug.start_with_request=yes`, so when Xdebug is enabled it will try and connect to the debugging session on every request, which will result in a 200ms delay if you don't have a debugger listening.
 
         You could leave this as is, and just use the toggle within Local to turn Xdebug off and on for the site, but that requires the server to restart for each change.
