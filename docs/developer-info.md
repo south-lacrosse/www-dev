@@ -67,11 +67,11 @@ git clone https://github.com/south-lacrosse/www-dev
     * Or make sure your repository is on the `main` branch, and up to date
 
         ```console
-        git checkout main
+        git switch main
         git pull
         ```
 
-1. Create a branch for the feature you are working on `git checkout -b descriptive-branch-name`
+1. Create a branch for the feature you are working on `git switch -c descriptive-branch-name`
 1. If you want to push your changes to GitHub then you will need to `git push --set-upstream origin branch-name` for the first push
 1. Once the feature is complete then you should check to see if the `main` branch has changed, so do a `git pull`, and then `git merge main`. If there are any changes then test, and repeat this step.
 1. Either
@@ -85,20 +85,20 @@ The SEMLA Admin should then:
 
         ```console
         git fetch
-        git checkout feature-branch
+        git switch feature-branch
         ```
 
     * Or if they receive a patch then create a new branch locally, and `git apply feature.patch`
 1. Test locally
 1. If that works, the log into the live server and repeat step 1 there
 1. Test on the live server
-1. If there is a problem then revert to the `main` branch with `git checkout main`, work on the problem locally, and repeat
+1. If there is a problem then revert to the `main` branch with `git switch main`, work on the problem locally, and repeat
 1. Once the feature is working merge the branch back into `main`. When merging you should squash your commits into one to keep the repository clean and concise.
     * You can do this when you merge using the GitHub interface. In the Pull Request (create one for the branch if there isn't one) make sure the green button to complete the merge says "Squash and merge" rather than the default "Merge pull request", and then merge. You should also select the option to delete the branch after the merge.
     * Using the Git client with `git merge --squash branch-name` and then `git commit`
     * Using the Git client with `git rebase -i` to have [fine grained control or which commits to squash](https://www.internalpointers.com/post/squash-commits-into-one-git)
 1. Once you have merged you can safely delete the feature branch both locally `git branch -d branch-name` and on GitHub if needed
-1. On the live server switch back to the main branch `git checkout main`, and delete the branch `git branch -d branch-name`
+1. On the live server switch back to the main branch `git switch main`, and delete the branch `git branch -d branch-name`
 
 ## Software For Developing Locally
 
@@ -124,7 +124,7 @@ When these instructions mention a "shell" they mean to open up a shell (e.g. com
 
 1. First you need to move your `www` repo into the directory where WordPress is installed and served by your web server (the WordPress root) e.g. in Local it will be `{site folder}\app\public`. Move the entire contents (including the `.git` directory) from your clone of `www` , overwriting `\.htaccess`. You can then delete the empty `www` directory.
 
-    The WordPress root will now house WordPress along with your version of the `www` repo, and these documents will still refer to it as `www`. None of the WordPress files or other plugins & themes will be added to the `www` repository as they marked as untracked in `www\.gitignore`. You can `git checkout/branch/pull/push` from this directory as it's a normal repository.
+    The WordPress root will now house WordPress along with your version of the `www` repo, and these documents will still refer to it as `www`. None of the WordPress files or other plugins & themes will be added to the `www` repository as they marked as untracked in `www\.gitignore`. You can `git switch/branch/pull/push` from this directory as it's a normal repository.
 1. Update the WordPress config file `www\wp-config.php` using `www\wp-config-semla.php` as a template
     * Copy and replace the `DB_CHARSET` and `DB_COLLATE` lines
     * Copy and replace everything from `$table_prefix = 'wp_';` down, and remove anything between "Live Server" and "End Live Server" (that's the live server config, we don't need that here)

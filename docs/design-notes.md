@@ -13,7 +13,8 @@ The Semla plugin does many things, including:
 * Add editor blocks for custom layouts including:
     * location maps using Google Maps
     * various data options, like clubs map, fixtures, or league tables
-    * attribute/value pairs for things like contacts
+    * contacts, which are also used to generate mailing lists
+    * attribute/value pairs for things like colours, or founded date
 * Importing fixtures and creating league tables
 * Add WP-CLI commands to run various functions from the server command line, e.g importing fixtures
 * Remove all commenting functionality
@@ -74,9 +75,18 @@ There are also several `views` directories, which are used to separate the view 
 
 ### Content Width
 
-People find it easiest to read text 40–70 characters, so we have a standard content width of 720px. This applies to most content within the main body of the page (so ignoring the page header, menu, and page footer).
+People find it easiest to read text with lines of 40–70 characters, so we have a standard content width of 720px. This applies to most content within the main body of the page (so ignoring the page header, menu, and page footer).
 
 We also have a wide width of 1024px, which is usually the maximum for other blocks, and also the page header/footer and menu. Data like league tables or fixtures will use an appropriate width up to this limit. Authors can also set the width on some blocks (e.g tables, but no paragraphs) using the Align option on the toolbar, which can have options None (max 720px), Wide (1024px), and Full width (use sparingly, if at all).
+
+## Options
+
+Most of the configuration is set in `wp-config.php` (and documented in `wp-config-semla.php`), and the code in our plugin and theme may also override options, e.g. we set `blog_public` (the visibility of the blog, so effects robots.txt and robots meta tag) based on `WP_ENVIRONMENT_TYPE`.
+
+Other notable options are:
+
+* `use_smilies` - we have disabled smilies as they aren't needed, and just waste processing time. There isn't a screen option to change this, so if you want to enable it you will need to use WP-CLI `wp option set use_smilies 1`, or update the `wp_options` table directly.
+* `mailserver_*` - these are the post by email options which we don't use, so we have disabled the ability to edit these options, and also removed them from the options table (the options were autoloaded, so removing them means 4 less rows read per page).
 
 ## Custom Editor Blocks
 
