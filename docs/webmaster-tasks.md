@@ -83,9 +83,11 @@ Note: `https://content.googleapis.com/` and `https://maps.gstatic.com/` will pro
 There are many ways to do this, but the following work well for Windows:
 
 * [Xenu's Link Sleuth](http://home.snafu.de/tilman/xenulink.html) - old, but still good. Make sure to exclude `tel:` and `data:` URLs otherwise you will see excessive messages.
-* [SEO Macroscope](https://nazuke.github.io/SEOMacroscope/blog/) - add the line `add_filter('pre_option_blog_public', function() { return '1'; },99);` into `wp-content/plugins/semla/semla.php` to test sitemaps (and don't forget to remove that line after!).
+* [SEO Macroscope](https://nazuke.github.io/SEOMacroscope/blog/) - this program uses the sitemap, which isn't produced in a non-production environment. Therefore to test comment out the line `define('WP_ENVIRONMENT_TYPE','development');` in `wp-config.php` (and don't forget to put it back afterwards).
 
 You can also run the [Broken Link Checker](https://wordpress.org/plugins/broken-link-checker/) WordPress plugin, though again this should be run on a local copy of the site.
+
+Local also has a link checker tool, however we don't recommend it as it runs extremely slowly (at least in Version 9.2.6), and uses a lot of resources.
 
 ## Media Files
 
