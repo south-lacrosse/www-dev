@@ -53,9 +53,26 @@ It should be noted that for DMARC to fail **both** SPF and DKIM must fail or not
 
 You should occasionally check the `failed` folder of `dmarc@southlacrosse.org.uk` for any emails that cannot be processed.
 
+## Rotate Google API Key
+
+As it is publicly available (it has to be included on pages that embed a Google map or calendar) you should rotate our API key periodically.
+
+* Go to the [Google Cloud Console](https://console.cloud.google.com/)
+* Under `Quick Access` select `APIs and services`
+* Select `Credentials`
+* Select the key you want to rotate, and at the top click `Rotate key`
+* Enter a name for the new key, and click `Create`
+
+You can then get the new API key value. Update the key in all environments from the admin page `SEMLA->Settings`. Alternatively you can set it from the command line using `wp option set semla_gapi_key <new-key>`.
+
+Once the key is changed you should clear all caches, and probably wait a day to be extra safe, then complete the rotation by deleting the old key.
+
+* Select the Credentials as above, and select your new key
+* Under `Previous key` you will see you can complete the rotation by clicking `Delete the previous key`
+
 ## Search Console
 
-You should have access to [Google Search Console](https://search.google.com/search-console?resource_id=sc-domain:southlacrosse.org.uk) (if you don't have access try switching user to your southlacrosse email using the icon in the top right). With the console you can see all details of Google searches, and other useful information such as mobile usability issues.
+You should have access to [Google Search Console](https://search.google.com/search-console?resource_id=sc-domain:southlacrosse.org.uk) (if you don't have access try switching user to your southlacrosse email using the icon in the top right). In the console you can see all details of Google searches, and other useful information such as mobile usability issues.
 
 ## Broken Links
 
