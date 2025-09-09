@@ -64,7 +64,6 @@ $times = [
 	'Hillcroft 1' => '10:00:00',
 	'Hillcroft 2' => '10:00:00',
 	'Oxford City' => '13:00:00',
-	'Reading Wildcats' => '16:00:00',
 ];
 // Divisions keyed on names used in spreadsheet, sort is sort order (must be
 // string), no_time to ignore $times above (default false)
