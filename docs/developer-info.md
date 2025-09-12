@@ -274,7 +274,7 @@ Images should be compressed before being uploaded. Useful tools are:
     * `npx svgo one.svg two.svg -o one.min.svg two.min.svg` - compress specific files
     * You can also manually edit the XML in the `.svg` files.
 
-You can also run `src\optimize_images.pl` to execute MozJPEG and OptiPNG on specified directories (both must be installed), see the program for details. You should only run this on new directories as the process can take some time.
+You can also run [src\optimize_images.pl](../src/optimize_images.pl) to execute MozJPEG and OptiPNG on specified directories (both must be installed), see the program for details. You should only run this on new directories as the process can take some time.
 
 ## Other Files
 
