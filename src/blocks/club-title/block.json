@@ -4,7 +4,7 @@
 	"name": "semla/club-title",
 	"version": "1.0.0",
 	"title": "Club Title",
-	"category": "text",
+	"category": "theme",
 	"description": "Club title, including logo (featured image)",
 	"usesContext": [ "postId", "postType" ],
 	"supports": {

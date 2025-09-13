@@ -4,7 +4,7 @@
 	"name": "semla/toc",
 	"version": "1.0.0",
 	"title": "Table of Contents",
-	"category": "widgets",
+	"category": "theme",
 	"icon": "list-view",
 	"description": "Create a table of contents from any headings.",
 	"attributes": {

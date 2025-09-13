@@ -23,7 +23,6 @@ import {
 	ToolbarButton,
 } from '@wordpress/components';
 import { select, useSelect } from '@wordpress/data';
-import { PostPreviewButton } from '@wordpress/editor';
 import { useState } from '@wordpress/element';
 
 import metadata from './block.json';
@@ -233,14 +232,9 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 						} }
 					>
 						A Google map at { `${ blockLat },${ blockLong }` } will
-						be inserted here - check the preview to see the actual
+						be inserted here. Check the preview to see the actual
 						rendering, or click &quot;Set coordinates on map&quot;
 						in the toolbar or block settings to see the location.
-						<br />
-						<PostPreviewButton
-							className="is-secondary"
-							textContent="Open preview in new tab"
-						/>
 					</p>
 				) : (
 					<p

@@ -4,7 +4,7 @@
 	"name": "semla/website",
 	"version": "1.0.0",
 	"title": "Website Link",
-	"category": "text",
+	"category": "theme",
 	"description": "Website link",
 	"attributes": {
 		"url": {
