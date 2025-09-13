@@ -93,7 +93,7 @@ Local also has a link checker tool, however we don't recommend it as it runs ext
 
 Media files (mainly images) may still exist after they are removed from any posts and pages.
 
-To check which images aren't used any more run `wp semla-media-images`, for the full options run `wp help semla-media unused-images`. If you are 100% ure that it's OK to delete the unused files you can delete those file with `wp post delete $(wp semla-media unused-images --format=ids)`, possibly with the `--force` flag.
+To check which images aren't used any more run `wp semla-media-images`, for the full options run `wp help semla-media unused-images`. If you are 100% ure that it's OK to delete the unused files you can delete those file with `wp post delete $(wp semla-media unused-images --format=ids) --force`.
 
 You should also run `wp semla-media attachments` to validate attachments and their metadata against the filesystem. You can run this with the `--delete` flag (again, **be careful**) to delete media files from the filesystem which WordPress doesn't know about.
 
