@@ -390,6 +390,8 @@ Note: `npm_config_*` gets values from the `.npmrc` config file.
 
 The WordPress command line interface is a very useful tool. See [full list of commands](https://developer.wordpress.org/cli/commands/).
 
+We also have our [own WP-CLI commands](web-server.md#semla-wp-cli-commands).
+
 WP-CLI will also work remotely by specifying an SSH host with the `--ssh` option, e.g. if you have our server set up as a Host sl in your `~/.ssh/config` file then `wp plugin list --ssh=sl:~/public_html` will list plugins on the production website, or if not then `--ssh=user@southlacrosse.org.uk:<port>~/public_html`. [See also the WPL-CLI guide](https://make.wordpress.org/cli/handbook/guides/running-commands-remotely/).
 
 Note that if you are accessing WP-CLI remotely or as a cron job then it won't have a pseudo-terminal allocated, so commands that display results in a table won't display correctly. Therefore results that should display like:
@@ -468,6 +470,18 @@ RewriteRule ^.*$ - [R=503,L]
 ```
 
 Don't forget to revert `.htaccess` after you complete you update, there should be a copy in `~/wordpress-config/.htaccess` if needed.
+
+### Extracting WP-CLI Code From The .phar File
+
+The WP-CLI code is provided as a phar (PHP Archive) file, which cannot be opened in VSCode. If you want to extract the code into separate php files you can do it with:
+
+```bash
+php -r "$phar = new Phar('C:\Program Files (x86)\Local\resources\extraResources\bin\wp-cli\wp-cli.phar'); $phar->extractTo('./wp-cli');"
+```
+
+To run the extracted version you can do something like `php wp-cli\vendor\wp-cli\wp-cli\php\boot-fs.php --info`.
+
+If you want to run XDebug using the extracted WP-CLI then copy our debug script from [bin-local/wpd.bat](../bin-local/wpd.bat) and replace the reference to `wp-cli.phar` with the `boot-fs.php` file above.
 
 ## VSCode
 
