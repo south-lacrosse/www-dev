@@ -223,6 +223,8 @@ All the scripts for minification and building JavaScript, CSS, blocks etc. are i
 * `css:<plugin|theme>` - minify all the plugin or theme CSS
 * `lint` - check all code styles
 
+Note that the CSS minification also runs `autoprefixer` to automatically add necessary vendor prefixes, and that uses browser data which can get out of date. If that is the case, then when you run the minification you will get a message to run `npx update-browserslist-db@latest` which will update the installed version of `caniuse-lite`.
+
 You must have a `.npmrc` file in the root of this project to point to the location of your `www` directory, e.g. `www=C:/Users/{user}/localwp/south-lacrosse/app/public`.
 
 When you have finished developing make sure you `npm run build` (or just the specific script). You can then commit those changes in the `www` repo.
