@@ -229,7 +229,7 @@ You must have a `.npmrc` file in the root of this project to point to the locati
 
 When you have finished developing make sure you `npm run build` (or just the specific script). You can then commit those changes in the `www` repo.
 
-Note: If you are working on JS in the plugin or theme using VSCode, then in order for the `eslint` plugin to work you need to install `eslint` globally since VSCode looks for it in the current workspace folder (and we don't install any `npm` packages in `www`), then globally. To install globally `npm i -g eslint`.
+Note: If you are working on JavaScript in the plugin or theme using VSCode, then in order for the `eslint` plugin to work it needs to be able to find the relevant `node_modules`, which should be installed under the `www-dev` repository. For VSCode to find these modules the path must be set in `www\.vscode\settings.json`, which currently assumes the repositories are set up for Local, so it will be in `../../../www-dev`. If you have a different setup then you will need to adjust that file accordingly.
 
 ## Images
 
