@@ -4,14 +4,14 @@ This is unsupported, and may not work with future versions of Local. It works on
 
 Note: if this fails to work in future releases [see below](#how-this-service-was-created) for how this service was created.
 
-First decide what version of MariaDB you want to use. The example here uses version 10.11.10.
+First decide what version of MariaDB you want to use. The example here uses version 11.8.3.
 
-1. Go to `%APPDATA%\Local\lightning-services` (for MacOS and Linux you'll have to find this directory, so open a Site Shell from Local and then `echo $PATH`, or open PHP Details and search) and create a directory for the new service. I'm not sure if the format of the name is relevant, but I followed the pattern for existing services so I created `mariadb-10.11.10+0`.
+1. Go to `%APPDATA%\Local\lightning-services` (for MacOS and Linux you'll have to find this directory, so open a Site Shell from Local and then `echo $PATH`, or open PHP Details and search) and create a directory for the new service. I'm not sure if the format of the name is relevant, but I followed the pattern for existing services so I created `mariadb-11.8.3+0`.
 
     You will see all the other Local services here, so you might want to check out one of the database service folders to see what we're aiming for.
 
 1. Copy the files in this folder into that directory, though you can skip this readme.
-1. If the version of MariaDB you're using is not 10.11.10 then edit `package.json`, `lib\MariadbService.js`, and `lib\main.js` to replace the version number.
+1. If the version of MariaDB you're using is not 11.8.3 then edit `package.json`, `lib\MariadbService.js`, and `lib\main.js` to replace the version number.
 1. Copy over the node_modules directory from one of the other database services e.g. `Local\lightning-services\mariadb-10.4.32+1`, though make sure the dependencies match in both `package.json` files (you can ignore the dev-dependencies). Alternatively run `npm i` if you have node installed.
 1. Go to <https://mariadb.org/mariadb/all-releases/> and download the version you want. On Windows make sure to select `Zip file` for the Package Type, and the Architecture is `x86_64`, as this code won't work for x86 (though x86 isn't
 available for recent versions anyway).
@@ -26,6 +26,8 @@ You should now have the option to select your database service with your new ver
 ## How This Service Was Created
 
 We took the `mariadb-10.4.32+1` service, changed version numbers, and combined that with how `mysql-8.0.35+2` handles paths and binaries to allow for the 64bit binaries.
+
+We also changed the executables to their MariaDB equivalent, so `mariadbd` instead of `mysqld`, as later versions of MariaDB issue warnings that the MySQL versions will be deprecated.
 
 ## Upgrading MariaDB Version Of An Existing Service
 
@@ -42,6 +44,6 @@ Alternatively, for a service you created (don't modify the existing Local servic
 1. Download the new MariaDB zip as above
 1. Delete the existing binary under the service's `bin` directory (subfolder will depend on your OS), and replace with the downloaded version
 1. Start the site
-1. Upgrade the database. If this is a minor upgrade then `mysql_upgrade` should work, otherwise follow the upgrade instructions in the release notes
+1. Upgrade the database. If this is a minor upgrade then `mariadb-upgrade` should work, otherwise follow the upgrade instructions in the release notes
 
 Of course with this method Local will still show the database service as the previous version, but under the covers it will be running the new version, which you can check from WP Admin by going to `Tools->Site Health->Info->Database`.

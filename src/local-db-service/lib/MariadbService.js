@@ -45,7 +45,7 @@ class MariadbService extends LocalMain.LightningService {
     constructor() {
         super(...arguments);
         this.serviceName = 'mariadb';
-        this.binVersion = '10.11.10';
+        this.binVersion = '11.8.3';
     }
     get configTemplatePath() {
         return path_1.default.join(__dirname, '../conf');
@@ -53,28 +53,28 @@ class MariadbService extends LocalMain.LightningService {
     get bins() {
         return {
             [LocalMain.LightningServicePlatform.Darwin]: {
-                mysql: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mysql'),
-                mysqld: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mysqld'),
-                mysqladmin: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mysqladmin'),
-                mysqldump: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mysqldump'),
-                mysql_install_db: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mysql_install_db'),
-                mysqlcheck: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mysqlcheck'),
+                mysql: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mariadb'),
+                mysqld: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mariadbd'),
+                mysqladmin: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mariadb-admin'),
+                mysqldump: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mariadb-dump'),
+                mysql_install_db: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mariadb-install-db'),
+                mysqlcheck: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Darwin], 'mariadb-check'),
             },
             [LocalMain.LightningServicePlatform.Linux]: {
-                mysql: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mysql'),
-                mysqld: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mysqld'),
-                mysqladmin: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mysqladmin'),
-                mysqldump: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mysqldump'),
-                mysql_install_db: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mysql_install_db'),
-                mysqlcheck: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mysqlcheck'),
+                mysql: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mariadb'),
+                mysqld: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mariadbd'),
+                mysqladmin: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mariadb-admin'),
+                mysqldump: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mariadb-dump'),
+                mysql_install_db: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mariadb-install-db'),
+                mysqlcheck: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Linux], 'mariadb-check'),
             },
             [LocalMain.LightningServicePlatform.Win32x64]: {
-                mysql: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mysql.exe'),
-                mysqld: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mysqld.exe'),
-                mysqladmin: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mysqladmin.exe'),
-                mysqldump: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mysqldump.exe'),
-                mysql_install_db: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mysql_install_db.exe'),
-                mysqlcheck: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mysqlcheck.exe'),
+                mysql: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mariadb.exe'),
+                mysqld: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mariadbd.exe'),
+                mysqladmin: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mariadb-admin.exe'),
+                mysqldump: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mariadb-dump.exe'),
+                mysql_install_db: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mariadb-install-db.exe'),
+                mysqlcheck: path_1.default.join(this.$PATHs[LocalMain.LightningServicePlatform.Win32x64], 'mariadb-check.exe'),
             }
         };
     }
@@ -112,7 +112,7 @@ class MariadbService extends LocalMain.LightningService {
             this._logger.info('Initializing MySQL datadir...', { dataPath: this.dataPath });
             yield fs_extra_1.default.ensureDir(this.dataPath);
             /**
-             * MariaDB does not support --initialize so we have to use mysql_install_db.exe which differs even from
+             * MariaDB does not support --initialize so we have to use mariadb-install-db.exe which differs even from
              * mysql_install_db.
              */
             yield LocalMain.execFilePromise(this.bin.mysql_install_db, [

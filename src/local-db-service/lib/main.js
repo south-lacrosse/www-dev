@@ -6,6 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const main_1 = require("@getflywheel/local/main");
 const MariadbService_1 = __importDefault(require("./MariadbService"));
 function default_1() {
-    main_1.registerLightningService(MariadbService_1.default, 'mariadb', '10.11.10');
+    main_1.registerLightningService(MariadbService_1.default, 'mariadb', '11.8.3');
 }
 exports.default = default_1;
