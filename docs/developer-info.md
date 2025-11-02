@@ -300,9 +300,28 @@ These files handle Apache configuration, and there are several in the `www` repo
 * Enforce https, and make sure the www URL is used
 * etc.
 
+### Restricting Access to the WordPress Login Page
+
+We already have measures in place to protect the site from potential hackers, including strong passwords, blocking author pages and other features which reveal user names, not allowing access to REST services if not logged in, and having a plugin to restrict the number of login attempts.
+
+However in order to completely lock down the site it is a good idea to restrict the range of IP addresses that can access the login page in the first place. Of course this does mean the `.htaccess` file will need to be updated if a users changes their IP address or we add more users.
+
+```apache
+<Files "wp-login.php">
+Require all denied
+Require ip 1.2.3.4 123.456 123:456:789:123::/64
+</Files>
+```
+
+For new users you can either get them to tell you their IP address, or you can temporarily disable the restriction and log the IP address used to successfully log in by installing our [semla-logins plugin](../src/plugins/semla-logins.php) in the `wp-content\mu=plugins` directory, and the checking the `logins.log` file. Once you have the addresses you can re-enable the restrictions with the new addresses and safely remove that plugin and log file.
+
+These days ISPs don't usually give users a specific address, but allocate from a block, so make sure you allow access from any possible IP address. So in the above example `1.2.3.4` will be a specific IP address, but `123.456` will allow any address from the block `123.456.*.*`. Similarly for IPv6 you can specify a specific address, or allow a block using CIDR notation, so `123:456:789:123::/64` allows any address like `123:456:789:123:*:*:*:*`. Note the `::/64` suffix tells you the number of significant bits. There are 16 bits per group (i.e. between the colons), so if you wanted all addresses like `123:456:*` then that would be 2 groups of 16 bits, so would be `123:456::/32`.
+
+Obviously try to be as specific as you can for each block, but also don't worry too much as this is just an extra layer of protection, and the other measures should be adequate anyway.
+
 ### HTTP Headers
 
-HTTP headers for things like X-Frame-Options are set in the root `.htaccess` file, however some headers set in `.htaccess` will be ignored in PHP files, depending on how they are run, so must be added in the PHP code.
+HTTP headers for things like X-Frame-Options are set in the root `.htaccess` file, however some headers will be ignored in PHP files, depending on how they are run, so must be added in the PHP code.
 
 See [what to do when changing production server](setting-up-server.md#http-headers)
 
@@ -315,4 +334,4 @@ Header always set Strict-Transport-Security "max-age=604800; includeSubDomains"
 
 ## Testing Litespeed Cacheing
 
-To test locally you can drop our test plugin `src\plugins\lscache-test.php` into `wp-content\plugins` and activate it (or put it in `wp-content\mu-plugins`). It will log calls to litespeed actions to the debug log, which is usually `wp-content\debug.log`.
+To test locally you can drop our [LiteSpeed cache test plugin](../src/plugins/semla-lscache-test.php) into `wp-content\plugins` and activate it (or put it in `wp-content\mu-plugins`). It will log calls to litespeed actions to the debug log, which is usually `wp-content\debug.log`.
