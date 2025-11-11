@@ -41,9 +41,10 @@ $flags_file = 'work/flags.tsv';
 
 // arguments for fixtures xlsx sheets
 $fixtures_sheets = [0,2]; // sheets with regular fixtures
-// 3-way setup, array of sheet no, start row, possible columns, division name
+// 3-way setup, array of sheet no, start row, possible columns, division name,
+//  staring week no.
 // Note: rows and cols start at 0
-$three_way_sheets = [ [1,10,[1,5,9],'Div 3'] ]; // sheets with 3-way
+$three_way_sheets = [ [1,10,[1,5,9],'Div 3',1] ]; // sheets with 3-way
 $fixtures_args = [
 	'division_col' => 0, 'week_col' => 1, 'date_col' => 2,
 	'home_col' => 3, 'away_col' => 4, 'notes_col' => 5
@@ -82,7 +83,6 @@ $divisions = [
 	'Local Midlands' => [ 'div' => 'Local Midlands', 'swap_home_away' => true, 'sort' => '100' ],
 	'Friendly' => [ 'div' => 'Friendly', 'sort' => '999' ],
 ];
-// $fixtures = [];
 $fixtures = [
 	'2026-03-08101A' => "Midlands Final Four SF\t\t08/03/2026\t\t\t\tv",
 	'2026-03-08101B' => "Midlands Final Four SF\t\t08/03/2026\t\t\t\tv",
@@ -100,11 +100,26 @@ $xlsx = load_xlsx($fixtures_file);
 foreach ($fixtures_sheets as $sheet) {
 	fixtures($xlsx->rows($sheet), $fixtures_args);
 }
-foreach ($three_way_sheets as list($sheet, $start_row, $columns, $div_name)) {
-	fixtures_three_way($xlsx->rows($sheet), $start_row, $columns, $div_name);
+foreach ($three_way_sheets as list($sheet, $start_row, $columns, $div_name, $start_week)) {
+	fixtures_three_way($xlsx->rows($sheet), $start_row, $columns, $div_name, $start_week);
 }
 $xlsx = load_xlsx($midlands_file);
 fixtures_three_way_midlands($xlsx->rows(0), $midlands_args);
+
+// commented out section below was used to add last 3 weeks of Division 3's
+// 3-way fixtures which were added part way through the season. The above
+// few lines loading the original fixtures and flags was commented out to
+// ensure only the new fixtures were output.
+
+// $fixtures = [];
+// $d3_fixtures_file = 'work/fixtures-d3.xlsx';
+// $d3_three_way_sheets = [ [0,0,[0],'Div 3',7] ]; // sheets with 3-way
+
+// $xlsx = load_xlsx($d3_fixtures_file);
+// foreach ($d3_three_way_sheets as list($sheet, $start_row, $columns, $div_name, $start_week)) {
+// 	fixtures_three_way($xlsx->rows($sheet), $start_row, $columns, $div_name, $start_week);
+// }
+
 flags($flags_file, $fixtures);
 ksort($fixtures);
 echo implode("\n",$fixtures);
@@ -205,14 +220,14 @@ function fixtures($rows, $args) {
  * @param [] $columns array of columns to check, index starts at 0. Will be
  *  where date is, then teams are on the row down on this and the next 2 columns
  * @param string $div_name division name to use
+ * @param int $week starting week
  */
-function fixtures_three_way($rows, $start_row, $columns, $div_name) {
+function fixtures_three_way($rows, $start_row, $columns, $div_name, $week) {
 	global $fixtures, $divisions;
 
 	$division = $divisions[$div_name];
 	$swap_home_away = $division['swap_home_away'] ?? false;
 	$row_count = count($rows);
-	$week = 0;
 	$row = $start_row;
 	$first_col = $columns[0];
 	while ($row < $row_count) {
@@ -229,7 +244,6 @@ function fixtures_three_way($rows, $start_row, $columns, $div_name) {
 			$date = substr($rows[$row][$col],0,10);
 			if (!str_contains($date,'-')) die("Invalid date: is it in date format? $date row=$row col=$col");
 			$ymd = explode('-',$date);
-			$week++;
 			for ($team_row = $row + 1; $team_row < $row_count && $rows[$team_row][$col]; $team_row++) {
 				if ($team_row > $new_row) $new_row = $team_row;
 				$teams = [];
@@ -261,10 +275,11 @@ function fixtures_three_way($rows, $start_row, $columns, $div_name) {
 						}
 					}
 
-					$sort = $date . $division['sort'] . $home . $away;
+					$sort = $date . $division['sort'] . $teams[0] . $home . $away;
 					$fixtures[$sort] = "{$division['div']}\t$week\t$ymd[2]/$ymd[1]/$ymd[0]\t\t$home\t\tv\t\t$away$venue";
 				}
 			}
+			$week++;
 		}
 		$row = $new_row + 1;
 	}
