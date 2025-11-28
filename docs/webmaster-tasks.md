@@ -21,7 +21,21 @@ There are also a couple of queries that we used before the verification sheet wa
 
 WordPress frequently release new versions, and the website is set to automatically update.
 
-The only releases you really need to worry about are the major releases, which are versions with only 2 sequences, e.g. 6.7, 6.8, or 7.0, and not minor ones like 6.7.1 or 6.7.2. These are released every 4-5 months, and before they are WordPress will release beta and release candidate (RC) versions. You should test the site locally with RC versions when available, and you can do that with the [WordPress Beta Tester plugin](development-plugins.md#wordpress-beta-tester).
+The only releases you really need to worry about are the major releases, which are versions with only 2 sequences, e.g. 6.7, 6.8, or 7.0, and not minor ones like 6.7.1 or 6.7.2. These are released every 4-5 months, and before they are WordPress will release beta and release candidate (RC) versions. You should test the site locally with RC versions when available using one of the following methods:
+
+* With wp-cli `wp core update --version=6.9-RC3`
+* Download the zip file and install with wp-cli
+
+    ```console
+    wget https://wordpress.org/wordpress-6.9-RC3.zip
+    wp core update wordpress-6.9-RC3.zip
+    ```
+
+* Use the [WordPress Beta Tester plugin](development-plugins.md#wordpress-beta-tester)
+
+If you have used one of the first two methods then you should also update the database using `wp core update-db`.
+
+The simplest way to bulk test the site for errors is to make sure `WP_DEBUG` and `WP_DEBUG_LOG` are set in `wp-config.php`, run the [Validate Website tool](development-help.md#other-useful-tools) to load and validate the HTML in all the pages, and also the check the debug log for any PHP errors.
 
 You can find out information about upcoming releases from [the WordPress releases page](https://wordpress.org/news/category/releases/).
 
