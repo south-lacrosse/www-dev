@@ -34,7 +34,11 @@ function Edit( { context: { postId, postType } } ) {
 	const featuredImageURL = useSelect(
 		( select ) => {
 			if ( featuredImage === 0 ) return null;
-			const media = select( coreStore ).getMedia( featuredImage );
+			const media = select( coreStore ).getEntityRecord(
+				'postType',
+				'attachment',
+				featuredImage
+			);
 			return (
 				media?.media_details?.sizes?.thumbnail?.source_url ||
 				media?.source_url
