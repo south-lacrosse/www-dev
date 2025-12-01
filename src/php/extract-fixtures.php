@@ -90,11 +90,10 @@ $fixtures = [
 ];
 
 
-$npmrc = parse_ini_file(dirname(__DIR__, 2) . '/.npmrc');
-if (!$npmrc) {
-	die('Cannot open .npmrc file');
-}
-require $npmrc['www'] . '/wp-content/plugins/semla/core/Data_Access/SimpleXLSX.php';
+$www_dir = getenv('SEMLA_WWW');
+if ($www_dir === false) die('Environment variable SEMLA_WWW not set');
+if (! is_dir($www_dir)) die("SEMLA_WWW environment variable is not a directory ($www_dir)");
+require $www_dir . '/wp-content/plugins/semla/core/Data_Access/SimpleXLSX.php';
 
 $xlsx = load_xlsx($fixtures_file);
 foreach ($fixtures_sheets as $sheet) {

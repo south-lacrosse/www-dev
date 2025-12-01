@@ -5,11 +5,11 @@
 import fs from 'fs';
 import UglifyJS from 'uglify-js';
 
-if ( ! process.env.npm_config_www ) {
-	process.stderr.write( 'No www environment variable set in .npmrc' );
+if ( ! process.env.SEMLA_WWW ) {
+	process.stderr.write( 'Environment variable SEMLA_WWW not set' );
 	process.exit( 1 );
 }
-const pluginDir = process.env.npm_config_www + '/wp-content/plugins/semla/';
+const pluginDir = process.env.SEMLA_WWW + '/wp-content/plugins/semla/';
 
 try {
 	let output = fs.readFileSync( pluginDir + 'js/glightbox.min.js', 'utf8' );

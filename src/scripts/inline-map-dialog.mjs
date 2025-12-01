@@ -5,13 +5,12 @@
 import { inlineSource } from 'inline-source';
 import fs from 'fs';
 
-if ( ! process.env.npm_config_www ) {
-	process.stderr.write( 'No www environment variable set in .npmrc' );
+if ( ! process.env.SEMLA_WWW ) {
+	process.stderr.write( 'Environment variable SEMLA_WWW not set' );
 	process.exit( 1 );
 }
 const out =
-	process.env.npm_config_www +
-	'/wp-content/plugins/semla/modal/map-dialog.html';
+	process.env.SEMLA_WWW + '/wp-content/plugins/semla/modal/map-dialog.html';
 
 try {
 	const html = await inlineSource( 'src/blocks/map/map-dialog.html', {

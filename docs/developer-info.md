@@ -172,7 +172,7 @@ Depending on what you are developing, you may also need to install some, or all,
 If you are going to be building the Gutenberg blocks, or minifying JavaScript or CSS, then you need to install [Node.js](https://nodejs.org/) and it's package manager `npm` which are used to automate the build. See also [npm commands in Development Help](development-help.md#npm-commands).
 
 * Local copies of the node modules are stored in `www-dev\node_modules`, which is omitted from the Git repository as it is huge, so to install them you need to run `npm install` from the `www-dev` directory.
-* Create a new file `www-dev\.npmrc` and add a line to point to the location of your public `www` directory, e.g. `www=C:/Users/{user}/localwp/south-lacrosse/app/public`
+* Add an environment variable `SEMLA_WWW` to point to the location of your public `www` directory with no trailing slash, e.g. `set SEMLA_WWW=C:/Users/{user}/localwp/south-lacrosse/app/public` on Windows (NB it must be in Unix format with forward slashes) or `SEMLA_WWW=$HOME/localwp/south-lacrosse/app/public` on Linux. If you don't wish to add this to your system variables then you could create a script to set it and call npm.
 
 The config file `package.json` lists all locally installed packages, scripts etc. It has a sister file `package-lock.json` which list the exact version of all npm packages along with all their dependences, that way when you install you will get a setup which is known to work.
 
@@ -225,7 +225,7 @@ All the scripts for minification and building JavaScript, CSS, blocks etc. are i
 
 Note that the CSS minification also runs `autoprefixer` to automatically add necessary vendor prefixes, and that uses browser data which can get out of date. If that is the case, then when you run the minification you will get a message to run `npx update-browserslist-db@latest` which will update the installed version of `caniuse-lite`.
 
-You must have a `.npmrc` file in the root of this project to point to the location of your `www` directory, e.g. `www=C:/Users/{user}/localwp/south-lacrosse/app/public`.
+You must have the environment variable `SEMLA_WWW` set to point to the location of your `www` directory. Note that it should be in Unix style format e.g. `SEMLA_WWW=C:/Users/{user}/localwp/south-lacrosse/app/public`.
 
 When you have finished developing make sure you `npm run build` (or just the specific script). You can then commit those changes in the `www` repo.
 

@@ -6,14 +6,11 @@
 import fs from 'fs';
 import path from 'path';
 
-if ( ! process.env.npm_config_www ) {
-	process.stderr.write( 'No www environment variable set in .npmrc' );
-	process.exit( 1 );
+if ( ! process.env.SEMLA_WWW ) {
+	process.stderr.write( 'Environment variable SEMLA_WWW not set' );
+	process.exit( 0 );
 }
-const themeDir = path.join(
-	process.env.npm_config_www,
-	'/wp-content/themes/lax'
-);
+const themeDir = path.join( process.env.SEMLA_WWW, '/wp-content/themes/lax' );
 try {
 	const stats = fs.lstatSync( themeDir, { throwIfNoEntry: false } );
 	if ( ! stats?.isDirectory() ) {

@@ -4,7 +4,7 @@ See also [debugging WordPress blocks](../../docs/development-help.md#debugging-w
 
 This is the source directory for our WordPress blocks and other block editor related code. They are built using the WordPress provided `wp-scripts`, and compiled to the `plugin` directory in the `www` repository.
 
-You must have a `.npmrc` file in the root of this project to point to the location of your `www` directory, e.g. `www=C:/Users/{user}/localwp/south-lacrosse/app/public`.
+You must have the environment variable `SEMLA_WWW` set to point to the location of your `www` directory. Note that it should be in Unix style format e.g. `SEMLA_WWW=C:/Users/{user}/localwp/south-lacrosse/app/public`.
 
 The following scripts are set up in `package.json` (run with `npm run script-name`):
 

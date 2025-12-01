@@ -1,12 +1,12 @@
 import fs from 'fs';
 
-if ( ! process.env.npm_config_www ) {
-	process.stderr.write( 'No www environment variable set in .npmrc' );
+if ( ! process.env.SEMLA_WWW ) {
+	process.stderr.write( 'Environment variable SEMLA_WWW not set' );
 	process.exit( 1 );
 }
 
 const src = './node_modules/glightbox/dist/';
-const pluginDir = process.env.npm_config_www + '/wp-content/plugins/semla/';
+const pluginDir = process.env.SEMLA_WWW + '/wp-content/plugins/semla/';
 
 try {
 	[ 'css', 'js' ].forEach( ( type ) => {

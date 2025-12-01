@@ -378,13 +378,11 @@ You will note a few scripts use `cross-env-shell`. This is because there is no b
 
 ```json
 "scripts": {
-  "hi:unix": "echo $npm_config_www",
-  "hi:windows": "echo %npm_config_www%",
-  "hi:cross-platform": "cross-env-shell echo $npm_config_www"
+  "hi:unix": "echo $SEMLA_WWW",
+  "hi:windows": "echo %SEMLA_WWW%",
+  "hi:cross-platform": "cross-env-shell echo $SEMLA_WWW"
 }
 ```
-
-Note: `npm_config_*` gets values from the `.npmrc` config file.
 
 ## WP-CLI Commands
 
