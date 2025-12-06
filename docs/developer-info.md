@@ -108,7 +108,7 @@ By far the easiest way to develop locally is using Local, see [how to install an
 
 There are also alternative local development environments, including [DevKinsta](https://kinsta.com/devkinsta/) (Docker based), and [wp-env from WordPress](https://www.npmjs.com/package/@wordpress/env) (requires Docker). If you use one of these then you will need to adapt the Local instructions to configure your particular setup.
 
-Another option is to install WordPress and all its dependencies: PHP, Apache HTTP Server & MySQL/MariaDB. You can install all the software individually, or use [WampServer](http://www.wampserver.com/en/) or [XAMPP](https://www.apachefriends.org/index.html). You'll need to figure out how to configure that yourself, though useful notes are:
+Another option is to install WordPress and all its dependencies: PHP, Apache HTTP Server & MySQL/MariaDB. You can install all the software individually, or use [WampServer](https://www.wampserver.com/en/) or [XAMPP](https://www.apachefriends.org/index.html). You'll need to figure out how to configure that yourself, though useful notes are:
 
 * Download WordPress from <https://wordpress.org/download/> - the US version if fine, otherwise it will do a lot of translations.
 * You should install [WP-CLI](https://wp-cli.org/), which is a command line tool to manage WordPress. It can install plugins and themes, among many other things.
@@ -270,7 +270,7 @@ Images should be compressed before being uploaded. Useful tools are:
     * [MozJPEG](https://github.com/mozilla/mozjpeg/releases) - command line optimization tool. To losslessly optimize an image in place use `jpegtran -copy none -progressive -optimize -outfile filename.jpg filename.jpg`
     * [Gimp](https://www.gimp.org/) - is an excellent free GUI editing tool
     * [ImageMagick](https://imagemagick.org/) - command line tool to manipulate images
-* .png - [OptiPNG](http://optipng.sourceforge.net/) usage `optipng -o7 -strip all chevron-down.png`
+* .png - [OptiPNG](https://optipng.sourceforge.net/) usage `optipng -o7 -strip all chevron-down.png`
 * .svg
     * `npm run svgo:plugin` and `npm run svgo:theme` will compress all SVGs in our respective plugin and theme `img` directories
     * `npx svgo one.svg two.svg -o one.min.svg two.min.svg` - compress specific files
