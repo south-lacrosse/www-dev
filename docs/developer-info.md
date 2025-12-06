@@ -302,9 +302,9 @@ These files handle Apache configuration, and there are several in the `www` repo
 
 ### Restricting Access to the WordPress Login Page
 
-We already have measures in place to protect the site from potential hackers, including strong passwords, blocking author pages and other features which reveal user names, not allowing access to REST services if not logged in, and having a plugin to restrict the number of login attempts.
+We already have measures in place to protect the site from potential hackers, including strong passwords, blocking author pages and other features which reveal user names, not allowing access to REST services if not logged in, and having a plugin to restrict the number of login attempts (50 login attempts per day isn't uncommon).
 
-However in order to completely lock down the site it is a good idea to restrict the range of IP addresses that can access the login page in the first place. Of course this does mean the `.htaccess` file will need to be updated if a users changes their IP address or we add more users.
+However in order to completely lock down the site it is a good idea to restrict the range of IP addresses that can access the login page in the first place using the access controls in the `.htaccess` file, so that any other IPs will receive a 403 error code. Of course this does mean that file will need to be updated if a users changes their IP address or we add more users.
 
 ```apache
 <Files "wp-login.php">
