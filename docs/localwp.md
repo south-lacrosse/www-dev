@@ -151,6 +151,7 @@ Local actually ships PHP with the Imagick extensions, it just fails to put the I
 
 1. On the PHP Info page search for `extension_dir`, and the PHP directory will be this directory's parent (there should be `php.exe` in there)
 1. Move everything in the `ImageMagick` subdirectory into the PHP directory
+1. Uncomment the line `;extension = php_imagick.dll` (remove the `;`) in the PHP configuration, which is at `{site folder}\conf\php\php.ini.hbs`
 1. Restart the site
 1. Reload the PHP Info page, and check for the Imagick module section
 
