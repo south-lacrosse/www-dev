@@ -223,7 +223,7 @@ Alternatively you can just set the email for the current repo with `git config u
 
 To debug in [VSCode](vscode.md) click the Run and Debug icon, and pick `Listen for Xdebug` from the dropdown list (configured in `www-dev\.vscode\launch.json`). See the VSCode site for [more information about debugging](https://code.visualstudio.com/docs/editor/debugging).
 
-If you are using Local make sure Xdebug is switched on for the site.
+If you are using [Local](localwp.md) make sure Xdebug is switched on for the site.
 
 If you have set `xdebug.start_with_request=trigger` (the default, but overridden in Local) then you should install an [Xdebug browser extension](https://xdebug.org/docs/step_debug#browser-extensions) to control when the debugger is called.
 

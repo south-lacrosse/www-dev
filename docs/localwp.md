@@ -44,13 +44,17 @@ Once Local is installed you should create a site for the South Lacrosse website.
     ```
 
 1. Local also doesn't load `mod_deflate`, which is used in production to automatically compress all server output. For local development it isn't worth compressing/decompressing each request, but you can add it as above if you are testing that functionality.
-1. You should change Local's PHP configuration, which is at `{site folder}\conf\php\php.ini.hbs`.
-    * Change `short_open_tag = On` to `Off` as hosts usually have this off. With this option Off short tags (`<?` instead of `<?php`) cause an error, so it's important that the local environment matches to catch errors early on.
-    * You should be using PHP8+, which uses Xdebug 3. Local has `xdebug.start_with_request=yes`, so when Xdebug is enabled it will try and connect to the debugging session on every request, which will result in a 200ms delay if you don't have a debugger listening.
+1. You should change Local's PHP configuration, which is at `{site folder}\conf\php\php.ini.hbs`, as below.
+    * Change `short_open_tag = On` to `Off` as hosts usually have this off. With this option Off short tags (`<?` instead of `<?php`) cause an error, so it's important that the local environment matches production in order to catch errors early on.
+    * You should be using PHP8+, which uses Xdebug 3. Xdebug does add some additional overhead, so this can be toggled within Local for each site, however that requires the site's web server to restart for each change.
 
-        You could leave this as is, and just use the toggle within Local to turn Xdebug off and on for the site, but that requires the server to restart for each change.
+        Local usually always loads the Xdebug extension, and just disables/enables it. You might want to change it so that the extension is only loaded when Xdbeug is enabled.
 
-        However, we think it's much better to leave Xdebug enabled all the time, but set `xdebug.start_with_request=trigger` so that Xdebug will only connect to the debugging session when a specific environment variable or cookie is set. You can then install a [browser extension to control this](https://xdebug.org/docs/step_debug#browser-extensions), and we provide `\bin-local\wpd.bat` to run WP-CLI in debug mode. This will ensure the [Xdebug Development Helpers](https://xdebug.org/docs/develop) are always enabled, such as enhanced `var_dump()`.
+        Local has `xdebug.start_with_request=yes`, so when Xdebug is enabled it will try and connect to the debugging session on every request, which will result in a 200ms delay if you don't have a debugger listening.
+
+        You can also set `xdebug.start_with_request=trigger` so that Xdebug will only connect to the debugging session when a specific environment variable or cookie is set, and therefore minimizes the performance impact when you are not actively debugging (don't forget to disable Xdebug when you are completely finished debugging though). You can then install a [browser extension to control this](https://xdebug.org/docs/step_debug#browser-extensions), and we provide `\bin-local\wpd.bat` to run WP-CLI in debug mode.
+
+        Also note that running with Xdebug even when not actively debugging means the [Xdebug Development Helpers](https://xdebug.org/docs/develop) are always enabled, such as enhanced `var_dump()` and stack traces on errors.
     * For some strange reason OPcache is disabled for Apache. You can enable this to speed up the server. The code was:
 
         ```ini
@@ -68,6 +72,8 @@ Once Local is installed you should create a site for the South Lacrosse website.
         ```
 
         You can remove both the `unless` lines to re-enable (or comment them out with `{{!#unless apache}}` and `{{!/unless}}`). You should also set `opcache.enable_cli=0`, which stops errors in WP-CLI (and shouldn't be enabled anyway).
+
+        Note: for later versions of PHP OPcache is a required extension that is built into every binary, so you won't see the `zend_extension` lines.
 1. If you want to use WP-CLI from a `bash` shell on Windows you then you may encounter an error "'C:\Program' is not recognized as an internal or external command, operable program or batch file." when you run the `wp` command.
 
     This is probably because the `wp` file has Windows line endings, so you need to convert the file to Unix format with LF line endings. The file should be `C:\Program Files (x86)\Local\resources\extraResources\bin\wp-cli\win32\wp`, but if not you can find it with `which wp`. You will need Administrator rights to change it if the file is in `Program Files (x86)`.
