@@ -54,10 +54,10 @@ This project adds the following commands:
     * `sessions` - get list sessions of logged in users
 * `wp semla-media`
     * `featured` - list featured images and their metadata.
-    * `filesizes` - updates the image size meta data in the database. Use this if you have optimized the images in the `/media` directory outside of WordPress.
-    * `images` - list images and their metadata. Shows alternate sizes and all filesizes.
+    * `filesizes` - updates the media filesize meta data in the database. Use this if you have optimized the images in the `/media` directory outside of WordPress.
+    * `meta` - list media and their metadata. Shows alternate sizes and all filesizes if they exist.
     * `unused-images` - lists unused images. Adding `--format=ids` will just list the ids, so you can delete all these images with `wp post delete $(wp semla-media unused-images --format=ids) --force`, though you should be **very, very careful** when doing this as there may be false positives, and you can't undo this.
-    * `validate` - validate attachments and their metadata against the filesystem, and can also delete media files from the filesystem which WordPress doesn't know about.
+    * `validate` - validate media files and their metadata against the filesystem, and can also delete media files from the filesystem which WordPress doesn't know about.
 
 There may be commands that haven't been added to this documentation, so you can run `wp help <command>`.
 
