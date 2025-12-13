@@ -223,7 +223,7 @@ All the scripts for minification and building JavaScript, CSS, blocks etc. are i
 * `css:<plugin|theme>` - minify all the plugin or theme CSS
 * `lint` - check all code styles
 
-Note that the CSS minification also runs `autoprefixer` to automatically add necessary vendor prefixes, and that uses browser data which can get out of date. If that is the case, then when you run the minification you will get a message to run `npx update-browserslist-db@latest` which will update the installed version of `caniuse-lite`.
+If you see a warning to update the browser mapping or browser list see the section on [Browser Data](development-help.md#browser-data).
 
 You must have the environment variable `SEMLA_WWW` set to point to the location of your `www` directory. Note that it should be in Unix style format e.g. `SEMLA_WWW=C:/Users/{user}/localwp/south-lacrosse/app/public`.
 

@@ -384,6 +384,16 @@ You will note a few scripts use `cross-env-shell`. This is because there is no b
 }
 ```
 
+### Browser Data
+
+Some packages use browser data to do things like adding necessary vendor prefixes, and this can rapidly get out of date. When running some npm scripts you may get a warning to run `npx update-browserslist-db@latest`, or possibly a message like:
+
+```console
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+```
+
+It is important not to run the `npm i` command as that would add an extra dependency into our `package.json`, so it is better to run `npx update-browserslist-db@latest` which will update the browser list inside `caniuse-lite`. This will also update `package-lock.json` with the new version, so make sure to commit that to Git.
+
 ## WP-CLI Commands
 
 The WordPress command line interface is a very useful tool. See [full list of commands](https://developer.wordpress.org/cli/commands/).
