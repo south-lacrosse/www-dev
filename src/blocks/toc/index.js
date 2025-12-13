@@ -16,13 +16,16 @@ import metadata from './block.json';
 function Edit( { attributes, setAttributes, isSelected } ) {
 	const { title, toc } = attributes;
 
-	const latestToc = useSelect( ( select ) => {
+	const [ latestToc, headingsWithoutAnchor ] = useSelect( ( select ) => {
 		const rootBlocks = select( blockEditorStore ).getBlocks();
-		const tocTree = [];
+		const tocAttrs = { tree: [], headingsWithoutAnchor: false };
 		rootBlocks.forEach( ( block ) => {
-			extractHeadings( block, tocTree );
+			extractHeadings( block, tocAttrs );
 		} );
-		return tocTree.length === 0 ? '' : createHtml( tocTree );
+		return [
+			tocAttrs.tree.length === 0 ? '' : createHtml( tocAttrs.tree ),
+			tocAttrs.headingsWithoutAnchor,
+		];
 	}, [] );
 
 	// use an effect to setAttributes, so that it is only called when latestToc changes.
@@ -38,9 +41,11 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 			<InspectorControls>
 				<PanelBody title="Help" initialOpen={ true }>
 					<p>
-						Set the HTML anchor of the headings to change the name
-						of the internal links (you can find this in the Settings
-						for the header blocks under Advanced).
+						Add heading blocks and set their HTML anchor to add to
+						the table of contents (you can find this in the block
+						Settings under Advanced). The anchor will become the
+						name of the internal link. Open the Document Overview to
+						see all the blocks and their anchors.
 					</p>
 				</PanelBody>
 			</InspectorControls>
@@ -57,7 +62,26 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 						/>
 					) }
 					{ ! isSelected && title && <h4>{ title }</h4> }
-					<Disabled>{ tocUlHtml( toc ) }</Disabled>
+					{ toc ? (
+						<>
+							<Disabled>{ tocUlHtml( toc ) }</Disabled>
+							{ headingsWithoutAnchor && (
+								<p>
+									<i>
+										There are { headingsWithoutAnchor }{ ' ' }
+										headings without anchors which
+										won&apos;t appear here.
+									</i>
+								</p>
+							) }
+						</>
+					) : (
+						<p>
+							Start adding Heading blocks to create a table of
+							contents. Headings with HTML anchors will be linked
+							here.
+						</p>
+					) }
 				</nav>
 			</div>
 		</div>
@@ -84,21 +108,25 @@ function tocUlHtml( toc ) {
 	return <RawHTML>{ '<ul id="semla_toc-list">' + toc + '</ul>' }</RawHTML>;
 }
 
-// Extract headings, and recurse through inner blocks
-function extractHeadings( block, tocTree ) {
+// Extract headings with anchors, and recurse through inner blocks
+function extractHeadings( block, tocAttrs ) {
 	if ( block.name === 'core/heading' ) {
-		addToTocTree( block, tocTree );
+		if ( block.attributes.anchor ) {
+			addToTocTree( block, tocAttrs.tree );
+		} else {
+			tocAttrs.headingsWithoutAnchor++;
+		}
 		return;
 	}
 	block.innerBlocks.forEach( ( innerBlock ) => {
-		extractHeadings( innerBlock, tocTree );
+		extractHeadings( innerBlock, tocAttrs );
 	} );
 }
 
 // Find correct place to insert heading into Table of Contents
-function addToTocTree( block, tocTree ) {
+function addToTocTree( block, tree ) {
 	// Heading blocks have attributes for the content (rich-text), level,
-	// also supports anchor
+	// and anchor
 	const attributes = block.attributes;
 
 	if ( ! attributes.content || ! attributes.content.text ) {
@@ -110,14 +138,6 @@ function addToTocTree( block, tocTree ) {
 		.toString()
 		.replace( /<[^>]+>/g, '' )
 		.replace( /  +/g, ' ' );
-	// if a heading has no anchor then make sure we add one
-	if ( ! attributes.anchor || attributes.anchor.startsWith( 'st-' ) ) {
-		attributes.anchor =
-			'st-' +
-			attributes.content.text
-				.replace( /[^\w\s-]/g, '' )
-				.replace( / +/g, '-' );
-	}
 	// need to copy to new object as we'll be adding children
 	const node = {
 		level: attributes.level,
@@ -125,17 +145,17 @@ function addToTocTree( block, tocTree ) {
 		anchor: attributes.anchor,
 	};
 
-	if ( tocTree.length === 0 ) {
-		tocTree.push( node );
+	if ( tree.length === 0 ) {
+		tree.push( node );
 		return;
 	}
 
 	// eslint-disable-next-line no-constant-condition
 	while ( true ) {
 		// look at last item in current level in table of contents
-		const last = tocTree[ tocTree.length - 1 ];
+		const last = tree[ tree.length - 1 ];
 		if ( node.level <= last.level ) {
-			tocTree.push( node );
+			tree.push( node );
 			return;
 		}
 		// needs to go in child level - let's see if that exists yet
@@ -145,13 +165,13 @@ function addToTocTree( block, tocTree ) {
 			return;
 		}
 		// look next level down
-		tocTree = last.children;
+		tree = last.children;
 	}
 }
 
-function createHtml( tocTree ) {
+function createHtml( tree ) {
 	let html = '';
-	tocTree.forEach( ( item ) => {
+	tree.forEach( ( item ) => {
 		html += `<li><a href="#${ item.anchor }">${ item.content }</a>`;
 		if ( item.children ) {
 			html += '<ul>' + createHtml( item.children ) + '</ul>';
