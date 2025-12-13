@@ -4,11 +4,11 @@ See also [debugging WordPress blocks](../../docs/development-help.md#debugging-w
 
 This is the source directory for our WordPress blocks and other block editor related code. They are built using the WordPress provided `wp-scripts`, and compiled to the `plugin` directory in the `www` repository.
 
-You must have the environment variable `SEMLA_WWW` set to point to the location of your `www` directory. Note that it should be in Unix style format e.g. `SEMLA_WWW=C:/Users/{user}/localwp/south-lacrosse/app/public`.
+You **must** have the environment variable `SEMLA_WWW` set to point to the location of your `www` directory. Note that it should be in Unix style format even on Windows e.g. `set SEMLA_WWW=C:/Users/{user}/localwp/south-lacrosse/app/public`.
 
 The following scripts are set up in `package.json` (run with `npm run script-name`):
 
-* `start --block=core` - build a development version of a WordPress block or module, and watch to automatically recompile changes. `--block` must be the folder name of the block or module.
+* `start` - build a development version of a single WordPress block or module, and watch to automatically recompile changes. Environment variable `SEMLA_BLOCK` **must** be the folder name of the block or module.
 * `start-all` - development build and watch all blocks and modules
 * `build:blocks` - build the production build of the blocks and modules, including building block metadata from all `block.json` files into a single manifest ([see below](#blocks-manifest))
 * `build:blocks-map-dialog` - create the map dialog page from the source in [the map block](map/)

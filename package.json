@@ -16,7 +16,7 @@
 		"lint:js": "wp-scripts lint-js ./src/blocks",
 		"lint:scripts": "eslint ./src/scripts/*.mjs",
 		"packages-update": "wp-scripts packages-update",
-		"start": "cross-env-shell wp-scripts start --webpack-src-dir=src/blocks/$npm_config_block --output-path=$SEMLA_WWW/wp-content/plugins/semla/blocks/$npm_config_block",
+		"start": "cross-env-shell wp-scripts start --webpack-src-dir=src/blocks/$SEMLA_BLOCK --output-path=$SEMLA_WWW/wp-content/plugins/semla/blocks/$SEMLA_BLOCK",
 		"start-all": "cross-env-shell wp-scripts start --config=webpack-full.config.js --webpack-src-dir=src/blocks --blocks-manifest --output-path=$SEMLA_WWW/wp-content/plugins/semla/blocks",
 		"build:blocks-map-dialog": "node ./src/scripts/inline-map-dialog.mjs",
 		"format:non-blocks": "prettier -w . !src/blocks/**",
