@@ -343,7 +343,7 @@ function fixtures_three_way_midlands($rows, $args) {
 				}
 			}
 
-			$sort = $date . $division['sort'] . $home . $away;
+			$sort = $date . $division['sort'] . $venue . $home . $away;
 			$fixtures[$sort] = "{$division['div']}\t$week\t$ymd[2]/$ymd[1]/$ymd[0]\t\t$home\t\tv\t\t$away$match_venue";
 		}
 	}
