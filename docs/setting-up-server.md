@@ -33,8 +33,8 @@ Also check the `~/.profile` file (or whatever file the hosts use) as there may b
 ```bash
 alias stg="cd ~/public_html/sub/stg"
 alias stg-bin="cd ~/public_html/sub/stg/bin"
-alias prod="cd ~/public_html"
-alias prod-bin="cd ~/public_html/bin"
+alias www="cd ~/public_html"
+alias www-bin="cd ~/public_html/bin"
 ```
 
 ## Configure SSH Keys For SEMLA Webmaster
@@ -174,22 +174,32 @@ To setup from scratch:
     rm v2.3.tar.gz
     ```
 
-1. To install dependencies you can use Composer, which should be installed on the host (if not there are plenty of tutorials on how to install it on shared hosting). Our current host Hostinger has the latest Composer installed as `composer2`, so it's best to use that. You can just run `composer2 update` to install all dependencies, however in the current version we don't need them all (only PHPMailer to send emails via SMTP), so assuming that remains the case then from the install directory run:
+    If you want the latest version you can run the following. Note that unzip doesn't remove the top level directory, so the files will be contained in subdirectory `dmarc-srg-master` (or similar).
+
+    ```console
+    wget https://github.com/liuch/dmarc-srg/archive/refs/heads/master.zip
+    unzip master.zip
+    rm master.zip
+    ```
+
+1. To install dependencies you can use Composer, which should be installed on the host (if not there are plenty of tutorials on how to install it on shared hosting). You should check the installed version using `composer -V` as it is possible some hosts will have `composer` for Composer version 1, and `composer2` for the latest version.
+
+    You can just run `composer update --no-dev` to install all runtime dependencies, however in the current version we don't need them all (PHPMailer to send emails via SMTP, and ImapEngine to access an IMAP mailbox), so assuming that remains the case then from the install directory run:
 
     ```console
     rm composer.*
-    composer2 require phpmailer/phpmailer
+    composer require phpmailer/phpmailer directorytree/imapengine
     ```
 
-1. Create and populate `config/conf.php`, based on the `dmarc-srg/conf.php` file from our private `wordpress-config` repo. You should use the same database as production so that it's easier to backup. If you make changes then ensure you also commit and push those changes back to the `wordpress-config` repo.
+1. Create and populate `config/conf.php`, based on the `dmarc-srg/conf.php` file from our private `wordpress-config` repo. You should use the same database as the production WordPress so that it's easier to backup. If you make changes then ensure you also commit and push those changes back to the `wordpress-config` repo.
 1. `chmod 0600 config/conf.php` so the config file isn't readable by anyone else.
 1. In the `dmarc-srg` directory run `php utils/database_admin.php init` to create the tables.
-1. Create a set of `cron` jobs (see below) to process the reports and do any administration. The programs need to run from the `dmarc-srg` directory, so the commands should be something like `cd path/to/dmarc-srg && php utils/fetch_reports.php`
+1. Create a set of `cron` jobs (see below) to process the reports and do any administration. The programs need to run from the `dmarc-srg` directory, so if you are running the programs outside of our supplied shell scripts they should be run using something like `cd path/to/dmarc-srg && php utils/fetch_reports.php`
 
 The cron format is `min(s) hour(s) day(s) month(s) weekday(s) command`, so a suggested setup would be:
 
 ```text
-# Get reports from the email account daily at 3am, The latest reports will be
+# Get reports from the email account daily at 3am. The latest reports will be
 # available daily in the web interface.
 0 3 * * * path/to/wordpress/bin/dmarc-fetch-reports.sh
 
@@ -202,9 +212,7 @@ The cron format is `min(s) hour(s) day(s) month(s) weekday(s) command`, so a sug
 30 3 1 * * path/to/wordpress/bin/dmarc-cleanup.sh
 ```
 
-Note: `dmarc.sh` and `dmarc-cleanup.sh` assume DmarcSrg is installed in `sub/dmarc-srg` inside the WordPress directory.
-
-Note 2: PHP 8.4 no longer bundles the IMAP extension which is used by DmarcSrg (at least to v2.3) to fetch reports and tidy up the mailbox. The IMAP extension can be installed using PEAR, but that can be difficult on some shared hosting, so it's currently easiest to run the `fetch_reports.php` and `mailbox_cleaner.php` utils using PHP8.3.
+Note: the `bin\dmarc*.sh` scripts assume DmarcSrg is installed in `sub/dmarc-srg` inside the WordPress directory.
 
 ### WordPress SMTP Settings
 
