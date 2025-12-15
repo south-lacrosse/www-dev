@@ -103,6 +103,8 @@ You can also run the [Broken Link Checker](https://wordpress.org/plugins/broken-
 
 Local also has a link checker tool, however we don't recommend it as it runs extremely slowly (at least in Version 9.2.6), and uses a lot of resources.
 
+We also provide a [useful PHP script](../src/php/test-links.php) to check links and where they are redirected to, which is useful if you see 302 Redirect messages and want to bulk find the new URLs, and also to see if short links such as `https://maps.app.goo.gl/xYyhFKuzuderAPc47` end up at a valid page. See the comments at the top of the file for details.
+
 ## Media Files
 
 Media files (mainly images) may still exist after they are removed from any posts and pages.
