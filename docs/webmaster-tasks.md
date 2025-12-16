@@ -47,6 +47,14 @@ You should periodically make sure the database is performing well.
 
 You can check the table sizes with `wp db size --all-tables --size_format=MB --decimals=2`, or use our [table-sizes.sh](../bin/table-sizes.sh) script.
 
+Note that the `wp_options` table may temporarily expand by several megabytes as WordPress will cache previews of external links there. The caches will only last for an hour or so, and will get cleaned automatically every day
+ after they expired. You can see if there are any cache rows and their size using:
+
+```SQL
+SELECT count(*), sum(char_length(option_value)) AS size FROM wp_options
+WHERE option_name LIKE '_site_transient_g_url_details%';
+```
+
 There shouldn't be enough activity on our site to cause any problems, but it might be worth optimizing the bigger tables every now and then. You can do it in MYSQLAdmin if the host provides it by selecting the database so you get the list of tables, selecting the ones you want to optimize (there is a Check all button at the bottom), and at the bottom in `With selected:` pick optimize.
 
 Alternatively run the MYSQL command line client with `mysql-www` and enter:
