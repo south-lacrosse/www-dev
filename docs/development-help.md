@@ -363,6 +363,8 @@ Commands (`:` first):
 * `npm outdated` - see what packages are out of date, can add `-g` option to see global packages
 * `npm update <package_name>` - update a specific package, or all if `package_name` is empty. Won't install newer major versions, so 1.9.9 won't be updated to 2.0.0. To do that you need the next option.
 * `npm i <package_name>@latest --save-dev` - install latest version of a specific package
+* `npm list -g` - list all top level global packages
+* `npm root -g` - display the root directory for globally installed packages
 
 `package-lock.json` contains a list of all installed packages, their versions, and the versions of their dependencies. That way when someone else install the npm packages they will get the exact same version. To update packages you normally do `npm update` as above.
 

@@ -6,7 +6,7 @@
 :: For output redirection you can quote the command:
 ::    timecmd "dir c:\windows /s > nul"
 
-:: Useful for basic performance testing of WP-CLU commands.
+:: Useful for basic performance testing of WP-CLI commands.
 
 set start=%time%
 
