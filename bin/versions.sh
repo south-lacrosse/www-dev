@@ -1,38 +1,34 @@
 #!/bin/bash
 # Display versions of relevant software in use
+
+indent() { sed 's/^/  /'; }
+
 echo --------- PHP ---------
-echo
-php -v
-echo
+php -v  | indent
 echo --------- Database ---------
-echo
 if command -v mariadb >/dev/null 2>&1; then
-	mariadb -V
+	mariadb -V | indent
 else
-	mysql -V
+	mysql -V | indent
 fi
-echo
 echo --------- WordPress ---------
-echo
 if [[ $# -eq 0 ]]; then
 	# in WordPress directory
 	if [[ -f "wp-config.php" ]]; then
-		wp core version
+		wp core version | indent
 	else
-		echo Cannot detect WordPress version. Must be in the WordPress directory, or pass directory as argument
+		echo "  Cannot detect WordPress version. Must be in the WordPress directory, or pass directory as argument"
 	fi
 else
 	if [[ -f "$1/wp-config.php" ]] ; then
-		wp core version --path="$1"
+		wp core version --path="$1" | indent
 	else
-		echo Unknown WordPress directory $1
+		echo "  Unknown WordPress directory $1"
 	fi
 fi
-echo
 echo --------- WP-CLI ---------
-echo
-wp cli version
-echo
+wp cli version | indent
 echo --------- Composer ---------
-echo
-composer -V
+# stderr contains PHP version and an info message. To list it change next line
+# to `2>&1` to pipe it thru indent
+composer -V 2>/dev/null | indent
