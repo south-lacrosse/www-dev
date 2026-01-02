@@ -1,31 +1,40 @@
 #!/bin/bash
-# Display versions of relevant software in use
+# Display versions of relevant software in use. Enables easy matching of web
+# server and local setups.
 
+# function to indent results below
 indent() { sed 's/^/  /'; }
 
-echo --------- PHP ---------
-php -v  | indent
-echo --------- Database ---------
-if command -v mariadb >/dev/null 2>&1; then
-	mariadb -V | indent
-else
-	mysql -V | indent
-fi
-echo --------- WordPress ---------
 if [[ $# -eq 0 ]]; then
-	# in WordPress directory
+	# see if currently in WordPress directory
 	if [[ -f "wp-config.php" ]]; then
-		wp core version | indent
+		WP=.
+	# check default location
+	elif [[ -f ~/public_html/wp-config.php ]]; then
+		WP=~/public_html
 	else
-		echo "  Cannot detect WordPress version. Must be in the WordPress directory, or pass directory as argument"
+		echo "Must be run in the WordPress directory, or pass directory as argument."
+		exit 1
 	fi
 else
 	if [[ -f "$1/wp-config.php" ]] ; then
-		wp core version --path="$1" | indent
+		WP=$1
 	else
-		echo "  Unknown WordPress directory $1"
+		echo "Unknown WordPress directory $1"
+		exit 1
 	fi
 fi
+source $WP/bin/db-creds.sh || exit 1
+cd $BIN || exit 1
+
+echo --------- PHP ---------
+php -v | indent
+echo --------- Database Client ---------
+$MYSQL -V | indent
+echo --------- Database Server ---------
+$MYSQL --defaults-extra-file=.my.cnf -Bse "SELECT VERSION();" | indent
+echo --------- WordPress ---------
+wp core version | indent
 echo --------- WP-CLI ---------
 wp cli version | indent
 echo --------- Composer ---------

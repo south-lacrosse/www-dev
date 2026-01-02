@@ -33,6 +33,7 @@ The following should be in `~/bin`, but if not then [they are available here](..
 * `mysql-stg` - run an SQL file on the staging database, or if there are no arguments then open a MySQL client
 * `mysql-www` - the same, except for production
 * `table-sizes.sh` - display size of all tables in the production database, so WordPress, fixtures, history etc.
+* `versions.sh` - list versions of PHP/database/WordPress etc.
 * `website-versions.sh` - show which Git commits the production and staging websites are on
 
 Note: both production and staging use the `south-lacrosse/www` Git repository, so to update the code use the normal Git commands.
