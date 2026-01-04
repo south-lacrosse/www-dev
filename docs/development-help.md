@@ -298,6 +298,12 @@ Then, before you run `rsync` run that batch file (it will leave a window open, c
 
 Make sure you use `Ctrl-C` to terminate `socat`, otherwise it won't clean up the `/tmp/openssh-ssh-agent-pipe` file. If you try to run `socat` and it fails with `socat... E "/tmp/openssh-ssh-agent-pipe" exists` you will need to delete that file (it'll be under your cygwin directory), though make sure it isn't already running first!
 
+### Comparing Files
+
+* `diff -r dira dirb` - recursive compare 2 directories
+* `diff -I "ignore-string" -I "ignore-string2" file1 file2` - compare ignoring lines with specified strings
+* `diff -u file1 file2 > file.patch` - create a unified diff patch file
+
 ### Deleting Files
 
 * ``rm `ls -t db-wp-*.sql.gz| awk 'NR>5'` ``- delete all but the most 5 recent matching files (just run the `ls` to see what would be deleted!)
