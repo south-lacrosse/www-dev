@@ -4,6 +4,10 @@ This file contains useful info for development - probably mainly stuff I would f
 
 ## Git Commands
 
+**Important** If you try to push and that is rejected because of changes in the remote repo, then pull the changes with `git pull --rebase`. This will fetch the changes and try and do a `git rebase` as below, i.e. replay your changes on top of the changes from the remote branch, however a normal pull will add an get an extra merge commit which will clutter up your history. If your changes conflict with the incoming changes you will need to abort the rebase (there will be instructions on how to do tis when you do the pull) and do a normal pull, as in that case you fo need the merge commit.
+
+You can set this as the default behaviour with `git config --global pull.rebase true`.
+
 ### Remote repos
 
 * `git remote -v` - see what remote repos are linked
@@ -145,6 +149,7 @@ This allows you to checkout more than one branch from the same repo, so you can 
 
 * `git config --global user.name <name>` - set user name for commits.
 * `git config --local user.email <email>` - set email for commits. Can be global or local.
+* `git config --global pull.rebase true` - default to rebase on pull instead of merge.
 
 ### Handy Aliases
 
