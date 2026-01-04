@@ -3,18 +3,26 @@
  */
 import { registerBlockType } from '@wordpress/blocks';
 import {
+	BlockControls,
 	InspectorControls,
 	store as blockEditorStore,
 	useBlockProps,
 } from '@wordpress/block-editor';
-import { Disabled, PanelBody, TextControl } from '@wordpress/components';
+import {
+	Disabled,
+	PanelBody,
+	TextControl,
+	ToolbarGroup,
+	ToolbarButton,
+} from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { RawHTML, useEffect } from '@wordpress/element';
+import { alignNone, pullRight } from '@wordpress/icons';
 
 import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, isSelected } ) {
-	const { title, toc } = attributes;
+	const { title, toc, floatRight } = attributes;
 
 	const [ latestToc, headingsWithoutAnchor ] = useSelect( ( select ) => {
 		const rootBlocks = select( blockEditorStore ).getBlocks();
@@ -38,6 +46,30 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 
 	return (
 		<div { ...useBlockProps() }>
+			<BlockControls>
+				<ToolbarGroup>
+					<ToolbarButton
+						icon={ alignNone }
+						label="Full width"
+						isActive={ ! floatRight }
+						onClick={ () => {
+							setAttributes( {
+								floatRight: false,
+							} );
+						} }
+					/>
+					<ToolbarButton
+						icon={ pullRight }
+						label="Float right"
+						isActive={ floatRight }
+						onClick={ () => {
+							setAttributes( {
+								floatRight: true,
+							} );
+						} }
+					/>
+				</ToolbarGroup>
+			</BlockControls>
 			<InspectorControls>
 				<PanelBody title="Help" initialOpen={ true }>
 					<p>
@@ -46,6 +78,13 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 						Settings under Advanced). The anchor will become the
 						name of the internal link. Open the Document Overview to
 						see all the blocks and their anchors.
+					</p>
+					<p>
+						If you select &quot;Float right&quot; (the default) the
+						table of contents will float to the right on the live
+						page if the window is wide enough. This can&apos;t be
+						shown in the editor, so you need to open the preview to
+						see.
 					</p>
 				</PanelBody>
 			</InspectorControls>
@@ -89,9 +128,12 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 }
 
 function save( { attributes } ) {
-	const { title, toc } = attributes;
+	const { title, toc, floatRight } = attributes;
+	const blockProps = useBlockProps.save( {
+		className: floatRight ? '' : 'semla_toc-floatnone',
+	} );
 	return (
-		<div id="semla_toc" { ...useBlockProps.save() }>
+		<div id="semla_toc" { ...blockProps }>
 			<nav id="semla_toc-nav">
 				{ title.trim().length > 0 && <h4>{ title.trim() }</h4> }
 				{ tocUlHtml( toc ) }
