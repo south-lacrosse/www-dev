@@ -2,13 +2,22 @@
 
 We also provide our own [testing plugins](../src/plugins/).
 
-* Query Monitor - query-monitor - adds query data (and much, much more) to web pages to aid debugging
+* Query Monitor - query-monitor - adds query data (and much, much more) to web pages to aid debugging - see below
 * [WordPress Admin Style](https://github.com/bueltge/wordpress-admin-style) - shows CSS styles used in admin pages, useful for building admin menu php programs
 * [BE Media from Production](https://github.com/billerickson/be-media-from-production) - be-media-from-production - uses production media if it doesn't exist locally
 * Members - members - adds pages to the Admin dashboard to query/edit roles and capabilities
 * Rewrite Rules Inspector - rewrite-rules-inspector - adds an option under Tools to display all the rewrite rules
 * WordPress Beta Tester - wordpress-beta-tester - see below
 * WP Crontrol - wp-crontrol - all info about Cron jobs
+
+## Query Monitor
+
+To get extended query information the Query Monitor needs to create a symlink, which it can't always do on Windows (you'll see a message). However you can do this from a command line as follows (must have Administrator privileges):
+
+```console
+cd wp-content
+mklink db.php plugins\query-monitor\wp-content\db.php
+```
 
 ## WordPress Beta Tester
 
