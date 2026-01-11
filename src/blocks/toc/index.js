@@ -100,7 +100,7 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 							keepPlaceholderOnFocus={ true }
 						/>
 					) }
-					{ ! isSelected && title && <h4>{ title }</h4> }
+					{ ! isSelected && title && <h2>{ title }</h2> }
 					{ toc ? (
 						<>
 							<Disabled>{ tocUlHtml( toc ) }</Disabled>
@@ -135,7 +135,7 @@ function save( { attributes } ) {
 	return (
 		<div id="semla_toc" { ...blockProps }>
 			<nav id="semla_toc-nav">
-				{ title.trim().length > 0 && <h4>{ title.trim() }</h4> }
+				{ title.trim().length > 0 && <h2>{ title.trim() }</h2> }
 				{ tocUlHtml( toc ) }
 			</nav>
 		</div>
