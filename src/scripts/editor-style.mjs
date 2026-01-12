@@ -16,7 +16,7 @@ if ( ! stats?.isDirectory() ) {
 }
 let styles = fs.readFileSync( path.join( themeDir, 'style.css' ), 'utf8' );
 styles = styles.replaceAll(
-	/\/\* *start non-editor.*?end non-editor *\*\//gis,
+	/\s*\/\* *start non-editor.*?end non-editor *\*\//gis,
 	''
 );
 // get rid of the theme comment
