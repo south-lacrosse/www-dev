@@ -19,6 +19,7 @@ copy ..\..\south-lacrosse\app\public\wp-content\themes\lax\style.css work\before
 copy ..\..\south-lacrosse\app\public\wp-content\plugins\semla\css\flags.css work\before\ /y
 copy ..\..\south-lacrosse\app\public\wp-content\plugins\semla\css\map.css work\before\ /y
 cd work || exit 1
+copy before\*.css .
 if not exist dev.southlacrosse.org.uk (
 	rem use -r -l inf instead of --mirror as local server won't send modified date
 	wget -r -l inf --follow-tags=a -e robots=off --adjust-extension --no-verbose ^
@@ -29,8 +30,7 @@ if not exist dev.southlacrosse.org.uk (
 )
 
 echo Running purgecss
-call purgecss --css before/*.css --content dev.southlacrosse.org.uk/**/*.html ^
-	--output after/
+call purgecss --css *.css --content dev.southlacrosse.org.uk/**/*.html --output after/
 
 diff -r before after > css.diff
 
