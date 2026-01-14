@@ -1,0 +1,3 @@
+https://dev.southlacrosse.org.uk/fixtures?comp=Premier+Division
+https://dev.southlacrosse.org.uk/fixtures?team=Bath
+https://dev.southlacrosse.org.uk/fixtures?club=Bath

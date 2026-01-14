@@ -25,6 +25,9 @@ if not exist dev.southlacrosse.org.uk (
 	wget -r -l inf --follow-tags=a -e robots=off --adjust-extension --no-verbose ^
 		--no-check-certificate --reject-regex "(api/semla|\?(date|team|comp|club))" ^
 		https://dev.southlacrosse.org.uk
+	rem get specific URLs e.g. different types of fixtures pages that aren't directly linked
+	wget --force-directories --no-check-certificate --adjust-extension --no-verbose ^
+		--input-file=../unused-extra-urls.txt
 ) else (
 	echo Pages already downloaded to dev.southlacrosse.org.uk, so using those
 )
