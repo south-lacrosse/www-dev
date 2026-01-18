@@ -49,10 +49,13 @@ This project adds the following commands:
     * `update --all` - the same as `update`, plus it loads teams and divisions, which only needs to be done at the beginning of the season, or if the teams/divisions change.
     * `revert` - revert to last update, use as a last resort. Ideally you should fix the sheet.
 * `wp history update|winners|stats` - Manage the history pages from the database. Should only be done as part of the [end of season processing](end-season.md).
-* `wp purge current|history|menu`. We cache various objects, so if they cause a problem then you can purge them.
-* `wp monitor` - monitor various WordPress functionality
-    * `posts` - get a digest of post/page/club changes
-    * `sessions` - get list sessions of logged in users
+* `wp purge`
+    * `current-cache|history-cache|menu-cache` - we cache various objects, so if they cause a problem then you can purge them.
+    * `autosaves` - delete any WordPress autosaves over a week old.
+    * `revisions` - delete revisions, but keep at least 5 revisions and anything under 1 year old (though check the command as these values may be changed).
+* `wp monitor` - monitor various WordPress functionality.
+    * `posts` - get a digest of post/page/club changes.
+    * `sessions` - list sessions of logged in users.
 * `wp semla-media`
     * `featured` - list featured images and their metadata.
     * `filesizes` - updates the media filesize meta data in the database. Use this if you have optimized the images in the `/media` directory outside of WordPress.
