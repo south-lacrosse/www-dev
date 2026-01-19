@@ -88,7 +88,9 @@ The copying step above will have copied a database backup that you can load with
 
 You should check `wp-config.php` to make sure it looks OK. You should also check if there are any other changes you need to make by comparing the config file to `wp-config-semla.php`. You might want to [generate new Authentication Unique Keys and Salts](https://api.wordpress.org/secret-key/1.1/salt/).
 
-Also check `.htaccess` to see if you need any changes for the new hosts. You can always see `.htaccess-semla` for a base version which works.
+Check `.htaccess` to see if you need any changes for the new hosts. You can always see `.htaccess-semla` for a base version which works.
+
+Check what content type header the new server sends for javascript as you might need to change the directives to make sure our REST javascript files are not cached. See `.htaccess-semla` for more details.
 
 Then test, and once you are sure everything is working:
 
@@ -109,8 +111,6 @@ Header always set X-Content-Type-Options "nosniff"
 ```
 
 Then check the headers of a WordPress page to see if they are sent (you can do that using `curl -I`, or the developer tools in most browsers).
-
-On Hostinger the X-Frame-Options header is ignored, but X-Content-Type-Options works.
 
 For hosts which run php via fgci proxy all headers from `.htaccess` are ignored.
 
