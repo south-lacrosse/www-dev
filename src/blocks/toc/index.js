@@ -44,8 +44,11 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ latestToc ] );
 
+	const blockProps = useBlockProps( {
+		className: floatRight ? '' : 'semla_toc-floatnone',
+	} );
 	return (
-		<div { ...useBlockProps() }>
+		<div { ...blockProps }>
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
@@ -79,50 +82,41 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 						name of the internal link. Open the Document Overview to
 						see all the blocks and their anchors.
 					</p>
-					<p>
-						If you select &quot;Float right&quot; (the default) the
-						table of contents will float to the right on the live
-						page if the window is wide enough. This can&apos;t be
-						shown in the editor, so you need to open the preview to
-						see.
-					</p>
 				</PanelBody>
 			</InspectorControls>
-			<div id="semla_toc">
-				<nav id="semla_toc-nav">
-					{ isSelected && (
-						<TextControl
-							placeholder={ 'Title' }
-							onChange={ ( text ) =>
-								setAttributes( { title: text } )
-							}
-							value={ title }
-							keepPlaceholderOnFocus={ true }
-						/>
-					) }
-					{ ! isSelected && title && <h2>{ title }</h2> }
-					{ toc ? (
-						<>
-							<Disabled>{ tocUlHtml( toc ) }</Disabled>
-							{ headingsWithoutAnchor && (
-								<p>
-									<i>
-										There are { headingsWithoutAnchor }{ ' ' }
-										headings without anchors which
-										won&apos;t appear here.
-									</i>
-								</p>
-							) }
-						</>
-					) : (
-						<p>
-							Start adding Heading blocks to create a table of
-							contents. Headings with HTML anchors will be linked
-							here.
-						</p>
-					) }
-				</nav>
-			</div>
+			<nav className="semla_toc-nav">
+				{ isSelected && (
+					<TextControl
+						placeholder={ 'Title' }
+						onChange={ ( text ) =>
+							setAttributes( { title: text } )
+						}
+						value={ title }
+						keepPlaceholderOnFocus={ true }
+					/>
+				) }
+				{ ! isSelected && title && <h2>{ title }</h2> }
+				{ toc ? (
+					<>
+						<Disabled>{ tocUlHtml( toc ) }</Disabled>
+						{ headingsWithoutAnchor && (
+							<p>
+								<i>
+									There are { headingsWithoutAnchor } headings
+									without anchors which won&apos;t appear
+									here.
+								</i>
+							</p>
+						) }
+					</>
+				) : (
+					<p>
+						Start adding Heading blocks to create a table of
+						contents. Headings with HTML anchors will be linked
+						here.
+					</p>
+				) }
+			</nav>
 		</div>
 	);
 }
@@ -133,8 +127,8 @@ function save( { attributes } ) {
 		className: floatRight ? '' : 'semla_toc-floatnone',
 	} );
 	return (
-		<div id="semla_toc" { ...blockProps }>
-			<nav id="semla_toc-nav">
+		<div { ...blockProps }>
+			<nav className="semla_toc-nav">
 				{ title.trim().length > 0 && <h2>{ title.trim() }</h2> }
 				{ tocUlHtml( toc ) }
 			</nav>
