@@ -109,25 +109,19 @@ After that, reapply all the other commits with `git rebase --continue`.
 
 ### Remove All Git Commit History
 
-The steps are:
+First run `git remote -v` to determine the remote repositories (you'll need that later), then delete the `.git` folder.
 
-* Checkout the main branch as orphan
-* Add all the files
-* Commit the changes
-* Delete the main branch
-* Rename the current branch to main
-* Finally, force update your repository
-* Optionally remove the old files
+The following steps will then initialise a new repo, add and commit all files, set the remote repository, and force push, setting the upstream repo (remove `-u` if you don't want to do that).
 
 ```bash
-git checkout --orphan latest_branch
-git add -A
-git commit -am "commit message"
-git branch -D main
-git branch -m main
-git push -f origin main
-git gc --aggressive --prune=all
+git init
+git add *
+git commit -am "message"
+git remote add origin git@github.com:user/repo
+git push --mirror --force -u
 ```
+
+Rather than doing `git remote add..`  you can also take a copy of `.git\config` and restore that after deleting `.git`.
 
 ### Stashing
 
