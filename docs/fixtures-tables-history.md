@@ -1,10 +1,12 @@
 # Information on Maintaining the Fixtures, Tables and History
 
-**Important** Much of the functionality to maintain things like competition names, competition groups etc. has been started, however since SEMLA are going to use the new England Lacrosse league functionality work on that has been stopped as it will be pointless. These unused programs were deleted in the commit tagged `remove-admin-list-table` so you can use the regular Git commands to see the code.
+**Important** Much of the functionality to maintain things like competition names, competition groups etc. has been started, however since SEMLA are going to use the new England Lacrosse league functionality work on that has been stopped as it will be pointless (at least that was true as of 2022!). These unused programs were deleted in the commit tagged `remove-admin-list-table` so you can use the regular Git commands to see the code.
 
 However, just in case we get to the end of the season without an EL platform here is information on how to maintain the required tables.
 
-To update the database manually log into your web host, and they should have a simple way to update tables, usually PHPMyAdmin.
+Previous SQL scripts to create competitions will be in the `fix` private repository, so if you are familiar with SQL you should create a script for the new competitions and run it on the server using `mysql-www script.sql` (see [Useful Scripts](web-server.md#useful-scripts)).
+
+Alternatively, most web hosts have a simple interface like PHPMyAdmin to add new rows to tables.
 
 ## Competitions and Groups
 
@@ -30,21 +32,17 @@ The relevant tables are:
 `description` TEXT NOT NULL -- description to be shown on the history page
 ```
 
-`history_page` is the slug used for the page generate for the list of winners
-for that competition. It should be blank for leagues as they will be done on
-group pages, and also
-any competition which should not have a winners page.
+`history_page` is the slug used for the page generate for the list of winners for that competition. It should be blank for leagues as they will be done on group pages, and also any competition which should not have a winners page.
 
-If you add a new competition only set the `history_page` when you are running the end of season
-processing as otherwise you will generate an empty page when running the history pages update.
+If you add a new competition only set the `history_page` when you are running the end of season processing as otherwise you will generate an empty page when running the history pages update.
 
 `type` is:
 
 * `league`
 * `league-prelim` - a league that won't have a winner, usually a prelim like a qualifying conference
 * `ladder` - a ladder where teams from different divisions play each other, with points applying to their respective divisions
-* `cup` - cup competition, e.g. flags
-* `cup-group` - group stage of flags
+* `cup` - cup competition, e.g. flags. Preliminary competitions should have the `related_comp_id` set the to the main competition.
+* `cup-group` - group (league) stage of flags
 * `results` - a list of winners, with possible runner-up, but no other data. Things like Varsity, Sixes
 
 ---
