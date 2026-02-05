@@ -63,7 +63,9 @@ Add any ladders (e.g. Division 1 and 2 teams play each other, with the results c
 
 ## Fixtures Sheet
 
-The columns can be in any order, but they must have a heading in row 1 exactly as specified. `Competition`, `Date`, `Time`, `Home`, `Home Goals`, `v`, `Away Goals`, `Away`, `X`, `Notes`, `Venue`.
+The columns can be in any order, but they must have a heading in row 1 exactly as specified. `Competition`, `Date`, `Time`, `Home`, `Home Goals`, `v`, `Away Goals`, `Away`, `X`, `Notes`, `Venue`. We also usually have a `Week` column after Competition to show the original week of the match.
+
+Note that all formulas below assume the above columns including Week, in that order, so columns E,F,G,H,I are "home,goals,v,goals,away", and K is Notes, and that the fixtures start on row 3.
 
 The order of the fixtures isn't crucial as the programs that load them to the website sorts them, however you should keep the fixtures in date/competition/home team order as it will then be much easier to enter the weekend's results or find a fixture.
 
@@ -73,17 +75,17 @@ It is recommended to leave the `Venue` column blank unless the game is not at th
 
 Team names must match the name in the Teams sheet. If team names are changed make sure to "Update everything" on the SEMLA Admin page to reload the teams & league setup.
 
-You can set up data validation as below, though if you copy over the previous year's sheet as a staring point the validation should already be there. Go to Data->Data validation, and you can see existing rules, and also add new ones. When you create a new rule you should also open up the "Advanced options" and select to "Reject the input" if data is invalid.
+You can set up data validation as below, though if you copy over the previous year's sheet as a staring point the validation should already be there. Go to Data->Data validation, and you can see existing rules, and also add new ones. When you create a new rule you should also open up the "Advanced options" and select to "Reject the input" if data is invalid, and also tick "Show help text.." and enter a custom error message.
 
-The `v` column is used to mark where a match is, and to mark if a match is conceded. If you enter rows without matches on them you should make sure this column is blank. You should set data validation to Drop-down and add 3 items of v, C, and C24. In Advanced options set the `Display style` to `Plain text`, and add a comment to the heading cell `v - normal game, C - conceded (score should be 10-0), C24 - conceded within 24 hours (score should be 10-0), conceding team gets -1 points, blank - no game`.
+The `v` column is used to mark that there is a match on this row, and to show if a match is conceded. If you enter rows without matches on them you should make sure this column is blank. You should set data validation to Drop-down and add 3 items of v, C, and C24. In Advanced options set the `Display style` to `Plain text`, and add a comment to the heading cell `v - normal game, C - conceded (score should be 10-0), C24 - conceded within 24 hours (score should be 10-0), conceding team gets -1 points, blank - no game`.
 
-You will also probably find it useful to have data validation on the goals columns, so if you have goals in column E then add validation for "Custom formula", and enter `=OR(ISNUMBER(E2),AND(LEN(E2)=1,IFERROR(FIND(E2, "ACRV"),0)>0))`. You can have this rule apply to 2 columns by setting the range to include both columns, e.g. `Fixtures!E2:E269,Fixtures!G2:G269`
+You will also probably find it useful to have data validation on the goals columns, so if you have goals in column F then add validation for "Custom formula is", and enter `=OR(ISNUMBER(F3),AND(LEN(F3)=1,IFERROR(FIND(F3, "ACRV"),0)>0))`. You can have this rule apply to 2 columns by setting the range to include both columns, e.g. `Fixtures!F3:F384,Fixtures!H3:H384`
 
-Column `X` is the points multiplier, which defaults to 1. To make life easier you should set the column header `={"X";ARRAYFORMULA(IF(ISTEXT(E2:E),,IF(REGEXMATCH(J2:J,"(?i)double"),2,)))}` (assumes goals in E and notes in J), that way it will automatically make a match count for double points if the Notes column has "double" anywhere in it. Make sure you add a note to the column heading `Points multiplier - default 1, 2 for double points games`.
+Column `X` is the points multiplier, which defaults to 1. To make life easier you should set the column header `={"X";ARRAYFORMULA(IF(ISTEXT(F3:F),,IF(REGEXMATCH(K3:K,"(?i)double"),2,)))}` (assumes goals in F and notes in K), that way it will automatically make a match count for double points if the Notes column has "double" anywhere in it. Make sure you add a note to the column heading `Points multiplier - default 1, 2 for double points games`.
 
 The `Notes` column isn't used by our programs, but is a useful place to add things like the date a match is rearranged from/to, if it's double points etc.
 
-You may have divisions, for example the Local Midlands, where teams play tournaments at various venues, but still play each other twice. In this case make sure that for every pairing of teams each team is the Home team once, and the Away team once, as otherwise the matches will display oddly on the Fixtures Grid.
+You may have divisions, for example the Local Midlands, where teams play tournaments at various venues, but still play each other twice. In this case, try and ensure that for every pairing of teams each team is the Home team once, and the Away team once, as otherwise the matches will display oddly on the Fixtures Grid.
 
 ### Adding Flags Fixtures
 
@@ -91,13 +93,26 @@ Once a season is set up, and dates are set up on the Flags sheet, then you can a
 
 Technical side note: The program to produce those formulas is a bit of a hack, and relies on the Flags competitions being in the correct order which matches the sequence specified in the database table `sl_competition`. It really should be done using the spreadsheet via a method on `Fixtures_Sheet_Gateway`, but for now it works.
 
-### Missing Results
+### Highlighting Problems
 
-You may find it useful to add an extra column to show the status of match, i.e. if it's not rearranged or has no result. The following formula can be added in the heading row `={"Status";ARRAYFORMULA(IF(F2:F<>"v",,IF(B2:B<TODAY(),IF(ISBLANK(E2:E),"No result",IF(REGEXMATCH(J2:J,"TBA"),"Not rearranged",)),)))}`. This assumes the "v" column is F, the date in B, home goals in E, and notes in J, and that rearranged matches with no future date have 'TBA' in the Notes. It will only display a status if the match date is before today.
+Note that the following assumes that columns C is the date, "E,F,G,H,I" are "home,goals,v,goals,away", K is Notes, and L is the Status column.
 
-You can also highlight rows with missing results by selecting the range to highlight (probably A2:L), then Format->Conditional Formatting, and choose "Custom Formula is", and enter `=NOT(ISBLANK($L2))` and click Done. This assumes that L is the Status column.
+You may find it useful to add an extra column to show the status of match, i.e. if it's not rearranged, or has no result and the date has passed. Create a new column, and add the following formula to the heading row:
+`={"Status";ARRAYFORMULA(IF(G2:G<>"v",,IF((F2:F="R")*REGEXMATCH(K2:K,"TBA"),"Not rearranged",IF((C2:C<TODAY())ISBLANK(F2:F),"No result",))))}`. The formula assumes that rearranged matches have 'TBA' in the Notes. Note that AND and OR don't work in array formulas, so you need to multiply boolean values for AND and add for OR.
 
-To only show missing results you can filter on the Status column, or if you could create a separate tab to show them. To show all columns use `=FILTER(Fixtures!A2:L,NOT(ISBLANK(Fixtures!L2:L)))`, of to limit the columns you can use something like `=FILTER({Fixtures!A2:B,Fixtures!D2:J,Fixtures!L2:L},NOT(ISBLANK(Fixtures!L2:L)))`.
+You can also highlight these rows by selecting Format->Conditional Formatting, and add the following rules. You will need to set "Format rules" to "Custom Formula is".
+
+The first rule also highlights cells which have formulas that users should not update (i.e. they are copied from the Flags sheet, so should be updated there).
+
+| Range | Custom formula | Fill color |
+| ----- | -------------- | ---------- |
+| `E3:F,H3:I,L3:L` | `=ISFORMULA(E3)` | Light grey |
+| `F3:H` | `=$M3="No result"` | Default green |
+| `F3:H,K3:K` | `=$M3="Not rearranged"` | Default yellow |
+
+The top rule needs priority. Either enter it first, or show all rules by selecting entire sheet, Format->Conditional formatting, and drag that rule to the top.
+
+You may want to check these rules and any data validation during the season, as they can become corrupted if rows are moved around, inserted, or deleted.
 
 ### Extracting Different Fixtures Formats
 
@@ -107,7 +122,7 @@ Note that this program will also input the [Flags formulas](#adding-flags-fixtur
 
 ### Quickly Add Flags Group Matches To Fixtures
 
-We have a [simple program](../src/php/flags-group-matches.php) so you can paste group matches to the Fixtures. It will create 3-way matches for the specified groups, with the team names taken from the Divisions sheet. That way you can create the groups before teams are known with team names "TBD1", TBD2", and "TBD3".
+We have a [simple program](../src/php/flags-group-matches.php) so you can paste group matches to the Fixtures. It will create 3-way matches for the specified groups, with the team names taken from the Divisions sheet. That way you can create the groups before teams are known with team names "TBD 1", TBD 2", and "TBD 3".
 
 ## Flags Sheet
 

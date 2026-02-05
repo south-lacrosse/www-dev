@@ -2,6 +2,7 @@ abbrev
 abbrevs
 absint
 Adminer
+ARRAYFORMULA
 callout
 callouts
 color
@@ -16,6 +17,8 @@ Hostinger
 Imagick
 InnoDB
 intval
+ISBLANK
+ISFORMULA
 Litespeed
 localwp
 lscache
@@ -32,6 +35,7 @@ pullout
 Rclone
 ref
 refs
+REGEXMATCH
 SAMEORIGIN
 semla
 semlacur
