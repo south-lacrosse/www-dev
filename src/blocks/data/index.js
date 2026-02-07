@@ -12,7 +12,7 @@ import {
 	ToolbarButton,
 } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
-import { edit as editIcon } from '@wordpress/icons';
+import { pencil } from '@wordpress/icons';
 import ServerSideRender from '@wordpress/server-side-render';
 
 import metadata from './block.json';
@@ -104,7 +104,7 @@ function Edit( { attributes, setAttributes } ) {
 				<ToolbarGroup>
 					<ToolbarButton
 						label="Change data source"
-						icon={ editIcon }
+						icon={ pencil }
 						onClick={ () => {
 							setAttributes( { src: 'none' } );
 						} }

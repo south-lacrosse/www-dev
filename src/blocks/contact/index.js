@@ -16,7 +16,7 @@ import {
 	ToolbarButton,
 } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-import { edit as editIcon, formatIndent } from '@wordpress/icons';
+import { formatIndent, pencil } from '@wordpress/icons';
 
 import metadata from './block.json';
 import transforms from './transforms';
@@ -74,7 +74,7 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 					{ isSelected && ! isBlockIncomplete && (
 						<ToolbarButton
 							label="Edit mode"
-							icon={ editIcon }
+							icon={ pencil }
 							isActive={ isEdit }
 							onClick={ () => setIsEdit( ( state ) => ! state ) }
 						/>
