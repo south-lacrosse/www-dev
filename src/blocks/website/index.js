@@ -11,7 +11,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { Button } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { keyboardReturn } from '@wordpress/icons';
-import { ChainIcon as icon } from './chain';
+import icon from './chain';
 import { filterURLForDisplay } from '@wordpress/url';
 
 import metadata from './block.json';

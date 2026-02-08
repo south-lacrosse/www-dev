@@ -3,7 +3,7 @@ import { Path, SVG } from '@wordpress/primitives';
 // original viewBox was 0 0 48 48 which has padding of 6 on all sides. Can
 // remove with 6 6 36 36, but wordpress/icons have 24x24 images with 16x16
 // content
-const GoogleCalendarIcon = (
+export default (
 	<SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
 		<Path fill="#fff" d="M13 13h22v22H13z" />
 		<Path
@@ -23,4 +23,3 @@ const GoogleCalendarIcon = (
 		/>
 	</SVG>
 );
-export default GoogleCalendarIcon;

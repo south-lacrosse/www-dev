@@ -1,6 +1,6 @@
 import { Path, SVG } from '@wordpress/primitives';
 
-const GoogleMapIcon = (
+export default (
 	<SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 92.3 132.3">
 		<Path
 			fill="#1a73e8"
@@ -24,4 +24,3 @@ const GoogleMapIcon = (
 		/>
 	</SVG>
 );
-export default GoogleMapIcon;
