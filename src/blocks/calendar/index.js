@@ -4,7 +4,6 @@
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import {
-	Icon,
 	ColorPicker,
 	PanelBody,
 	Placeholder,
@@ -14,6 +13,7 @@ import {
 } from '@wordpress/components';
 
 import metadata from './block.json';
+import icon from './google-calendar-icon';
 
 function Edit( { attributes, setAttributes } ) {
 	const { enhanced, tagsList } = attributes;
@@ -137,7 +137,7 @@ function Edit( { attributes, setAttributes } ) {
 				) }
 			</InspectorControls>
 			<Placeholder
-				icon={ <Icon icon="calendar-alt" /> }
+				icon={ icon }
 				label="Embed a Google Calendar"
 				instructions="Enter the Google Calendar Id"
 			>
@@ -162,4 +162,4 @@ function Edit( { attributes, setAttributes } ) {
 	);
 }
 
-registerBlockType( metadata.name, { edit: Edit } );
+registerBlockType( metadata.name, { icon, edit: Edit } );

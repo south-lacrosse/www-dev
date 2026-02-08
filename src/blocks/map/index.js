@@ -26,7 +26,7 @@ import { select, useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 
 import metadata from './block.json';
-import GoogleMapIcon from './google-map-icon';
+import icon from './google-map-icon';
 import transforms from './transforms';
 
 const ALLOWED_BLOCKS = [ 'core/image', 'core/paragraph' ];
@@ -259,7 +259,7 @@ function save() {
 }
 
 registerBlockType( metadata.name, {
-	icon: GoogleMapIcon,
+	icon,
 	edit: Edit,
 	save,
 	transforms,

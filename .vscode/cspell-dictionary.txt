@@ -2,6 +2,7 @@ abbrev
 abbrevs
 absint
 Adminer
+alignwide
 ARRAYFORMULA
 callout
 callouts

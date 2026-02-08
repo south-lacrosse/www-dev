@@ -27,3 +27,9 @@ If you add new non-block modules then you should create a new folder for it, use
 ## Blocks Manifest
 
 In order to improve block performance the `block.json` files can be pre-parsed into a manifest file, rather than these files having to be parsed each time. In our case we generate `blocks/blocks-manifest.php` as part of the `build:blocks` and `start-all` scripts, which is then loaded in `App.php` using `wp_register_block_metadata_collection()`. Note that if you are working on a single block using the `start` script the manifest will not be regenerated, but if you are testing changes to the `block.json` file then you can just comment out that call so that all `block.json` files are parsed on each request (and of course, don't forget to uncomment before committing, and rebuild all the blocks using `build:blocks` so that the manifest is recreated).
+
+## Block Icons
+
+We use the standard [WordPress dashicons](https://developer.wordpress.org/resource/dashicons/) for many of the block icons as those are already built in (though you do have to enqueue the styles for the editor iframe to display in Placeholders), however WordPress only uses SVGs in core blocks, so going forward it may be a good idea to move to SVGs too.
+
+See also the [developer info on icons](../../docs/developer-info.md#icons), which includes details on the The `@wordpress/icons` package, and how to get SVG versions of dashicons.

@@ -235,7 +235,18 @@ Note: If you are working on JavaScript in the plugin or theme using VSCode, then
 
 ### Icons
 
-The Lax theme uses many SVGs (Scalable Vector Graphics) as they scale easily and don't get pixelated, so are a good choice for icons. Useful free libraries are [IcoMoon](https://icomoon.io/) and [Heroicons](https://heroicons.com/).
+The Lax theme uses many SVGs (Scalable Vector Graphics) as they scale easily and don't get pixelated, so are a good choice for icons. Useful free libraries are:
+
+* [@wordpress/icons icon library](https://wordpress.github.io/gutenberg/?path=/story/icons-icon--library) which can simply be imported into blocks
+* [SVG version of WordPress Dashicons](https://github.com/WordPress/dashicons/tree/master/svg-min)
+* [Google Material UI icons](https://fonts.google.com/icons)
+* [IcoMoon](https://icomoon.io/)
+* [Heroicons](https://heroicons.com/)
+
+Useful tools:
+
+* [SVG Crop](https://svgcrop.com/) can get rid of whitespace around an SVG
+* See below for [compression tools](#compression)
 
 The only problem with SVGs is that they aren't supported on really old browsers (IE8), so to allow access to the site for these users all icons which are absolutely required (home, search etc.) we have both a PNG and SVG. The PNG is served by default, and some JavaScript runs to determine if the browser supports SVG, and if it does it adds `svg` to the class on the `<html>` element so that SVGs can be served instead.
 
