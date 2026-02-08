@@ -19,6 +19,7 @@ import { useState } from '@wordpress/element';
 import { formatIndent, pencil } from '@wordpress/icons';
 
 import metadata from './block.json';
+import icon from './icon';
 import transforms from './transforms';
 import { formatTel } from './utils';
 
@@ -103,11 +104,7 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 			) }
 			<div { ...blockProps }>
 				{ isBlockIncomplete || ( isEdit && isSelected ) ? (
-					<Placeholder
-						icon="admin-users"
-						label="Contact"
-						isColumnLayout
-					>
+					<Placeholder icon={ icon } label="Contact" isColumnLayout>
 						<ContactForm
 							attributes={ formAttributes }
 							exclude={ exclude }
@@ -192,4 +189,4 @@ function ContactForm( { attributes, exclude, setAttributes, onChange } ) {
 	);
 }
 
-registerBlockType( metadata.name, { edit: Edit, transforms } );
+registerBlockType( metadata.name, { icon, edit: Edit, transforms } );

@@ -30,6 +30,6 @@ In order to improve block performance the `block.json` files can be pre-parsed i
 
 ## Block Icons
 
-We use the standard [WordPress dashicons](https://developer.wordpress.org/resource/dashicons/) for many of the block icons as those are already built in (though you do have to enqueue the styles for the editor iframe to display in Placeholders), however WordPress only uses SVGs in core blocks, so going forward it may be a good idea to move to SVGs too.
+We use the standard [WordPress dashicons](https://developer.wordpress.org/resource/dashicons/) for many of the block icons as those are already built in (though you would have to enqueue the dashicon styles for the editor iframe to display in Placeholders), however WordPress only uses SVGs in core blocks, so going forward it may be a good idea to move to SVGs too.
 
 See also the [developer info on icons](../../docs/developer-info.md#icons), which includes details on the The `@wordpress/icons` package, and how to get SVG versions of dashicons.

@@ -5,7 +5,6 @@
 	"version": "1.0.0",
 	"title": "Contact",
 	"category": "text",
-	"icon": "admin-users",
 	"description": "Contact with role and name, email, and telephone",
 	"attributes": {
 		"role": {

@@ -6,7 +6,6 @@ import { BlockControls, useBlockProps } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import {
 	Disabled,
-	Icon,
 	Placeholder,
 	ToolbarGroup,
 	ToolbarButton,
@@ -16,6 +15,7 @@ import { pencil } from '@wordpress/icons';
 import ServerSideRender from '@wordpress/server-side-render';
 
 import metadata from './block.json';
+import icon from './icon';
 
 function Edit( { attributes, setAttributes } ) {
 	const [ options, setOptions ] = useState( null );
@@ -73,7 +73,7 @@ function Edit( { attributes, setAttributes } ) {
 		return (
 			<div { ...blockProps }>
 				<Placeholder
-					icon={ <Icon icon="editor-table" /> }
+					icon={ icon }
 					label="SEMLA Data"
 					instructions="Select the data source"
 				>
@@ -128,4 +128,4 @@ function Edit( { attributes, setAttributes } ) {
 	);
 }
 
-registerBlockType( metadata.name, { edit: Edit } );
+registerBlockType( metadata.name, { icon, edit: Edit } );

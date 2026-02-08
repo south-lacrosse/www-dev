@@ -5,7 +5,6 @@
 	"version": "1.0.0",
 	"title": "SEMLA Data",
 	"category": "widgets",
-	"icon": "editor-table",
 	"description": "Add SEMLA data such as league tables or fixtures",
 	"attributes": {
 		"src": {
