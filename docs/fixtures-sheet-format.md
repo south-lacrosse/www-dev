@@ -158,7 +158,7 @@ Competitions remarks, which will be displayed under the league table or flags dr
 
 ## Deductions Sheet
 
-This sheet is optional. Columns are `League & Division` (must be Full name from Divisions Sheet), `Team`, `Penalty` (must be positive value), `Date`, `Reason`. You should add Data Validation (criteria Drop-down from a range) to the `League & Division` (`=Divisions!C2:C`) and `Team` (`=Teams!A2:A`).
+This sheet is optional. Columns are `League & Division` (must be Full name from Divisions Sheet), `Team`, `Penalty` (must be positive value), `Date`, `Reason`. You should add Data Validation (criteria Drop-down from a range) to the `League & Division` (`=Divisions!C$2:C`) and `Team` (`=Teams!A$2:A`).
 
 ## Division Order Sheet
 
