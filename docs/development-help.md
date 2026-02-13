@@ -375,21 +375,13 @@ Commands (`:` first):
 
 To reinstall with the most recent update (will not install newer versions, so 1.9.9 won't be updated to 2.0.0) then delete `package-lock.json` and run `npm i`.
 
-To reinstall to the absolutely latest version, delete `package-lock.json` and delete the `devDependencies` section from `package.json`, then run `npm i <packages> --save dev` for all the packages used, which as time of writing would be `npm i @wordpress/icons @wordpress/scripts autoprefixer cross-env inline-source-cli npm-run-all postcss postcss-cli postcss-csso svgo uglify-js --save-dev`.
+To reinstall to the absolutely latest version, delete `package-lock.json`, make a list of the `devDependencies` section from `package.json` and then remove that section, then run `npm i <packages> --save dev` for all the packages used.
 
 You can update node itself from the command line in Linux, but for Windows & Mac you need to download a new installer.
 
 ### Npm Scripts
 
-You will note a few scripts use `cross-env-shell`. This is because there is no built-in cross-platform way of accessing environment variables from npm scripts. We could have created Unix & Windows scripts, but it's simpler to use `cross-env-shell` e.g.
-
-```json
-"scripts": {
-  "hi:unix": "echo $SEMLA_WWW",
-  "hi:windows": "echo %SEMLA_WWW%",
-  "hi:cross-platform": "cross-env-shell echo $SEMLA_WWW"
-}
-```
+You will note a few scripts use `cross-replace`. This is because there is no built-in cross-platform way of accessing environment variables from npm scripts, so you'd need `echo %SEMLA_WWW%` for Windows and `echo $SEMLA_WWW` for anything else.
 
 ### Browser Data
 
