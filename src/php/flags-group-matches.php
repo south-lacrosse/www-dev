@@ -3,24 +3,24 @@
  * Quick fudge to create fixtures rows with all the correct flags group matches,
  * with teams taken from the Divisions sheet so that they can be easily changed
  *
- * run with something like "php flags-group-matches.php > work\groups.tsv",
- * and then copy the file and paste into the Google Sheet with Ctrl-v
+ * Run with something like "php flags-group-matches.php > work\groups.tsv", and
+ * then copy the file and paste into the Google Sheet with Ctrl+V (or
+ * Ctrl+Shift+V)
  *
  * IMPORTANT: assumes 3 teams per group!
  */
 
- $date = '22/03/2025';
+ $date = '14/03/2026';
 
 // groups is Division sheet row no. => [competition,location]
 $groups = [
-	11 => ['Senior Flags A', 'Bromley'],
-	12 => ['Senior Flags B', 'Hillcroft 1'],
-	13 => ['Intermediate Flags A', 'Walcountians'],
-	14 => ['Intermediate Flags B', 'Bristol Bombers'],
-	15 => ['Intermediate Flags C', 'Cheltenham'],
-	16 => ['Minor Flags A', 'Buckhurst Hill'],
+	11 => ['Senior Flags A', ''],
+	12 => ['Senior Flags B', ''],
+	13 => ['Intermediate Flags A', ''],
+	14 => ['Intermediate Flags B', ''],
+	15 => ['Intermediate Flags C', ''],
+	16 => ['Minor Flags A', 'Leicester City 1'],
 	17 => ['Minor Flags B', 'Bath'],
-	18 => ['Minor Flags C', 'Leicester City 1'],
 ];
 
 // columns on Division sheet are G,H,I
