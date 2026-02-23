@@ -13,6 +13,6 @@ var d = document.documentElement;
 if ( 'addEventListener' in window ) {
 	d.className = 'js';
 }
-if ( typeof SVGRect !== 'undefined' ) {
-	d.className += ' svg';
+if ( typeof SVGRect === 'undefined' ) {
+	d.className += ' no-svg';
 }
