@@ -248,7 +248,7 @@ Useful tools:
 * [SVG Crop](https://svgcrop.com/) can get rid of whitespace around an SVG
 * See below for [compression tools](#compression)
 
-The only problem with SVGs is that they aren't supported on really old browsers (IE8), so to allow access to the site for these users all icons which are absolutely required (home, search etc.) we have both a PNG and SVG. The PNG is served by default, and some JavaScript runs to determine if the browser supports SVG, and if it does it adds `svg` to the class on the `<html>` element so that SVGs can be served instead.
+The only problem with SVGs is that they aren't supported on really old browsers (IE8), so to allow access to the site for these users for all icons which are absolutely required (home, search etc.) we have both a PNG and SVG. The SVG is served by default, and some JavaScript runs to determine if the browser supports SVG, and if it doesn't it adds `no-svg` to the class on the `<html>` element so that PNGs can be served instead. We do it this way round so that if a user has JavaScript turned off they get the SVGs, as in the vast majority of cases this will be a modern browser just with JavaScript disabled. Users with really old browsers will need to access the site with JavaScript turned on.
 
 To create a PNG from the SVG use [Inkscape](https://inkscape.org/en/) (Note: if you install a new version of Inkscape make sure to uninstall the previous version first). You can set the stroke colour in `Object->Fill and Stroke...` to anything you want, then `File->Export PNG Image..`.
 
