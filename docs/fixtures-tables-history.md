@@ -40,6 +40,7 @@ If you add a new competition only set the `history_page` when you are running th
 
 * `league`
 * `league-prelim` - a league that won't have a winner, usually a prelim like a qualifying conference
+* `playoff` - extra games for a league, e.g. Midlands Final Four. Won't be displayed anywhere except on the fixtures, must have  `related_comp_id` set to the main competition. It might be worth changing the way playoffs are handled, to possibly process them like cups with a parent league (i.e. opposite to `cup-group`), but that seems like excessive work for practically no reward.
 * `ladder` - a ladder where teams from different divisions play each other, with points applying to their respective divisions
 * `cup` - cup competition, e.g. flags. Preliminary competitions should have the `related_comp_id` set the to the main competition.
 * `cup-group` - group (league) stage of flags

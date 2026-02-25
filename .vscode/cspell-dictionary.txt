@@ -28,6 +28,8 @@ mkdir
 nosniff
 oembed
 opcache
+playoff
+playoffs
 plugin
 plugins
 postdata

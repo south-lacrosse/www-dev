@@ -61,6 +61,8 @@ Only the first letter is used to determine the sort order, but you should put in
 
 Add any ladders (e.g. Division 1 and 2 teams play each other, with the results counting in their respective divisions), but omit teams. The ladder must have a row on the `sl_competition` table, with type = "ladder", and related_comp_id and related_comp_id2 set to the divisions it relates to, e.g. "SEMLA Division 1/2 Ladder" has comp_ids for "SEMLA Division 1" and "SEMLA Division 2".
 
+Add playoff competitions (i.e Local Midlands Final Four) here. Must have a row on the `sl_competition` table, with type = "playoff", and related_comp_id set to the division the playoff is for. Fixtures will be shown for the main competition.
+
 ## Fixtures Sheet
 
 The columns can be in any order, but they must have a heading in row 1 exactly as specified. `Competition`, `Date`, `Time`, `Home`, `Home Goals`, `v`, `Away Goals`, `Away`, `X`, `Notes`, `Venue`. We also usually have a `Week` column after Competition to show the original week of the match.
