@@ -176,7 +176,11 @@ function Edit( { clientId, attributes, setAttributes, isSelected } ) {
 					<iframe
 						title="Map"
 						id="semla-map-iframe"
-						src={ getScriptUrl() + '../../modal/map-dialog.html' }
+						src={
+							getScriptUrl() +
+							'../../modal/map-dialog.html' +
+							( window.crossOriginIsolated ? '?isolated' : '' )
+						}
 					/>
 					<div role="group" className="semla-map-buttons">
 						<Button
