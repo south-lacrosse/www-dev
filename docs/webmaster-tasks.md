@@ -35,6 +35,8 @@ The only releases you really need to worry about are the major releases, which a
 
 If you have used one of the first two methods then you should also update the database using `wp core update-db`.
 
+If you find that WordPress is automatically updating to each nightly release, then you can turn off automatic updates by adding `define( 'WP_AUTO_UPDATE_CORE', false );` to `wp-config.php`. And don't forget to remove that once the actual release is ready to be installed.
+
 The simplest way to bulk test the site for errors is to make sure `WP_DEBUG` and `WP_DEBUG_LOG` are set in `wp-config.php`, run the [Validate Website tool](development-help.md#other-useful-tools) to load and validate the HTML in all the pages, and also the check the debug log for any PHP errors.
 
 You can find out information about upcoming releases from [the WordPress releases page](https://wordpress.org/news/category/releases/).
