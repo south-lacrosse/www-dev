@@ -53,6 +53,8 @@ Before you update make sure that you make a note of all settings, including whic
 
 The hosts should have a way to see the current settings, or you can log into WordPress as an administrator and go to `Tools > PHP Info`.
 
+Note that as of PHP 8.5, `php --ini=diff` will display values that differ from the defaults, though some settings such as `implicit_flush` will get turned on when using the CLI.
+
 ## Database
 
 You should periodically make sure the database is performing well.
