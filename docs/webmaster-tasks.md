@@ -43,6 +43,16 @@ You can find out information about upcoming releases from [the WordPress release
 
 One area you may miss is that if the blocks API has changed there might be deprecations or changes to functions our blocks use, or new versions of core blocks. The easiest way to check this is to open up the DevTools in your browser, go to the Console tab, and edit a club, page, and post. Any issues should be written to the console.
 
+## New Releases Of PHP
+
+New versions of PHP usually come out once a year in November or December. When they do you should test locally to see if it causes any issues.
+
+Hosts should allow you to select the version of PHP the site is running on, and they usually won't upgrade unless you tell them to (or your version of PHP is very out of date), so once the new PHP is generally released you can use the host't mechanisms to update.
+
+Before you update make sure that you make a note of all settings, including which extensions are loaded, as hosts often reset these values when you change version.
+
+The hosts should have a way to see the current settings, or you can log into WordPress as an administrator and go to `Tools > PHP Info`.
+
 ## Database
 
 You should periodically make sure the database is performing well.
@@ -96,7 +106,9 @@ Once the key is changed you should clear all caches, and probably wait a day to 
 
 ## Search Console
 
-You should have access to [Google Search Console](https://search.google.com/search-console?resource_id=sc-domain:southlacrosse.org.uk) (if you don't have access try switching user to your southlacrosse email using the icon in the top right). In the console you can see all details of Google searches, and other useful information such as mobile usability issues.
+You should have access to [Google Search Console](https://search.google.com/search-console?resource_id=sc-domain:southlacrosse.org.uk) (if you don't have access try switching user to the SEMLA Webmaster Google account using the icon in the top right). In the console you can see all details of Google searches, and other useful information such as mobile usability issues.
+
+We have also set up [Bing Webmaster Tools](https://www.bing.com/webmasters), which you can log into with the SEMLA Webmaster Google account.
 
 ## Broken Links
 
