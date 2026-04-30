@@ -4,6 +4,26 @@ Useful info in case we have to move to a new server.
 
 Note: when we say to run a command that means you should connect to the server via SSH and run the command from there. The new hosts should provide the initial login details.
 
+## Moving DNS Nameservers
+
+We probably have our domain pointing to the current host's DNS nameservers. If that's the case, then the first step should be to copy any relevant records to the new host's nameservers.
+
+At a minimum there should be:
+
+* `CNAME` records pointing subdomains to external servers
+* DMARC and SPF `TXT` records, though these are also covered below
+* `google-site-verification` TXT "@" record, to verify to Google Search Console that we own the site
+
+You'll need to figure out which values need to be copied, but it should be obvious. The new hosts should populate MX and DKIM records, email autodiscovery, etc., and you should be setting up the www and staging sites on the new server, so you won't need those.
+
+Pointing our domain to a new nameserver should be the last step in this process.
+
+## Testing By Overriding DNS
+
+For testing you can add a record to your local hosts file pointing the www domain to the new server's IP address, so that on your machine, and your machine only, `www.southlacrosse.org.uk` will resolve to the new server. You will probably want to wait until the new server is set up to do this, as this setting will block you from using that URL to access the old server. Though of course you can just comment/uncomment that record to toggle that mapping.
+
+## Initial Setup
+
 Since we don't want to be entering passwords all the time (and assuming you have [SSH keys set up](development-help.md#ssh-keys) for the old server), the first thing to do is copy over the authorised keys. You can just copy and paste or ftp `~/.ssh/authorized_keys` from the old server to the new. You should make sure that your SSH directory is secure by running `chmod 700 ~/.ssh;chmod 600 ~/.ssh/*`.
 
 You might want to generate new keys, but copying over the old keys should be fine as they are the public keys, not the private ones.
@@ -218,10 +238,16 @@ Note: the `bin\dmarc*.sh` scripts assume DmarcSrg is installed in `sub/dmarc-srg
 
 We use SMTP for sending mails from WordPress (automatic core/plugin/theme updates, password resets etc.), as the default method can be flaky, and will also cause SPF verification issues. You will need to make sure you set up the WordPress email account on the new server. The mailbox user and password are held in the `wp-config.php` file so as not to save them in the database.
 
-## DNS Change
-
-When you change the DNS records to point to the new host's nameservers you can use a useful tool <https://www.whatsmydns.net/#A/www.southlacrosse.org.uk> to see where the change has propagated to.
-
-## Finally
+## Add Backups
 
 Once everything is set up and working then you should add [Automated Backups](backups.md#automating-backups).
+
+## Final Step - DNS Change
+
+**Important** before you do this make sure you have copied over any required DNS records from the old nameserver.
+
+Once everything is setup, tested, and working, the final step is to point the domain to the new servers. On our current setup, this will be done by pointing our domain to the new host's DNS nameservers.
+
+Information about the domain and where it is registered (i.e. where you will need to change the nameservers) and login information is held in a Google Docs document called "Webmaster Info" under the Webmaster Google account.
+
+When you change the DNS records to point to the new host's nameservers you can use a useful tool <https://www.whatsmydns.net/#A/www.southlacrosse.org.uk> to see where the change has propagated to.

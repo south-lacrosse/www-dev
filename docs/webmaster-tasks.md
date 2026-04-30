@@ -81,6 +81,14 @@ You can also optimize the complete database with the command `wp db optimize`, t
 
 Note you don't need this on `slc_` and `backup_` tables as these are recreated when the fixtures are reloaded.
 
+## Domain Renewal
+
+As of writing, the domain is registered until 01-Apr-2035. You can check this with a whois search.
+
+Login information for the domain registrar is held in a Google Doc called "Webmaster Info" under the Webmaster Google account.
+
+The registrar should email the Webmaster GMail account several months before renewal.
+
 ## Email Authentication (DMARC) Failures
 
 You should receive weekly DMARC summary emails to the Webmaster email address, which will alert you to any possible problems. For more details see [Email Authentication](setting-up-server.md#email-authentication) and [DMARC Monitoring](setting-up-server.md#dmarc-monitoring).
