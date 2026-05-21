@@ -41,7 +41,8 @@
 		"js-glightbox": "node ./src/scripts/glightbox-bundle.mjs",
 		"build:glightbox": "run-s glightbox js-glightbox",
 		"lint": "run-s lint:*",
-		"build": "run-s build:*"
+		"build": "run-s build:*",
+		"check-links": "set NODE_TLS_REJECT_UNAUTHORIZED=0&& npx linkinator https://dev.southlacrosse.org.uk/"
 	},
 	"devDependencies": {
 		"@wordpress/icons": "^11.6.0",

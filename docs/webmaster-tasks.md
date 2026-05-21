@@ -124,18 +124,11 @@ We have also set up [Bing Webmaster Tools](https://www.bing.com/webmasters), whi
 
 This probably only needs to be checked every couple of months. You should run this on a local copy of the website, so download the latest backup and load it using `bin/load-production-backup.sh`.
 
-Note: `https://content.googleapis.com/` and `https://maps.gstatic.com/` will probably show up as errors. They are used in `<link rel='preconnect'>` tags so just refer to domains that should be looked up early, but most tools assume these are pages, and those URLs return 404s.
-
-There are many ways to do this, but the following work well for Windows:
-
-* [Xenu's Link Sleuth](https://home.snafu.de/tilman/xenulink.html) - old, but still good. Make sure to exclude `tel:` and `data:` URLs otherwise you will see excessive messages.
-* [SEO Macroscope](https://nazuke.github.io/SEOMacroscope/blog/) - this program uses the sitemap, which isn't produced in a non-production environment. Therefore to test comment out the line `define('WP_ENVIRONMENT_TYPE','development');` in `wp-config.php` (and don't forget to put it back afterwards).
-
-You can also run the [Broken Link Checker](https://wordpress.org/plugins/broken-link-checker/) WordPress plugin, though again this should be run on a local copy of the site.
+Make sure the local version of the website is running on `dev.southlacrosse.org.uk`, and run `npm run check-links` which runs [Linkinator](https://github.com/JustinBeckwith/linkinator) to validate the links. Note that this runs under Node, and it will reject connections to self-signed certificates that will be used for the dev HTTPS certificates, so `NODE_TLS_REJECT_UNAUTHORIZED=0` must be set to allow them.
 
 Local also has a link checker tool, however we don't recommend it as it runs extremely slowly (at least in Version 9.2.6), and uses a lot of resources.
 
-We also provide a [useful PHP script](../src/php/test-links.php) to check links and where they are redirected to, which is useful if you see 302 Redirect messages and want to bulk find the new URLs, and also to see if short links such as `https://maps.app.goo.gl/xYyhFKuzuderAPc47` end up at a valid page. See the comments at the top of the file for details.
+We also provide a [useful PHP script](../src/php/test-links.php) to check links and where they are redirected to, which is useful if you see 301/302 Redirect messages and want to bulk find the new URLs, and also to see if short links such as `https://maps.app.goo.gl/xYyhFKuzuderAPc47` end up at a valid page. See the comments at the top of the file for details.
 
 ## Media Files
 

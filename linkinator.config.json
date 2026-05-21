@@ -1,0 +1,11 @@
+{
+	"//skip": "links to add to Google calender always return 302, so ignore",
+	"skip": "calendar.google.com",
+	"recurse": true,
+	"verbosity": "error",
+	"timeout": 1000,
+	"checkFragments": true,
+	"cleanUrls": true,
+	"redirects": "error",
+	"retryErrors": true
+}
