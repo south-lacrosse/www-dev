@@ -45,17 +45,17 @@
 		"check-links": "set NODE_TLS_REJECT_UNAUTHORIZED=0&& npx linkinator https://dev.southlacrosse.org.uk/"
 	},
 	"devDependencies": {
-		"@wordpress/icons": "^11.6.0",
-		"@wordpress/scripts": "^31.4.0",
-		"autoprefixer": "^10.4.24",
+		"@wordpress/icons": "^13.1.0",
+		"@wordpress/scripts": "^31.8.0",
+		"autoprefixer": "^10.5.0",
 		"cross-replace": "^0.2.0",
 		"glightbox": "^3.3.1",
 		"inline-source": "^8.0.3",
 		"npm-run-all": "^4.1.5",
-		"postcss": "^8.5.6",
+		"postcss": "^8.5.15",
 		"postcss-cli": "^11.0.1",
 		"postcss-csso": "^6.0.1",
-		"svgo": "^4.0.0",
+		"svgo": "^4.0.1",
 		"uglify-js": "^3.19.3"
 	}
 }
