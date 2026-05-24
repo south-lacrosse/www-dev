@@ -23,7 +23,7 @@
 		// https://developers.google.com/maps/documentation/javascript/reference
 		const [
 			{ Map },
-			{ ControlPosition, LatLng, LatLngBounds },
+			{ ControlPosition, LatLng },
 			{ PlaceAutocompleteElement },
 			{ AdvancedMarkerElement },
 		] = await Promise.all( [

@@ -1,6 +1,17 @@
 {
 	"extends": [ "plugin:@wordpress/eslint-plugin/recommended" ],
+	"settings": {
+		"import/internal-regex": "^@wordpress/"
+	},
+
 	"rules": {
+		"curly": [ "error", "multi-line" ],
+		"import/no-unresolved": [
+			"error",
+			{
+				"ignore": [ "^@wordpress/" ]
+			}
+		],
 		"prettier/prettier": [ "error", { "endOfLine": "auto" } ]
 	}
 }
