@@ -2,9 +2,9 @@
 
 See also [debugging WordPress blocks](../../docs/development-help.md#debugging-wordpress-blocks).
 
-This is the source directory for our WordPress blocks and other block editor related code. They are built using the WordPress provided `wp-scripts`, and compiled to the `plugin` directory in the `www` repository.
+This is the source directory for our WordPress blocks and other block editor related code. They are built using the WordPress provided `wp-scripts`, and compiled to our plugin directory in the `www` repository.
 
-You **must** have the environment variable `SEMLA_WWW` set to point to the location of your `www` directory. Note that it should be in Unix style format even on Windows e.g. `set SEMLA_WWW=C:/Users/{user}/localwp/south-lacrosse/app/public`.
+**Important** The build scripts expect the `www` repository to be located in directory `www` in the root of this project.
 
 The following scripts are set up in `package.json` (run with `npm run script-name`):
 

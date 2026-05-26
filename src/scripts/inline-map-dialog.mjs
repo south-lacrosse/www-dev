@@ -5,11 +5,7 @@
 import { inlineSource } from 'inline-source';
 import fs from 'fs';
 
-if ( ! process.env.SEMLA_WWW ) {
-	throw new Error( 'Environment variable SEMLA_WWW not set' );
-}
-const out =
-	process.env.SEMLA_WWW + '/wp-content/plugins/semla/modal/map-dialog.html';
+const out = 'www/wp-content/plugins/semla/modal/map-dialog.html';
 
 const html = await inlineSource( 'src/blocks/map/map-dialog.html', {
 	compress: true,

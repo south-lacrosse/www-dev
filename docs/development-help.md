@@ -381,7 +381,7 @@ You can update node itself from the command line in Linux, but for Windows & Mac
 
 ### Npm Scripts
 
-You will note a few scripts use `cross-replace`. This is because there is no built-in cross-platform way of accessing environment variables from npm scripts, so you'd need `echo %SEMLA_WWW%` for Windows and `echo $SEMLA_WWW` for anything else.
+You will note some scripts use `cross-replace`. This is because there is no built-in cross-platform way of accessing environment variables from npm scripts, so you'd need `echo %SEMLA_BLOCK%` for Windows and `echo $SEMLA_BLOCK` for anything else.
 
 ### Browser Data
 

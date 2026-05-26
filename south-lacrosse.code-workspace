@@ -1,12 +1,11 @@
 {
 	"folders": [
 		{
-			"name": "www-dev",
+			"name": "dev",
 			"path": "."
 		},
 		{
-			"name": "www",
-			"path": "..\\south-lacrosse\\app\\public"
+			"path": "www"
 		}
 	],
 	"settings": {
@@ -14,14 +13,15 @@
 		"cSpell.customDictionaries": {
 			"semla-words": {
 				"name": "semla-words",
-				"path": "${workspaceFolder:www-dev}/.vscode/cspell-dictionary.txt",
+				"path": "${workspaceFolder:dev}/.vscode/cspell-dictionary.txt",
 				"description": "SEMLA words",
 				"addWords": true
 			}
 		},
 		"editor.insertSpaces": false,
 		"files.exclude": {
-			"**/node_modules": true
+			"**/node_modules": true,
+			"www/": true
 		},
 		"files.associations": {
 			".htaccess-semla": "apacheconf"

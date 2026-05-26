@@ -89,11 +89,7 @@ $fixtures = [
 	'2026-03-22101' => "Midlands Final Four F\t\t22/03/2026\t\t\t\tv",
 ];
 
-
-$www_dir = getenv('SEMLA_WWW');
-if ($www_dir === false) die('Environment variable SEMLA_WWW not set');
-if (! is_dir($www_dir)) die("SEMLA_WWW environment variable is not a directory ($www_dir)");
-require $www_dir . '/wp-content/plugins/semla/core/Data_Access/SimpleXLSX.php';
+require dirname(__DIR__,2) . '/www/wp-content/plugins/semla/core/Data_Access/SimpleXLSX.php';
 
 $xlsx = load_xlsx($fixtures_file);
 foreach ($fixtures_sheets as $sheet) {

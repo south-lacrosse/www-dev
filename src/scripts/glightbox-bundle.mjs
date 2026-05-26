@@ -5,10 +5,7 @@
 import fs from 'fs';
 import UglifyJS from 'uglify-js';
 
-if ( ! process.env.SEMLA_WWW ) {
-	throw new Error( 'Environment variable SEMLA_WWW not set' );
-}
-const pluginDir = process.env.SEMLA_WWW + '/wp-content/plugins/semla/';
+const pluginDir = 'www/wp-content/plugins/semla/';
 
 let output = fs.readFileSync( pluginDir + 'js/glightbox.min.js', 'utf8' );
 const minified = UglifyJS.minify(

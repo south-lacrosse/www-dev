@@ -2,14 +2,10 @@
  * Create editor-style.css from style.css by removing everything between
  * comments with "start non-editor" to "end non-editor"
  */
-
 import fs from 'fs';
 import path from 'path';
 
-if ( ! process.env.SEMLA_WWW ) {
-	throw new Error( 'Environment variable SEMLA_WWW not set' );
-}
-const themeDir = path.join( process.env.SEMLA_WWW, '/wp-content/themes/lax' );
+const themeDir = 'www/wp-content/themes/lax';
 const stats = fs.lstatSync( themeDir, { throwIfNoEntry: false } );
 if ( ! stats?.isDirectory() ) {
 	throw new Error( `Unknown directory ${ themeDir }` );

@@ -3,10 +3,10 @@
 # find all suffixes in WordPress dirs so we can decide what to block in
 # .htaccess
 use File::Path;
-use File::Basename;
+use FindBin '$Bin';
 
-die "SEMLA_WWW environment variable not set" if !defined $ENV{'SEMLA_WWW'};
-die "SEMLA_WWW environment variable is not a directory ($ENV{'SEMLA_WWW'})" if ! -d $ENV{'SEMLA_WWW'};
+my $www_dir = "$Bin/../www";
+die "No www directory" if ! -d $www_dir;
 
 my %sfx;
 suffixesForDir('wp-content');
@@ -17,7 +17,7 @@ sub suffixesForDir {
     my ($dir) = @_;
 
     %sfx = ();
-    processDir("$ENV{'SEMLA_WWW'}/$dir");
+    processDir("$www_dir/$dir");
     print "\n\n$dir\n";
     for my $suffix (keys %sfx) {
         print " $suffix - $sfx{$suffix}\n";

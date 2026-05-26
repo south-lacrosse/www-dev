@@ -10,7 +10,7 @@ Local stores files in various places, but the most important one to know is how 
 {sites path}          e.g. C:\Users\{user}\localwp
 ├── {site folder}     e.g. south-lacrosse
 │   ├── app
-│   │   ├── public    website source (or www), including WordPress
+│   │   ├── public    website source, including WordPress
 │   │   └── sql
 │   ├── conf
 │   │   ├── apache
@@ -20,6 +20,15 @@ Local stores files in various places, but the most important one to know is how 
 ├── {another site folder}
 └── ...
 ```
+
+Our clones of the repositories should be:
+
+```txt
+www-dev   (this repo)
+└── www   (www repo - website source, including WordPress)
+```
+
+In order to link these the best option is to symlink `app\public` to `www-dev\www`, as detailed below.
 
 ## Creating The South Lacrosse Site In Local
 
@@ -35,22 +44,23 @@ Once Local is installed you should create a site for the South Lacrosse website.
     * On step 3 set your administrator username and password to admin/admin, and leave the email. These will all be replaced later anyway.
     * It will then take a couple of minutes to install, probably asking for firewall permissions on the way (you should allow private networks not public). Once your site is started you should see its details.
 1. Under `SSL` click `Trust` to add the certificate to the current user's trusted list. That will stop your browser complaining that the site is insecure when you access it via HTTPS. You will need to restart your browser for this to take effect.
-1. Note: just under the site name you will see a link for "Go to site folder" which you will need in the next steps.
-1. Local doesn't enable some common Apache modules by default. At a minimum you should enable `mod_headers`, and `mod_expires`. Edit file `{site folder}\conf\apache\modules.modules.conf.hbs` and add the following lines:
+1. Just under the site name you will see a link for "Site folder" which you will need in the next steps.
+1. Local doesn't enable some common Apache modules by default. At a minimum you should enable `mod_headers`. Edit file `{site folder}\conf\apache\modules.modules.conf.hbs` and add the following line:
 
     ```apache
     LoadModule headers_module "{{ modules }}/mod_headers.so"
-    LoadModule expires_module "{{ modules }}/mod_expires.so"
     ```
 
-1. Local also doesn't load `mod_deflate`, which is used in production to automatically compress all server output. For local development it isn't worth compressing/decompressing each request, but you can add it as above if you are testing that functionality.
+    You might also add the following, though they aren't generally warranted on a local environment:
+
+    * `mod_expires` if you will be testing cacheing
+    * `mod_deflate` if you will be testing compression
+
 1. You should change Local's PHP configuration, which is at `{site folder}\conf\php\php.ini.hbs`, as below.
     * Change `short_open_tag = On` to `Off` as hosts usually have this off. With this option Off short tags (`<?` instead of `<?php`) cause an error, so it's important that the local environment matches production in order to catch errors early on.
-    * You should be using PHP8+, which uses Xdebug 3. Xdebug does add some additional overhead, so this can be toggled within Local for each site, however that requires the site's web server to restart for each change.
+    * You should be using PHP8+, which uses Xdebug 3. Xdebug does add some additional overhead, so this can be toggled within Local for each site, however that requires the site's web server to restart.
 
-        Local usually always loads the Xdebug extension, and just disables/enables it. You might want to change it so that the extension is only loaded when Xdbeug is enabled.
-
-        Local has `xdebug.start_with_request=yes`, so when Xdebug is enabled it will try and connect to the debugging session on every request, which will result in a 200ms delay if you don't have a debugger listening.
+        The Local PHP configuration has `xdebug.start_with_request=yes`, so when Xdebug is enabled it will try and connect to the debugging session on every request, which will result in a 200ms delay if you don't have a debugger listening.
 
         You can also set `xdebug.start_with_request=trigger` so that Xdebug will only connect to the debugging session when a specific environment variable or cookie is set, and therefore minimizes the performance impact when you are not actively debugging (don't forget to disable Xdebug when you are completely finished debugging though). You can then install a [browser extension to control this](https://xdebug.org/docs/step_debug#browser-extensions), and we provide `\bin-local\wpd.bat` to run WP-CLI in debug mode.
 
@@ -74,14 +84,23 @@ Once Local is installed you should create a site for the South Lacrosse website.
         You can remove both the `unless` lines to re-enable (or comment them out with `{{!#unless apache}}` and `{{!/unless}}`). You should also set `opcache.enable_cli=0`, which stops errors in WP-CLI (and shouldn't be enabled anyway).
 
         Note: for later versions of PHP OPcache is a required extension that is built into every binary, so you won't see the `zend_extension` lines.
-1. If you want to use WP-CLI from a `bash` shell on Windows you then you may encounter an error "'C:\Program' is not recognized as an internal or external command, operable program or batch file." when you run the `wp` command.
+1. Next [clone the repositories](developer-info.md#cloning-the-repositories). We put them in `{sites path}`, but it doesn't matter where they are.
 
-    This is probably because the `wp` file has Windows line endings, so you need to convert the file to Unix format with LF line endings. The file should be `C:\Program Files (x86)\Local\resources\extraResources\bin\wp-cli\win32\wp`, but if not you can find it with `which wp`. You will need Administrator rights to change it if the file is in `Program Files (x86)`.
+    Note: below we refer to the location of the `www` repository as the `www` directory.
+1. You may need to stop or start the site in Local for the following steps.
+1. We will then move all the WordPress code to the `www` directory, so the Local WordPress site and our WordPress code is merged. Then to make Local use that directory we will create a symlink, so the Local `public` directory is our `www` directory.
+    1. Copy the contents of `{site folder}\app\public` to `www`.
+    1. Delete `{site folder}\app\public`
+    1. Create a symbolic link from `{site folder}\app\public` to `www`.
 
-    There are many ways to convert to Unix format. You can do that with the utility `dos2unix` if you have it, or VSCode and Notepad++ have an option to change the end of line sequence, so you can save from there.
-1. Next we need to clone the repositories. Make sure you clone to the `{sites path}` directory. It doesn't actually matter for the `www` repo as that will be moved later, but `www-dev` must be located there for the [VSCode setup](vscode.md).
+    ```console
+    cd {site folder}\app\
+    # Windows - run as Administrator
+    mklink /d public C:\location\of\www-dev\www
+    # Linux/mac
+    ln -s /path/to/www-dev/www public
+    ```
 
-    See [instructions on how to clone the repositories](developer-info.md#cloning-the-repositories).
 1. You should then [follow the rest of the instructions](developer-info.md#configuring-local-development) in Developer Information to complete setting up the site.
 
 ## Using Local
@@ -99,7 +118,11 @@ Local can automatically log you in to WordPress by going to your site and enabli
 Local will intercept any emails sent by WordPress. To see them go to your site in Local, and under Utilities
 you will find Mailpit (or Mailhog for versions < 9).
 
+Also ee [/bin-local/local](../bin-local/local) for some useful Windows batch files.
+
 ## Possible Issues
+
+### Warning:  mysqli_real_connect()
 
 If you have `WP_DEBUG` set to true you may notice `Warning:  mysqli_real_connect(): (HY000/2002)...` errors popping up in the error log, which is because Local sometimes runs WP-CLI before the database is running. To stop this you can disable `WP_DEBUG` for CLI in your `www/wp-config.php` file:
 
@@ -112,7 +135,19 @@ if (defined( 'WP_CLI' ) && WP_CLI) {
 }
 ```
 
+### WP-CLI
+
+If you want to use WP-CLI from a `bash` shell on Windows you then you may encounter an error "'C:\Program' is not recognized as an internal or external command, operable program or batch file." when you run the `wp` command.
+
+This is probably because the `wp` file has Windows line endings, so you need to convert the file to Unix format with LF line endings. The file should be `C:\Program Files (x86)\Local\resources\extraResources\bin\wp-cli\win32\wp`, but if not you can find it with `which wp`. You will need Administrator rights to change it if the file is in `Program Files (x86)`.
+
+There are many ways to convert to Unix format. You can do that with the utility `dos2unix` if you have it by running [local-fix-wp.bat](../bin-local/local/local-fix-wp.bat), or VSCode and Notepad++ have an option to change the end of line sequence, so you can save from there.
+
+### Nginx Running on Port 80
+
 Occasionally Local may leave nginx running on port 80 even after you exit Local. If you need to run another server using port 80 and it's blocked, then you will need to stop nginx in the task manager.
+
+### XDebug Timeout
 
 If you are using Xdebug and are finding the session times out quickly then you may need to increase the FastCGI timeout in `{site folder}\conf\apache\site.conf.hbs`. After `<IfModule fcgid_module>` add a line `FcgidIOTimeout 600`, and restart the site.
 
@@ -120,7 +155,7 @@ If you are using Xdebug and are finding the session times out quickly then you m
 
 The best way to run [VSCode](vscode.md) is to make sure you run Local's Site shell script to set up correct paths and the environment, and then run VSCode. This is because Local doesn't add anything to your system path or settings, but VSCode needs those settings e.g. you need a PHP executable on your path (or added as a setting) so that it can validate your PHP code.
 
-On Windows we provide a script to do this at `\bin-local\code-sl.bat`, though to use it this repo *must* be in `C:\Users\{user}\{sites path}\www-dev` as it uses relative paths and has minimal error checking. You will need to know the `{site slug}` (see above).
+On Windows we provide a script to do this at `\bin-local\code-sl.bat`. You will need to know the `{site slug}` (see above).
 
 * Right-click on your desktop
 * Select New->Shortcut
@@ -141,7 +176,7 @@ code path\to\www-dev\south-lacrosse.code-workspace | exit
 
 Those on other systems will hopefully be able to create their own scripts based on the above.
 
-Alternatively, you can just open the Site shell from Local and run VSCode from there using something like `code ..\..\..\www-dev\south-lacrosse.code-workspace`.
+Alternatively, you can just open the Site shell from Local and run VSCode from there using something like `code location\of\www-dev\south-lacrosse.code-workspace`.
 
 ## Imagick
 

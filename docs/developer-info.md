@@ -53,11 +53,12 @@ If you don't have write access to the central GitHub repositories then you have 
 
 ### Cloning the Repositories
 
-When cloning the repositories to your local machine you should put `www-dev` somewhere sensible, but `www` can be cloned to a temporary directory as it should be merged with your WordPress directory (see [Configuring Local Development](#configuring-local-development)). If you have write access to the repository then you should clone using SSH from `git@github.com:south-lacrosse/repo` rather than `https://github.com/south-lacrosse/repo`, and if you have created a fork then do the same except replace south-lacrosse with your username.
+When cloning the repositories to your local machine you should put `www-dev` somewhere sensible, with `www` cloned inside that, so that `www` is a top level subdirectory. If you have write access to the repository then you should clone using SSH from `git@github.com:south-lacrosse/repo` rather than `https://github.com/south-lacrosse/repo`, and if you have created a fork then do the same except replace south-lacrosse with your username.
 
 ```console
-git clone https://github.com/south-lacrosse/www
 git clone https://github.com/south-lacrosse/www-dev
+cd www-dev
+git clone https://github.com/south-lacrosse/www
 ```
 
 ### Creating Your Feature
@@ -104,7 +105,9 @@ The SEMLA Admin should then:
 
 See also [optional software](#optional-software).
 
-By far the easiest way to develop locally is using Local, see [how to install and configure Local](localwp.md).
+By far the easiest way to run WordPress locally is using Local as that will install and configure all required software, see [how to install and configure Local](localwp.md).
+
+If you don't use Local, you will need to set up your system to serve WordPress from your clone of the `www` repository, which should be at in `www-dev/www`. You may need to create symbolic links so you don't disrupt the directory structure of the repos, see the Local configuration above for an example of that.
 
 There are also alternative local development environments, including [DevKinsta](https://kinsta.com/devkinsta/) (Docker based), and [wp-env from WordPress](https://www.npmjs.com/package/@wordpress/env) (requires Docker). If you use one of these then you will need to adapt the Local instructions to configure your particular setup.
 
@@ -116,21 +119,23 @@ Another option is to install WordPress and all its dependencies: PHP, Apache HTT
 * Set the domain to `dev.southlacrosse.org.uk`, and add that to your `hosts` file.
 * You should configure HTTPS, otherwise if you receive a copy of the production database you will need to do a search/replace to switch `https://dev.southlacrosse.org.uk` to `http:` (you should use the WP-CLI `search-replace` command as that will take into account serialized versions).
 
+You might also find the [instructions for a complete server restore](recovery.md#complete-restore) to be a useful guide, as that will completely install everything on our webserver.
+
 ## Configuring Local Development
 
-You should already have [cloned the repositories](#cloning-the-repositories), and have a WordPress site installed and configured, either using one of the local development environments, or by installing everything yourself. At a minimum it should have the web server set up and receiving requests to `https://dev.southlacrosse.org.uk`, the database created, and `wp-config.php` configured with authentication keys and database credentials.
+Note: when we say the `www` directory we mean the directory you cloned the www repository to, which should be `www-dev/www`.
 
-When these instructions mention a "shell" they mean to open up a shell (e.g. command prompt on Windows, or a `bash` shell) and go to your `www` directory (unless specified). If you are using Local you can go to your site and click "Open site shell", which will configure all environment variables and paths, and take you to the root WordPress directory.
+You should already have [cloned the repositories](#cloning-the-repositories), and have WordPress installed and running from the `www` directory. At a minimum you should have the web server set up and receiving requests to `https://dev.southlacrosse.org.uk`, the database created, and `wp-config.php` configured with authentication keys and database credentials.
 
-1. First you need to move your `www` repo into the directory where WordPress is installed and served by your web server (the WordPress root) e.g. in Local it will be `{site folder}\app\public`. Move the entire contents (including the `.git` directory) from your clone of `www` , overwriting `\.htaccess`. You can then delete the empty `www` directory.
+Note that `www\.gitignore` is setup so that the core WordPress files and other plugins & themes will not be tracked by the `www` repository.
 
-    The WordPress root will now house WordPress along with your version of the `www` repo, and these documents will still refer to it as `www`. None of the WordPress files or other plugins & themes will be added to the `www` repository as they marked as untracked in `www\.gitignore`. You can `git switch/branch/pull/push` from this directory as it's a normal repository.
+When these instructions mention a "shell" they mean to open up a shell (e.g. command prompt on Windows, or a `bash` shell) and go to your `www` directory (unless specified). If you are using Local you can go to your site and click "Site shell", which will configure all environment variables and paths, and take you to the root WordPress directory.
+
 1. Update the WordPress config file `www\wp-config.php` using `www\wp-config-semla.php` as a template
     * Copy and replace the `DB_CHARSET` and `DB_COLLATE` lines
     * Copy and replace everything from `$table_prefix = 'wp_';` down, and remove anything between "Live Server" and "End Live Server" (that's the live server config, we don't need that here)
-1. If the site is running you will have to restart it for the changes take effect.
 1. Add any required plugins. Note that you don't need to activate them if you are going to replace the WordPress database from the production version, as it has these plugins activated. You can install them by either:
-    * In your shell
+    * In your shell using WP-CLI
 
         ```console
         wp plugin install limit-login-attempts-reloaded
@@ -139,19 +144,27 @@ When these instructions mention a "shell" they mean to open up a shell (e.g. com
     * Go to your site's Add Plugins admin screen `https://dev.southlacrosse.org.uk/wp-admin/plugin-install.php` and install them manually
 
     See also [other useful plugins for development](development-plugins.md).
-1. Get a copy of the Production database. The Webmaster should create this using `bin/create-dev-db.sh`, which will take a backup of the current database with user emails replaced with user{number}@southlacrosse.org.uk, and all the passwords set to 'pass'.
-1. Import the production database
+1. Import the production database.
 
-    Run `bin/run-sql.sh path/to/backup.sql.gz` (assumes the site/MySQL is running). If running in Windows you can run this using a Git Bash shell, or if you have cygwin or WSL then just run `bash` to get a Bash shell.
+    To run the scripts you must have the path and environment variables set to run MySQL/MariaDB, PHP, and possibly WP-CLI. If you are running Local then the "Site shell" will set all this up.
 
-    Alternatively:
-    * In Local
-        * Go to your site's Database tab, and Open Adminer
-        * Click Import on the left side of the screen.
-        * Click Choose Files within the File Upload box.
-        * Select the .sql.gz file(s) you were given and click Execute.
-    * Otherwise your setup should have something like phyMyAdmin, so you can drop the backup there
-1. You should now be able to log in as any user. The administrator will be email 'user1\@southlacrosse.org.uk' password 'pass'.
+    If running in Windows you can run `.sh` files using a Git Bash shell, or if you have cygwin or WSL then just run `bash` to get a Bash shell or run `bash script.sh`.
+
+    * If you have access to the production server you can run `www-dev/bin/www2dev.sh` to copy and load the latest production backup (assumes the remote server is alias `sl`), or if you receive a copy of the production backup run `bin/load-production-backup.sh backup.sql.gz`.
+
+        If needed, you can change the local passwords using WP-CLI `wp user update <user email/login/id> --user_pass=<password> --skip-email`, or add users using `wp user create ...`.
+    * Otherwise
+        1. Get a development copy of the Production database. The Webmaster should create this using `bin/create-dev-db.sh`, which will take a backup of the current database with all references to "www.southlacrosse" replaced with "dev.southlacrosse", and user emails replaced with "user{number}@southlacrosse.org.uk", and all the passwords set to "pass".
+        1. Import by running `bin/run-sql.sh path/to/southlacrosse-dev-db.sql` (assumes the site/MySQL is running).
+
+            Alternatively:
+            * In Local
+                * Go to your site's Database tab, and Open Adminer
+                * Click Import on the left side of the screen.
+                * Click Choose Files within the File Upload box.
+                * Select the .sql.gz file(s) you were given and click Execute.
+            * Otherwise your setup should have something like phyMyAdmin, so you can drop the backup there
+        1. You should now be able to log in as any user. The administrator will be email 'user1\@southlacrosse.org.uk' password 'pass'.
 1. Media files (images etc.) are stored in their own private repository. To get local copies you have a few choices:
     * If you have access to the `media` repository you can clone that by running `git clone git@github.com:south-lacrosse/media.git` from the `www` directory
     * Install the [BE Media from Production plugin](https://wordpress.org/plugins/be-media-from-production/) with `wp plugin install be-media-from-production --activate` which will use media from the production site if it doesn't exist on the local machine. Make sure you add `define('BE_MEDIA_FROM_PRODUCTION_URL', 'https://www.southlacrosse.org.uk');` to your `wp-config.php` file. Note: the plugin may not be available from the main WordPress site, in which case install and activate it using `wp plugin install https://github.com/billerickson/be-media-from-production/archive/master.zip --force --activate`
@@ -172,7 +185,7 @@ Depending on what you are developing, you may also need to install some, or all,
 If you are going to be building the Gutenberg blocks, or minifying JavaScript or CSS, then you need to install [Node.js](https://nodejs.org/) and it's package manager `npm` which are used to automate the build. See also [npm commands in Development Help](development-help.md#npm-commands).
 
 * Local copies of the node modules are stored in `www-dev\node_modules`, which is omitted from the Git repository as it is huge, so to install them you need to run `npm install` from the `www-dev` directory.
-* Add an environment variable `SEMLA_WWW` to point to the location of your public `www` directory with no trailing slash, e.g. `set SEMLA_WWW=C:/Users/{user}/localwp/south-lacrosse/app/public` on Windows (NB it must be in Unix format with forward slashes) or `SEMLA_WWW=$HOME/localwp/south-lacrosse/app/public` on Linux. If you don't wish to add this to your system variables then you could create a script to set it and call npm.
+* All NPM scripts expect the `www` repository to be cloned into directory `www` in the root of this project.
 
 The config file `package.json` lists all locally installed packages, scripts etc. It has a sister file `package-lock.json` which list the exact version of all npm packages along with all their dependences, that way when you install you will get a setup which is known to work.
 
@@ -225,11 +238,9 @@ All the scripts for minification and building JavaScript, CSS, blocks etc. are i
 
 If you see a warning to update the browser mapping or browser list see the section on [Browser Data](development-help.md#browser-data).
 
-You must have the environment variable `SEMLA_WWW` set to point to the location of your `www` directory. Note that it should be in Unix style format e.g. `SEMLA_WWW=C:/Users/{user}/localwp/south-lacrosse/app/public`.
+All scripts expect the `www` repository to be cloned into directory `www` in the root of this project.
 
 When you have finished developing make sure you `npm run build` (or just the specific script). You can then commit those changes in the `www` repo.
-
-Note: If you are working on JavaScript in the plugin or theme using VSCode, then in order for the `eslint` plugin to work it needs to be able to find the relevant `node_modules`, which should be installed under the `www-dev` repository. For VSCode to find these modules the path must be set in `www\.vscode\settings.json`, which currently assumes the repositories are set up for Local, so it will be in `../../../www-dev`. If you have a different setup then you will need to adjust that file accordingly.
 
 ## Images
 
