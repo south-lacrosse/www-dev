@@ -186,7 +186,6 @@ function addToTocTree( block, tree ) {
 		return;
 	}
 
-	// eslint-disable-next-line no-constant-condition
 	while ( true ) {
 		// look at last item in current level in table of contents
 		const last = tree[ tree.length - 1 ];

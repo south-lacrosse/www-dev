@@ -22,9 +22,7 @@ document.getElementById( 'btn' ).addEventListener( 'click', () => {
 function onClose() {
 	document.getElementById( 'modal' ).remove();
 }
-// eslint-disable-next-line no-unused-vars
 function onOK() {
 	onClose();
-	// eslint-disable-next-line no-alert, no-undef
 	alert( `lat/long is ${ window.semla.loc.lat } ${ window.semla.loc.long }` );
 }
